@@ -39,7 +39,7 @@ export const AgentPromptPage: React.FC = () => {
         <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
           面向 AI Agent 的设计系统标准化提示词
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed font-light">
+        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed">
           本提示词旨在以极高信息密度和精确的专业设计术语，指导 AI 助手（如 ChatGPT、Claude、DeepSeek、Antigravity、Cursor 等）在不产生幻觉的前提下，100% 严谨复现 Channel 级的高信噪比界面。
         </p>
       </section>

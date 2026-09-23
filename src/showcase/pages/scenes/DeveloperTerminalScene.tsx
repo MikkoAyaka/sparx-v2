@@ -180,7 +180,7 @@ export const DeveloperTerminalScene: React.FC = () => {
                   {ep.format}
                 </span>
               </div>
-              <p className="text-xs text-zinc-400 font-light">{ep.desc}</p>
+              <p className="text-xs text-zinc-300">{ep.desc}</p>
               <div className="text-[12px] font-mono text-zinc-500 pt-1 border-t border-white/5">
                 {ep.status}
               </div>

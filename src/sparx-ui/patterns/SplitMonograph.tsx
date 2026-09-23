@@ -91,7 +91,7 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
           </h1>
 
           {summary && (
-            <p className="text-sm sm:text-base text-zinc-300 leading-relaxed font-light line-clamp-4">
+            <p className="text-sm sm:text-base text-zinc-300 leading-relaxed line-clamp-4">
               {summary}
             </p>
           )}

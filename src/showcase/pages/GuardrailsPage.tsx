@@ -241,7 +241,7 @@ export const GuardrailsPage: React.FC = () => {
         <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
           源自个人频道实战迭代的 25 条设计红线
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed font-light">
+        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed">
           本页面完整沉淀了我们在 Channel 真实业务开发中用户明确反馈、深入推敲并最终解决的 25 项关键细节。
           所有规则均已在 Sparx UI v2 通用组件库中原生内建，杜绝历史问题再次复发。
         </p>
@@ -305,7 +305,7 @@ export const GuardrailsPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs leading-relaxed font-light">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs leading-relaxed">
               {/* 历史问题/陷阱 */}
               <div className="p-3.5 rounded-xl bg-red-950/20 border border-red-500/20 space-y-1.5">
                 <div className="flex items-center gap-1.5 text-red-400 font-mono font-bold">

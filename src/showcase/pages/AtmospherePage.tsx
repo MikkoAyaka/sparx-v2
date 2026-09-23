@@ -43,7 +43,7 @@ export const AtmospherePage: React.FC = () => {
         <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
           暗房光影与 60% 渐变消融机制
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed font-light">
+        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed">
           Channel 视觉质感的核心之一在于高阶的暗房光晕与平滑媒体过渡：包括 700ms 丝滑换图脊柱、60% 横向消融蒙版、算法散布关键词云图。
         </p>
       </section>

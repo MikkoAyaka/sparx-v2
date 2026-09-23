@@ -9,9 +9,9 @@
 export const MIN_FONT_SIZE_PX = 12;
 
 export const fontFamilies = {
-  display: '"Space Grotesk", "Noto Sans SC", "MiSans", sans-serif',
-  sans: '"Space Grotesk", "Noto Sans SC", "MiSans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-  mono: '"IBM Plex Mono", "Noto Sans SC", "MiSans", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+  display: '"Space Grotesk", "Noto Sans SC", "MiSans", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif',
+  sans: '"Space Grotesk", "Noto Sans SC", "MiSans", "Microsoft YaHei UI", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  mono: '"IBM Plex Mono", "Noto Sans SC", "MiSans", "Microsoft YaHei UI", "Microsoft YaHei", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
 } as const;
 
 export const typographyScale = {

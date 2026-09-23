@@ -24,7 +24,7 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
             暗房虚空视界与主权出版美学
           </h1>
 
-          <p className="text-sm sm:text-base text-zinc-300 leading-relaxed font-light">
+          <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
             Sparx UI v2 是基于 <span className="text-white font-semibold">Mikko Ayaka 个人频道（Channel）</span>精心打磨的深黑出版设计系统、通用源码库与面向 Agent 的设计提示词体系。
             彻底摒弃平庸灰底与粗暴长卷，以 <span className="text-[#E5192D] font-mono font-bold">100dvh 视口锁定舞台</span>、<span className="text-white font-mono">60% 横向消融</span>与<span className="text-[#FF2D55] font-mono font-bold">高压绯红激光强调</span>，为严肃创作者和高信噪比产品构筑沉浸式舞台。
           </p>
@@ -71,7 +71,7 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
               </span>
               <span>1. 极深虚空与绯红激光（Void & Flare）</span>
             </div>
-            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
               基底绝不采用廉价泛白的深灰，而是采用绝对暗房黑阶（#020204 视口画布、#030406 舞台、#050505 展卷画布）。核心交互全部使用绯红激光（#E5192D / #FF2D55）辅以精确的光学发光阴影，形成极高视觉反差。
             </p>
           </div>
@@ -83,7 +83,7 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
               </span>
               <span>2. 严格排印红线（Typographic Rigor）</span>
             </div>
-            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
               两条绝对不可逾越的护栏：<strong className="text-white font-semibold">渲染字号必须大于等于 12px</strong>（严禁任何小于 12px 的碎字，微型时间戳/状态点专享 12px，常规辅助提升至 13~14px）；<strong className="text-white font-semibold">全站严格杜绝衬线体（Serif）</strong>。正文采用出版级 15~16px (1rem) leading-[1.85] text-neutral-300。
             </p>
           </div>
@@ -95,7 +95,7 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
               </span>
               <span>3. 100dvh 视口锁定与横向消融</span>
             </div>
-            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
               探索式主页拒绝全局滚动条，采用自适应视口的 100dvh 独立大舞台。左侧 60% 铺陈大画幅媒体或视频，通过渐变蒙版柔和消融进暗色背景；结合平滑阻尼滚轮漫游与触控手势。
             </p>
           </div>
@@ -107,7 +107,7 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
               </span>
               <span>4. 双轨解耦展卷阅读（Split Monograph）</span>
             </div>
-            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
               长文阅读采用左侧 35% 固定环境脊柱（严禁滚动，随视线焦点智能投射环境色）与右侧 65% 无界排版画布（唯一正文滚动流），配合环形 SVG 阅读刻度规与读者轻共鸣协议。
             </p>
           </div>
@@ -120,7 +120,7 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
           <span className="text-[#E5192D]">✦</span>
           <span>与 Sparx-v1 项目的关系定位</span>
         </h3>
-        <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-light">
+        <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
           在本次设计中，我们参考了 <a href="https://ui.mikkoayaka.com/" target="_blank" rel="noreferrer" className="text-[#E5192D] underline">Sparx-v1</a> 优秀的<strong>组件库组织形式</strong>（规范化分类体系、原语/模式/示例三层结构、交互式预览试验场与代码展示），但<strong>坚决杜绝受其旧版美术风格的影响</strong>。
           Sparx-v2 全面采纳并升华了 <strong className="text-white">Channel（个人频道）</strong>的影院暗房、激光高压发光、60% 消融蒙版与无衬线排印红线，是一套独立完整的下一代设计系统。
         </p>

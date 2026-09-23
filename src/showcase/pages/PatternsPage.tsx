@@ -30,7 +30,7 @@ export const PatternsPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
         <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
           开箱即用的高阶出版与阅读模式
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed font-light">
+        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed">
           将原语与氛围原件装配为标准场景模式，兼顾 100dvh 视口锁定、阻尼滚轮漫游、双轨解耦阅读与轻共鸣反馈协议。
         </p>
       </section>
@@ -42,7 +42,7 @@ export const PatternsPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
             <span className="w-2 h-2 rounded-full bg-[#E5192D]" />
             <span>独立全屏体验与实时漫游</span>
           </h3>
-          <p className="text-xs text-zinc-300 font-light">
+          <p className="text-xs text-zinc-300">
             我们准备了三个完整独立可交互的真实体验场景，支持键盘、手势与阻尼滚轮漫游。
           </p>
         </div>

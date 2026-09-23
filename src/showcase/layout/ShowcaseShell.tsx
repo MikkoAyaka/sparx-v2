@@ -125,7 +125,7 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
                 <span className="text-zinc-600 font-normal">/</span>
                 <span className="text-[#E5192D] font-mono text-xs font-bold">V2</span>
               </div>
-              <div className="text-[12px] text-zinc-500 font-light">
+              <div className="text-[12px] text-zinc-400">
                 Channel 视觉规范与通用设计系统
               </div>
             </div>

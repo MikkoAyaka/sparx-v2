@@ -188,7 +188,7 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
             </div>
 
             {activeEntry.summary && (
-              <p className="text-sm sm:text-base font-light text-zinc-300 leading-relaxed max-w-lg line-clamp-2 sm:line-clamp-3">
+              <p className="text-sm sm:text-base text-zinc-300 leading-relaxed max-w-lg line-clamp-2 sm:line-clamp-3">
                 {activeEntry.summary}
               </p>
             )}

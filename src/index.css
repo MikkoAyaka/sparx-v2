@@ -87,16 +87,22 @@
     background-color: #020204;
     color: #ffffff;
     font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: optimizeLegibility;
     min-height: 100dvh;
     font-size: 1rem;
     line-height: 1.6;
   }
 
-  /* 严格遵循产品准则：最小渲染字号 12px，全站杜绝 Serif 衬线体 */
+  /* 严格遵循产品准则：最小渲染字号 12px，全站杜绝 Serif 衬线体，低分屏避免 300 细字断墨 */
   * {
     font-family: inherit;
+  }
+
+  /* 保护小字号在非 4K / 96 DPI 屏幕下的实线笔画完整性 */
+  .text-xs, .text-sm, [class*="text-[12px]"], [class*="text-[13px]"], [class*="text-[14px]"] {
+    font-weight: 400;
   }
 
   ::-webkit-scrollbar {

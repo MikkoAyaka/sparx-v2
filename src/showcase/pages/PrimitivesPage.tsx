@@ -41,7 +41,7 @@ export const PrimitivesPage: React.FC = () => {
         <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
           轻量、高对比度的界面基本粒度
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed font-light">
+        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed">
           所有原语均严格遵循无衬线字体约束、≥12px 最小安全字号、暗房双层微弱边框与绯红激光发光体系，支持一键复制代码与参数联动调试。
         </p>
       </section>
@@ -251,7 +251,7 @@ export const PrimitivesPage: React.FC = () => {
 
 <GlassCard variant="elevated" hoverEffect className="p-6 max-w-md">
   <h4 className="font-bold text-white text-base">高可用出版讲台</h4>
-  <p className="text-xs text-zinc-400 mt-2 font-light">
+  <p className="text-xs text-zinc-400 mt-2">
     基于深黑纯粹暗房与绯红激光发光，为高信噪比思考留出安静框架。
   </p>
 </GlassCard>`}
@@ -260,7 +260,7 @@ export const PrimitivesPage: React.FC = () => {
           <GlassCard variant="stage" hoverEffect className="p-6 space-y-2">
             <span className="text-xs font-mono text-[#E5192D] font-bold">VARIANT: STAGE</span>
             <h4 className="font-bold text-white text-sm">主舞台大卡容器 (#030406)</h4>
-            <p className="text-xs text-zinc-400 font-light">
+            <p className="text-xs text-zinc-400">
               用于首页与沉浸式独立视口的主舞台容器。
             </p>
           </GlassCard>
@@ -268,7 +268,7 @@ export const PrimitivesPage: React.FC = () => {
           <GlassCard variant="elevated" hoverEffect className="p-6 space-y-2">
             <span className="text-xs font-mono text-cyan-400 font-bold">VARIANT: ELEVATED</span>
             <h4 className="font-bold text-white text-sm">悬浮抬升表面 (#08090E)</h4>
-            <p className="text-xs text-zinc-400 font-light">
+            <p className="text-xs text-zinc-400">
               用于浮动卡片、控制坞与代码容器。
             </p>
           </GlassCard>

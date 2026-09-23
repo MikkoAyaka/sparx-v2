@@ -50,7 +50,7 @@ export const ChannelShell: React.FC<ChannelShellProps> = ({
                   <span className="text-zinc-600 font-normal">/</span>
                   <span className="text-zinc-400 font-mono text-xs">{brandSub}</span>
                 </div>
-                <div className="text-xs text-zinc-500 font-light">
+                <div className="text-xs text-zinc-400">
                   {brandTagline}
                 </div>
               </div>

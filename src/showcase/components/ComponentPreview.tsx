@@ -47,7 +47,7 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
             <span>{title}</span>
           </h3>
           {description && (
-            <p className="text-xs text-zinc-400 font-light max-w-xl">
+            <p className="text-xs text-zinc-300 max-w-xl">
               {description}
             </p>
           )}

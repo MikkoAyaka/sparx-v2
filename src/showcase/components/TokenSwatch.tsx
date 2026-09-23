@@ -43,7 +43,7 @@ export const TokenSwatch: React.FC<TokenSwatchProps> = ({
             {name}
           </div>
           {description && (
-            <div className="text-[12px] text-zinc-400 font-light">{description}</div>
+            <div className="text-[12px] text-zinc-300">{description}</div>
           )}
         </div>
 
