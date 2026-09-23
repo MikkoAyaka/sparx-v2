@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@theme {
+  --font-cjk: "Noto Sans SC", "MiSans", "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+  --font-sans: "Space Grotesk", var(--font-cjk);
+  --font-mono: "IBM Plex Mono", var(--font-cjk), ui-monospace, SFMono-Regular, monospace;
+  
+  --color-void-950: #020204;
+  --color-void-900: #030406;
+  --color-void-850: #050505;
+  --color-void-800: #08090E;
+  --color-void-700: #12131A;
+  
+  --color-flare: #E5192D;
+  --color-flare-neon: #FF2D55;
+  --color-flare-dark: #A80D1D;
+}
+
+@layer utilities {
+  .bg-grid-pattern {
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 15px rgba(229, 25, 45, 0.55);
+  }
+
+  .glow-flare {
+    box-shadow: 0 0 20px rgba(229, 25, 45, 0.45);
+  }
+
+  .glow-flare-lg {
+    box-shadow: 0 0 32px rgba(229, 25, 45, 0.65);
+  }
+
+  @keyframes arrow-breathe {
+    0%, 100% { transform: translateX(-1px); }
+    50% { transform: translateX(2px); }
+  }
+
+  .animate-arrow-breathe {
+    animation: arrow-breathe 2s ease-in-out infinite;
+  }
+
+  @keyframes importing-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(229, 25, 45, 0.45); }
+    50% { box-shadow: 0 0 0 6px rgba(229, 25, 45, 0); }
+  }
+
+  .animate-importing-pulse {
+    animation: importing-pulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes spineMediaFadeIn {
+    0% {
+      opacity: 0;
+      transform: scale(1.03);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-spine-fade-in {
+    animation: spineMediaFadeIn 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
+@layer base {
+  html {
+    background-color: #020204;
+    color: #ffffff;
+    font-family: var(--font-sans);
+  }
+
+  body {
+    background-color: #020204;
+    color: #ffffff;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100dvh;
+    font-size: 14px;
+  }
+
+  /* 严格遵循产品准则：最小渲染字号 12px，全站杜绝 Serif 衬线体 */
+  * {
+    font-family: inherit;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #27272a;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3f3f46;
+  }
+
+  .subtle-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .subtle-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .subtle-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+  }
+  .subtle-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(229, 25, 45, 0.5);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

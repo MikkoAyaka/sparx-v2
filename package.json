@@ -1,0 +1,32 @@
+{
+  "name": "sparx-v2",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Sovereign Editorial UI/UX Library & Agent Prompt System based on Mikko Ayaka's Channel",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "tsc --noEmit",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "react-router-dom": "^7.18.1",
+    "tailwind-merge": "^3.0.2",
+    "tailwindcss": "^4.1.14"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^5.0.4",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.3"
+  }
+}
