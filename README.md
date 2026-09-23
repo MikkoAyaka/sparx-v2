@@ -1,6 +1,8 @@
 # Sparx UI v2 · 界面系统与 Agent 提示词规范
 
-> 基于 **Mikko Ayaka 个人频道（Channel · channel.mikkoayaka.com）**精心打磨的深黑出版设计系统、通用源码组件库与面向 Agent 的高信号提示词规范。
+> 基于 **Mikko Ayaka 个人频道（Channel · [channel.mikkoayaka.com](https://channel.mikkoayaka.com)）**精心打磨的深黑出版设计系统、通用源码组件库与面向 Agent 的高信号提示词规范。
+>
+> 🌐 **在线演示（GitHub Pages）**：[https://mikkoayaka.github.io/sparx-v2/](https://mikkoayaka.github.io/sparx-v2/)
 
 ---
 
@@ -10,8 +12,8 @@ Sparx UI v2 源自对个人主权出版产品（Channel）视觉风格的极致�
 
 - **极深虚空与绯红激光 (Void & Flare Spectrum)**：视口画布底色 `#020204`、舞台底层 `#030406`、展卷正文 `#050505`，以高压激光绯红 `#E5192D` / `#FF2D55` 配合光学辉光阴影（`shadow-[0_0_16px_rgba(229,25,45,0.45)]`）提供主权强调。
 - **不可逾越的排印红线 (Strict Typographic Guardrails)**：
-  1. **全站最小渲染字号强制 ≥ 12px**（杜绝微小碎字）。
-  2. **全站严格禁止衬线体（Serif）**，标题使用 `Space Grotesk`，正文使用出版级舒缓排印（15px leading-[1.85] text-neutral-300），元数据与代码使用 `IBM Plex Mono`。
+  1. **全站最小渲染字号强制 ≥ 12px**（微型时间戳/状态点专享，杜绝碎字）。
+  2. **全站严格禁止衬线体（Serif）**，标题使用 `Space Grotesk`，正文使用出版级舒缓排印（15~16px / 1rem leading-[1.85] text-neutral-300），元数据与代码使用 `IBM Plex Mono`。
 - **100dvh 视口锁定大舞台 (Viewport-Locked Horizon Stage)**：主页探索采用居中 100dvh 大舞台，左侧 60% 画幅媒体通过渐变蒙版平滑消融进 `#030406`，结合阻尼滚轮漫游（Wheel Deceleration）与多列分段指示导轨。
 - **双轨解耦长文排版 (Split Monograph)**：左侧 35% 固定环境脊柱（严禁滚动，随阅读焦点动态融变） + 右侧 65% 无界排版画布（唯一正文滚动流）。
 
