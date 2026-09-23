@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { clsx } from "clsx";
 import { Code, Eye, Copy, Check } from "lucide-react";
+import { useSparxTheme } from "@/sparx-ui";
 
 export interface ComponentPreviewProps {
   title: string;
@@ -19,6 +20,8 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
   controls,
   className,
 }) => {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
   const [activeTab, setActiveTab] = useState<"preview" | "code">("preview");
   const [copied, setCopied] = useState(false);
 
@@ -35,19 +38,40 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
   return (
     <div
       className={clsx(
-        "rounded-2xl sm:rounded-3xl border border-white/10 bg-[#030406] overflow-hidden shadow-2xl transition-all",
+        "rounded-2xl sm:rounded-3xl border overflow-hidden shadow-xl transition-all duration-200",
+        isEmerald ? "bg-white border-slate-200" : "bg-[#030406] border-white/10",
         className
       )}
     >
       {/* 头部标题与视图切换 */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 border-b border-white/10 bg-white/[0.02]">
+      <div
+        className={clsx(
+          "flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 border-b",
+          isEmerald ? "border-slate-200 bg-slate-50/50" : "border-white/10 bg-white/[0.02]"
+        )}
+      >
         <div className="space-y-0.5">
-          <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E5192D]" />
+          <h3
+            className={clsx(
+              "text-sm sm:text-base font-bold flex items-center gap-2",
+              isEmerald ? "text-slate-900" : "text-white"
+            )}
+          >
+            <span
+              className={clsx(
+                "w-1.5 h-1.5 rounded-full",
+                isEmerald ? "bg-[#059669]" : "bg-[#E5192D]"
+              )}
+            />
             <span>{title}</span>
           </h3>
           {description && (
-            <p className="text-xs text-zinc-300 max-w-xl">
+            <p
+              className={clsx(
+                "text-xs max-w-xl",
+                isEmerald ? "text-slate-500" : "text-zinc-300"
+              )}
+            >
               {description}
             </p>
           )}
@@ -55,14 +79,23 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
 
         <div className="flex items-center gap-2">
           {/* Tab 切换 */}
-          <div className="flex items-center bg-[#08090E] p-1 rounded-xl border border-white/10 text-xs font-mono">
+          <div
+            className={clsx(
+              "flex items-center p-1 rounded-xl border text-xs font-mono",
+              isEmerald ? "bg-slate-100 border-slate-200" : "bg-[#08090E] border-white/10"
+            )}
+          >
             <button
               type="button"
               onClick={() => setActiveTab("preview")}
               className={clsx(
                 "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer font-medium",
                 activeTab === "preview"
-                  ? "bg-[#E5192D] text-white shadow-[0_0_10px_rgba(229,25,45,0.4)]"
+                  ? isEmerald
+                    ? "bg-[#059669] text-white shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+                    : "bg-[#E5192D] text-white shadow-[0_0_10px_rgba(229,25,45,0.4)]"
+                  : isEmerald
+                  ? "text-slate-600 hover:text-slate-900"
                   : "text-zinc-400 hover:text-white"
               )}
             >
@@ -75,7 +108,11 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
               className={clsx(
                 "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer font-medium",
                 activeTab === "code"
-                  ? "bg-[#E5192D] text-white shadow-[0_0_10px_rgba(229,25,45,0.4)]"
+                  ? isEmerald
+                    ? "bg-[#059669] text-white shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+                    : "bg-[#E5192D] text-white shadow-[0_0_10px_rgba(229,25,45,0.4)]"
+                  : isEmerald
+                  ? "text-slate-600 hover:text-slate-900"
                   : "text-zinc-400 hover:text-white"
               )}
             >
@@ -88,12 +125,17 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
             <button
               type="button"
               onClick={handleCopy}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300 hover:text-white text-xs font-mono transition-all active:scale-95 cursor-pointer"
+              className={clsx(
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-mono transition-all active:scale-95 cursor-pointer",
+                isEmerald
+                  ? "bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-700"
+                  : "bg-white/5 hover:bg-white/10 border-white/10 text-zinc-300 hover:text-white"
+              )}
             >
               {copied ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-emerald-400 font-bold">已复制</span>
+                  <Check className="w-3.5 h-3.5 text-emerald-600" />
+                  <span className="text-emerald-600 font-bold">已复制</span>
                 </>
               ) : (
                 <>
@@ -108,19 +150,40 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
 
       {/* 控制项参数区 */}
       {controls && (
-        <div className="px-5 py-2.5 bg-[#08090E]/80 border-b border-white/10 flex flex-wrap items-center gap-4 text-xs font-mono text-zinc-400">
-          <span className="text-zinc-500 font-bold">属性控制:</span>
+        <div
+          className={clsx(
+            "px-5 py-2.5 border-b flex flex-wrap items-center gap-4 text-xs font-mono",
+            isEmerald
+              ? "bg-slate-50 border-slate-200 text-slate-700"
+              : "bg-[#08090E]/80 border-white/10 text-zinc-400"
+          )}
+        >
+          <span className={isEmerald ? "text-slate-500 font-bold" : "text-zinc-500 font-bold"}>
+            属性控制:
+          </span>
           {controls}
         </div>
       )}
 
       {/* 主展示区 */}
       {activeTab === "preview" ? (
-        <div className="p-6 sm:p-10 flex items-center justify-center min-h-[160px] bg-gradient-to-b from-[#020204]/60 to-[#030406] relative overflow-hidden">
+        <div
+          className={clsx(
+            "p-6 sm:p-10 flex items-center justify-center min-h-[160px] relative overflow-hidden",
+            isEmerald
+              ? "bg-gradient-to-b from-slate-50/80 to-white"
+              : "bg-gradient-to-b from-[#020204]/60 to-[#030406]"
+          )}
+        >
           {children}
         </div>
       ) : (
-        <div className="p-5 bg-[#050505] overflow-x-auto subtle-scroll text-xs sm:text-sm font-mono text-zinc-300 leading-relaxed">
+        <div
+          className={clsx(
+            "p-5 overflow-x-auto subtle-scroll text-xs sm:text-sm font-mono leading-relaxed",
+            isEmerald ? "bg-slate-50 text-slate-800" : "bg-[#050505] text-zinc-300"
+          )}
+        >
           <pre>
             <code>{code.trim()}</code>
           </pre>

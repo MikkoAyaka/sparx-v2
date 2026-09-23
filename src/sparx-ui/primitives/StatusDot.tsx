@@ -1,5 +1,6 @@
 import React from "react";
 import { clsx } from "clsx";
+import { useSparxTheme } from "../tokens/colors";
 
 export interface StatusDotProps {
   status?: "live" | "radar" | "caution" | "arch" | "idle";
@@ -14,6 +15,9 @@ export const StatusDot: React.FC<StatusDotProps> = ({
   size = "md",
   className,
 }) => {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
+
   const sizeMap = {
     sm: "w-1.5 h-1.5",
     md: "w-2 h-2",
@@ -21,19 +25,19 @@ export const StatusDot: React.FC<StatusDotProps> = ({
   };
 
   const colorMap = {
-    live: "bg-[#E5192D] shadow-[0_0_8px_#E5192D]",
-    radar: "bg-cyan-400 shadow-[0_0_8px_#22D3EE]",
-    caution: "bg-amber-400 shadow-[0_0_8px_#FBBF24]",
+    live: isEmerald ? "bg-[#059669] shadow-[0_0_8px_#059669]" : "bg-[#E5192D] shadow-[0_0_8px_#E5192D]",
+    radar: "bg-cyan-500 shadow-[0_0_8px_#06B6D4]",
+    caution: "bg-amber-500 shadow-[0_0_8px_#F59E0B]",
     arch: "bg-purple-500 shadow-[0_0_8px_#A855F7]",
-    idle: "bg-zinc-500 shadow-none",
+    idle: "bg-zinc-400 shadow-none",
   };
 
   const pulseRingColor = {
-    live: "bg-[#E5192D]",
-    radar: "bg-cyan-400",
-    caution: "bg-amber-400",
+    live: isEmerald ? "bg-[#059669]" : "bg-[#E5192D]",
+    radar: "bg-cyan-500",
+    caution: "bg-amber-500",
     arch: "bg-purple-500",
-    idle: "bg-zinc-500",
+    idle: "bg-zinc-400",
   };
 
   return (

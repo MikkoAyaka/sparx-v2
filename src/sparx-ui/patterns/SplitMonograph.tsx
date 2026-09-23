@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
 import { clsx } from "clsx";
-import { ArrowLeft, Clock, BookOpen, Flame } from "lucide-react";
+import { ArrowLeft, Flame } from "lucide-react";
 import { StageMediaSpine, type StageMediaCover } from "../atmosphere/StageMediaSpine";
 import { ReadingGauge } from "../primitives/ReadingGauge";
 import { Tag } from "../primitives/Tag";
+import { useSparxTheme } from "../tokens/colors";
 
 export interface SplitMonographProps {
   title: string;
@@ -40,21 +41,40 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
   canvasRef,
   className,
 }) => {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
+
   const internalRef = useRef<HTMLDivElement>(null);
   const activeRef = canvasRef || internalRef;
 
   return (
     <div
       className={clsx(
-        "w-full h-full grid grid-cols-1 lg:grid-cols-12 rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 bg-[#030406] shadow-2xl",
+        "w-full h-full grid grid-cols-1 lg:grid-cols-12 rounded-2xl sm:rounded-3xl overflow-hidden border transition-colors duration-200",
+        isEmerald
+          ? "bg-white border-slate-200 text-slate-900 shadow-xl"
+          : "bg-[#030406] border-white/10 text-white shadow-2xl",
         className
       )}
     >
       {/* 左侧 35% 固定环境色脊柱 (Fixed Ambient Spine - 桌面端严禁滚动) */}
-      <aside className="relative lg:col-span-4 xl:col-span-4 border-b lg:border-b-0 lg:border-r border-white/10 p-6 sm:p-8 flex flex-col justify-between overflow-hidden bg-neutral-950">
-        {/* 背景媒体层与暗化渐变 */}
+      <aside
+        className={clsx(
+          "relative lg:col-span-4 xl:col-span-4 border-b lg:border-b-0 lg:border-r p-6 sm:p-8 flex flex-col justify-between overflow-hidden transition-colors duration-200",
+          isEmerald
+            ? "border-slate-200 bg-slate-50 text-slate-900"
+            : "border-white/10 bg-neutral-950 text-white"
+        )}
+      >
+        {/* 背景媒体层与暗化/柔化渐变 */}
         <StageMediaSpine cover={cover} title={title} />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#020204] via-[#020204]/90 to-[#020204]/75 z-[2] pointer-events-none" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-[2] pointer-events-none transition-all duration-300"
+          style={{
+            background: "var(--sparx-monograph-spine-gradient)",
+          }}
+        />
 
         {/* 顶部：返回操作与分类 */}
         <div className="relative z-10 space-y-4">
@@ -62,7 +82,12 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
             <button
               type="button"
               onClick={onBack}
-              className="inline-flex items-center gap-2 text-xs font-mono text-zinc-400 hover:text-white transition-colors cursor-pointer group"
+              className={clsx(
+                "inline-flex items-center gap-2 text-xs font-mono transition-colors cursor-pointer group",
+                isEmerald
+                  ? "text-slate-500 hover:text-slate-900"
+                  : "text-zinc-400 hover:text-white"
+              )}
             >
               <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-1" />
               <span>{backText}</span>
@@ -70,28 +95,66 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
           )}
 
           <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
-            <span className="w-2 h-2 rounded-full bg-[#E5192D] shadow-[0_0_8px_#E5192D]" />
-            <span className="text-white font-bold tracking-wider uppercase">{category}</span>
+            <span
+              className={clsx(
+                "w-2 h-2 rounded-full",
+                isEmerald
+                  ? "bg-[#059669] shadow-[0_0_8px_#059669]"
+                  : "bg-[#E5192D] shadow-[0_0_8px_#E5192D]"
+              )}
+            />
+            <span
+              className={clsx(
+                "font-bold tracking-wider uppercase",
+                isEmerald ? "text-slate-800" : "text-white"
+              )}
+            >
+              {category}
+            </span>
             {date && (
               <>
-                <span className="text-zinc-600">·</span>
-                <span className="text-zinc-400">{date}</span>
+                <span className={isEmerald ? "text-slate-300" : "text-zinc-600"}>·</span>
+                <span className={isEmerald ? "text-slate-500" : "text-zinc-400"}>
+                  {date}
+                </span>
               </>
             )}
             {typeof readingHeat === "number" && (
-              <span className="ml-auto inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#E5192D]/15 border border-[#E5192D]/30 text-red-200 text-xs sm:text-sm font-mono font-bold">
-                <Flame className="w-3.5 h-3.5 text-[#E5192D]" />
+              <span
+                className={clsx(
+                  "ml-auto inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border text-xs sm:text-sm font-mono font-bold",
+                  isEmerald
+                    ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+                    : "bg-[#E5192D]/15 border-[#E5192D]/30 text-red-200"
+                )}
+              >
+                <Flame
+                  className={clsx(
+                    "w-3.5 h-3.5",
+                    isEmerald ? "text-[#059669]" : "text-[#E5192D]"
+                  )}
+                />
                 <span>{readingHeat} 热度</span>
               </span>
             )}
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-snug">
+          <h1
+            className={clsx(
+              "text-2xl sm:text-3xl font-black tracking-tight leading-snug",
+              isEmerald ? "text-slate-900" : "text-white"
+            )}
+          >
             {title}
           </h1>
 
           {summary && (
-            <p className="text-sm sm:text-base text-zinc-300 leading-relaxed line-clamp-4">
+            <p
+              className={clsx(
+                "text-sm sm:text-base leading-relaxed line-clamp-4",
+                isEmerald ? "text-slate-600" : "text-zinc-300"
+              )}
+            >
               {summary}
             </p>
           )}
@@ -106,7 +169,12 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
         </div>
 
         {/* 底部：阅读规与附加信息 */}
-        <div className="relative z-10 pt-6 border-t border-white/10 mt-6 space-y-4">
+        <div
+          className={clsx(
+            "relative z-10 pt-6 border-t mt-6 space-y-4",
+            isEmerald ? "border-slate-200" : "border-white/10"
+          )}
+        >
           <ReadingGauge minutes={readingMinutes} />
           {spineFooter}
         </div>
@@ -116,7 +184,12 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
       <main
         ref={activeRef}
         onScroll={onScroll}
-        className="lg:col-span-8 xl:col-span-8 overflow-y-auto subtle-scroll bg-[#050505] p-6 sm:p-10 lg:p-14 xl:p-16 selection:bg-[#E5192D] selection:text-white"
+        className={clsx(
+          "lg:col-span-8 xl:col-span-8 overflow-y-auto subtle-scroll p-6 sm:p-10 lg:p-14 xl:p-16 transition-colors duration-200",
+          isEmerald
+            ? "bg-white text-slate-800 selection:bg-[#059669] selection:text-white"
+            : "bg-[#050505] text-white selection:bg-[#E5192D] selection:text-white"
+        )}
       >
         <div className="max-w-3xl mx-auto space-y-6">
           {children}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Badge, StatusDot } from "@/sparx-ui";
+import { Badge, useSparxTheme } from "@/sparx-ui";
 import { ShieldCheck, AlertTriangle, CheckCircle2, Search } from "lucide-react";
 
 interface GuardrailItem {
@@ -17,7 +17,7 @@ const GUARDRAIL_ITEMS: GuardrailItem[] = [
     category: "视觉美学",
     title: "虚空暗房基底与激光发光体系",
     problem: "初始方案太素或太架空科幻，缺乏工业质感与沉浸感。",
-    solution: "统一采用绝对暗房黑阶（#020204 视口画布、#030406 舞台、#050505 展卷画布），交互核心使用高压绯红激光（#E5192D / #FF2D55）与光学发光阴影。",
+    solution: "统一采用绝对暗房黑阶（#020204 视口画布、#030406 舞台、#050505 展卷画布），交互核心使用高压绯红激光（#E5192D / #FF2D55）与光学发光阴影；同时支持面向企业稳态的皓白极翠分支（#F8FAFC + #059669）。",
     codeRef: "src/sparx-ui/tokens/colors.ts",
   },
   {
@@ -57,7 +57,7 @@ const GUARDRAIL_ITEMS: GuardrailItem[] = [
     category: "空间拓扑",
     title: "60% 宽度大图与横向渐变消融蒙版",
     problem: "主舞台卡片左侧图片展示宽度截断生硬，和右侧文字衔接不自然。",
-    solution: "左侧图片宽度设为 60%，配合右向渐变蒙版在 58% 处完全融入 #030406 暗底，平滑进入右侧排版列。",
+    solution: "左侧图片宽度设为 60%，配合右向渐变蒙版在 58% 处完全融入舞台底色（暗黑或纯白），平滑进入右侧排版列。",
     codeRef: "src/sparx-ui/atmosphere/AmbientDissolveMask.tsx",
   },
   {
@@ -121,7 +121,7 @@ const GUARDRAIL_ITEMS: GuardrailItem[] = [
     category: "交互动效",
     title: "定制 6px 隐形式微型细滚动条",
     problem: "原生浏览器灰色粗滚动条破坏暗房无界沉浸感。",
-    solution: "封装 .subtle-scroll 工具类（6px 宽度、极淡半透明滑块、hover 绯红微弱发光），舞台彻底隐藏滚动条。",
+    solution: "封装 .subtle-scroll 工具类（6px 宽度、极淡半透明滑块、hover 主色微弱发光），舞台彻底隐藏滚动条。",
     codeRef: "src/index.css (.subtle-scroll)",
   },
   {
@@ -185,7 +185,7 @@ const GUARDRAIL_ITEMS: GuardrailItem[] = [
     category: "响应式",
     title: "全分辨率适配与移动端双层紧凑导航",
     problem: "非 4K 屏幕（1K/2K/移动端）排版崩溃，组件被挤压变形，字太小或间距丢失。",
-    solution: "移动端导航重构为双层（上层品牌+极简简历文字，下层 4 等分分段触控规），主舞台自动转为单列垂直紧凑居中。",
+    solution: "移动端导航重构为双层（上层品牌+极简系统标识，下层 4 等分分段触控规），主舞台自动转为单列垂直紧凑居中。",
     codeRef: "src/sparx-ui/patterns/ChannelShell.tsx",
   },
   {
@@ -215,6 +215,9 @@ const GUARDRAIL_ITEMS: GuardrailItem[] = [
 ];
 
 export const GuardrailsPage: React.FC = () => {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
+
   const [selectedCategory, setSelectedCategory] = useState<string>("全部");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -234,21 +237,37 @@ export const GuardrailsPage: React.FC = () => {
     <div className="space-y-10 max-w-5xl mx-auto pb-16">
       {/* 头部说明 */}
       <section className="space-y-3">
-        <div className="flex items-center gap-2 text-xs font-mono text-[#E5192D] font-bold">
+        <div
+          className={`flex items-center gap-2 text-xs font-mono font-bold ${
+            isEmerald ? "text-[#059669]" : "text-[#E5192D]"
+          }`}
+        >
           <ShieldCheck className="w-4 h-4" />
           <span>DESIGN GUARDRAILS & LESSONS · 设计规约与避坑指南</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+        <h1
+          className={`text-2xl sm:text-4xl font-black tracking-tight ${
+            isEmerald ? "text-slate-900" : "text-white"
+          }`}
+        >
           源自个人频道实战迭代的 25 条设计红线
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed">
+        <p
+          className={`text-xs sm:text-sm max-w-3xl leading-relaxed ${
+            isEmerald ? "text-slate-600" : "text-zinc-300"
+          }`}
+        >
           本页面完整沉淀了我们在 Channel 真实业务开发中用户明确反馈、深入推敲并最终解决的 25 项关键细节。
           所有规则均已在 Sparx UI v2 通用组件库中原生内建，杜绝历史问题再次复发。
         </p>
       </section>
 
       {/* 搜索与分类过滤器 */}
-      <section className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl border border-white/10 bg-[#08090E]">
+      <section
+        className={`flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl border transition-colors duration-200 ${
+          isEmerald ? "bg-white border-slate-200 shadow-sm" : "bg-[#08090E] border-white/10"
+        }`}
+      >
         <div className="flex flex-wrap items-center gap-1.5 text-xs font-mono">
           {categories.map((cat) => (
             <button
@@ -257,7 +276,11 @@ export const GuardrailsPage: React.FC = () => {
               onClick={() => setSelectedCategory(cat)}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                 selectedCategory === cat
-                  ? "bg-[#E5192D] text-white font-bold shadow-[0_0_10px_rgba(229,25,45,0.4)]"
+                  ? isEmerald
+                    ? "bg-[#059669] text-white font-bold shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+                    : "bg-[#E5192D] text-white font-bold shadow-[0_0_10px_rgba(229,25,45,0.4)]"
+                  : isEmerald
+                  ? "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                   : "text-zinc-400 hover:text-white hover:bg-white/5"
               }`}
             >
@@ -272,9 +295,13 @@ export const GuardrailsPage: React.FC = () => {
             placeholder="检索规约关键字..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-48 sm:w-64 px-3 py-1.5 pl-8 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5192D]/60"
+            className={`w-48 sm:w-64 px-3 py-1.5 pl-8 rounded-xl border text-xs focus:outline-none transition-colors ${
+              isEmerald
+                ? "bg-slate-50 border-slate-200 text-slate-800 placeholder-slate-400 focus:border-emerald-500"
+                : "bg-white/5 border-white/10 text-white placeholder-zinc-500 focus:border-[#E5192D]/60"
+            }`}
           />
-          <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-2.5 pointer-events-none" />
+          <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-2.5 pointer-events-none" />
         </div>
       </section>
 
@@ -283,23 +310,45 @@ export const GuardrailsPage: React.FC = () => {
         {filteredItems.map((item) => (
           <div
             key={item.id}
-            className="p-5 sm:p-6 rounded-2xl border border-white/10 bg-[#030406] hover:border-white/20 transition-all space-y-4 shadow-xl"
+            className={`p-5 sm:p-6 rounded-2xl border transition-all space-y-4 shadow-md ${
+              isEmerald
+                ? "bg-white border-slate-200 hover:border-slate-300"
+                : "bg-[#030406] border-white/10 hover:border-white/20 shadow-xl"
+            }`}
           >
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/5 pb-3">
+            <div
+              className={`flex flex-wrap items-center justify-between gap-2 border-b pb-3 ${
+                isEmerald ? "border-slate-100" : "border-white/5"
+              }`}
+            >
               <div className="flex items-center gap-3">
-                <span className="font-mono text-xs font-bold text-[#E5192D] bg-[#E5192D]/10 px-2 py-0.5 rounded-md border border-[#E5192D]/25">
+                <span
+                  className={`font-mono text-xs font-bold px-2 py-0.5 rounded-md border ${
+                    isEmerald
+                      ? "text-[#059669] bg-emerald-50 border-emerald-200"
+                      : "text-[#E5192D] bg-[#E5192D]/10 border-[#E5192D]/25"
+                  }`}
+                >
                   #{String(item.id).padStart(2, "0")}
                 </span>
-                <h3 className="text-base font-bold text-white tracking-tight">
+                <h3
+                  className={`text-base font-bold tracking-tight ${
+                    isEmerald ? "text-slate-900" : "text-white"
+                  }`}
+                >
                   {item.title}
                 </h3>
               </div>
 
               <div className="flex items-center gap-2">
-                <Badge variant="flare" mono>
+                <Badge variant={isEmerald ? "emerald" : "flare"} mono>
                   {item.category}
                 </Badge>
-                <span className="text-[12px] font-mono text-zinc-500 hidden sm:inline-block">
+                <span
+                  className={`text-[12px] font-mono hidden sm:inline-block ${
+                    isEmerald ? "text-slate-400" : "text-zinc-500"
+                  }`}
+                >
                   {item.codeRef}
                 </span>
               </div>
@@ -307,28 +356,52 @@ export const GuardrailsPage: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs leading-relaxed">
               {/* 历史问题/陷阱 */}
-              <div className="p-3.5 rounded-xl bg-red-950/20 border border-red-500/20 space-y-1.5">
-                <div className="flex items-center gap-1.5 text-red-400 font-mono font-bold">
+              <div
+                className={`p-3.5 rounded-xl border space-y-1.5 ${
+                  isEmerald
+                    ? "bg-amber-50/60 border-amber-200/80 text-amber-950"
+                    : "bg-red-950/20 border-red-500/20 text-zinc-300"
+                }`}
+              >
+                <div
+                  className={`flex items-center gap-1.5 font-mono font-bold ${
+                    isEmerald ? "text-amber-700" : "text-red-400"
+                  }`}
+                >
                   <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
                   <span>历史痛点 / 避坑提示：</span>
                 </div>
-                <p className="text-zinc-300">{item.problem}</p>
+                <p className={isEmerald ? "text-slate-700" : "text-zinc-300"}>{item.problem}</p>
               </div>
 
               {/* 规范解决方案 */}
-              <div className="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/20 space-y-1.5">
-                <div className="flex items-center gap-1.5 text-emerald-400 font-mono font-bold">
+              <div
+                className={`p-3.5 rounded-xl border space-y-1.5 ${
+                  isEmerald
+                    ? "bg-emerald-50/60 border-emerald-200/80 text-emerald-950"
+                    : "bg-emerald-950/20 border-emerald-500/20 text-zinc-200"
+                }`}
+              >
+                <div
+                  className={`flex items-center gap-1.5 font-mono font-bold ${
+                    isEmerald ? "text-emerald-700" : "text-emerald-400"
+                  }`}
+                >
                   <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                   <span>Sparx v2 规范解法：</span>
                 </div>
-                <p className="text-zinc-200">{item.solution}</p>
+                <p className={isEmerald ? "text-slate-700" : "text-zinc-200"}>{item.solution}</p>
               </div>
             </div>
           </div>
         ))}
 
         {filteredItems.length === 0 && (
-          <div className="p-12 text-center text-zinc-500 font-mono text-xs">
+          <div
+            className={`p-12 text-center font-mono text-xs ${
+              isEmerald ? "text-slate-400" : "text-zinc-500"
+            }`}
+          >
             未检索到匹配的规约项
           </div>
         )}

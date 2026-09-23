@@ -1,5 +1,6 @@
 import React from "react";
 import { clsx } from "clsx";
+import { useSparxTheme } from "../tokens/colors";
 
 export interface ReadingGaugeProps {
   minutes: number;
@@ -18,6 +19,9 @@ export const ReadingGauge: React.FC<ReadingGaugeProps> = ({
   showDetail = true,
   className,
 }) => {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
+
   const radius = 20;
   const circumference = 2 * Math.PI * radius; // ~125.66
   const progressRatio = Math.min(1, Math.max(0.1, minutes / maxMinutes));
@@ -39,7 +43,7 @@ export const ReadingGauge: React.FC<ReadingGaugeProps> = ({
             cx="24"
             cy="24"
             r={radius}
-            stroke="rgba(255,255,255,0.12)"
+            stroke={isEmerald ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.12)"}
             strokeWidth={currentSize.strokeWidth}
             fill="none"
           />
@@ -47,7 +51,7 @@ export const ReadingGauge: React.FC<ReadingGaugeProps> = ({
             cx="24"
             cy="24"
             r={radius}
-            stroke="#E5192D"
+            stroke={isEmerald ? "#059669" : "#E5192D"}
             strokeWidth={currentSize.strokeWidth}
             fill="none"
             strokeDasharray={circumference}
@@ -56,15 +60,28 @@ export const ReadingGauge: React.FC<ReadingGaugeProps> = ({
             className="transition-all duration-700 ease-out"
           />
         </svg>
-        <span className={clsx("absolute font-mono font-bold text-white", currentSize.text)}>
+        <span
+          className={clsx(
+            "absolute font-mono font-bold",
+            isEmerald ? "text-slate-900" : "text-white",
+            currentSize.text
+          )}
+        >
           {minutes}分
         </span>
       </div>
 
       {showDetail && (
         <div className="space-y-0.5">
-          <div className="text-xs text-zinc-400 font-sans">{label}</div>
-          <div className="text-xs font-bold text-white font-mono">
+          <div className={clsx("text-xs font-sans", isEmerald ? "text-slate-500" : "text-zinc-400")}>
+            {label}
+          </div>
+          <div
+            className={clsx(
+              "text-xs font-bold font-mono",
+              isEmerald ? "text-slate-800" : "text-white"
+            )}
+          >
             {minutes} 分钟 · 深度思考
           </div>
         </div>

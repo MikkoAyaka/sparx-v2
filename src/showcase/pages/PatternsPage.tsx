@@ -3,6 +3,7 @@ import {
   FeedbackDock,
   SegmentedRail,
   Button,
+  useSparxTheme,
 } from "@/sparx-ui";
 import { ComponentPreview } from "../components/ComponentPreview";
 import { LayoutGrid } from "lucide-react";
@@ -10,6 +11,8 @@ import { LayoutGrid } from "lucide-react";
 export const PatternsPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
   onNavigateTo,
 }) => {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
   const [railIndex, setRailIndex] = useState(0);
 
   const mockRailItems = [
@@ -23,26 +26,48 @@ export const PatternsPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
     <div className="space-y-12 max-w-5xl mx-auto pb-16">
       {/* 头部说明 */}
       <section className="space-y-3">
-        <div className="flex items-center gap-2 text-xs font-mono text-[#E5192D] font-bold">
+        <div
+          className={`flex items-center gap-2 text-xs font-mono font-bold ${
+            isEmerald ? "text-[#059669]" : "text-[#E5192D]"
+          }`}
+        >
           <LayoutGrid className="w-4 h-4" />
           <span>PATTERNS · 复合场景模式</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+        <h1
+          className={`text-2xl sm:text-4xl font-black tracking-tight ${
+            isEmerald ? "text-slate-900" : "text-white"
+          }`}
+        >
           开箱即用的高阶出版与阅读模式
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed">
+        <p
+          className={`text-xs sm:text-sm max-w-3xl leading-relaxed ${
+            isEmerald ? "text-slate-600" : "text-zinc-300"
+          }`}
+        >
           将原语与氛围原件装配为标准场景模式，兼顾 100dvh 视口锁定、阻尼滚轮漫游、双轨解耦阅读与轻共鸣反馈协议。
         </p>
       </section>
 
       {/* 快捷跳转至独立全屏体验 */}
-      <section className="p-6 rounded-2xl border border-[#E5192D]/30 bg-gradient-to-r from-[#E5192D]/10 via-[#08090E] to-[#030406] flex flex-wrap items-center justify-between gap-4">
+      <section
+        className={`p-6 rounded-2xl border flex flex-wrap items-center justify-between gap-4 transition-all duration-200 ${
+          isEmerald
+            ? "border-emerald-200 bg-gradient-to-r from-emerald-50/80 via-white to-slate-50 text-slate-900 shadow-md"
+            : "border-[#E5192D]/30 bg-gradient-to-r from-[#E5192D]/10 via-[#08090E] to-[#030406] text-white"
+        }`}
+      >
         <div className="space-y-1">
-          <h3 className="text-base font-bold text-white flex items-center gap-2 font-mono">
-            <span className="w-2 h-2 rounded-full bg-[#E5192D]" />
+          <h3 className="text-base font-bold flex items-center gap-2 font-mono">
+            <span
+              className={`w-2 h-2 rounded-full ${
+                isEmerald ? "bg-[#059669]" : "bg-[#E5192D]"
+              }`}
+            />
             <span>独立全屏体验与实时漫游</span>
           </h3>
-          <p className="text-xs text-zinc-300">
+          <p className={`text-xs ${isEmerald ? "text-slate-600" : "text-zinc-300"}`}>
             我们准备了三个完整独立可交互的真实体验场景，支持键盘、手势与阻尼滚轮漫游。
           </p>
         </div>
@@ -118,7 +143,11 @@ export const PatternsPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
   onSelect={(idx) => setRailIndex(idx)}
 />`}
       >
-        <div className="w-full max-w-2xl p-4 rounded-2xl bg-[#030406] border border-white/10">
+        <div
+          className={`w-full max-w-2xl p-4 rounded-2xl border transition-colors ${
+            isEmerald ? "bg-white border-slate-200" : "bg-[#030406] border-white/10"
+          }`}
+        >
           <SegmentedRail
             items={mockRailItems}
             activeIndex={railIndex}

@@ -4,9 +4,8 @@ import {
   AmbientDissolveMask,
   StageMediaSpine,
   VideoTitleCard,
-  GridPattern,
-  Button,
   DEFAULT_KEYWORD_WORDS,
+  useSparxTheme,
 } from "@/sparx-ui";
 import { ComponentPreview } from "../components/ComponentPreview";
 import { CloudRain } from "lucide-react";
@@ -30,21 +29,35 @@ const SAMPLE_COVERS = [
 ];
 
 export const AtmospherePage: React.FC = () => {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
   const [activeCoverIdx, setActiveCoverIdx] = useState(0);
 
   return (
     <div className="space-y-12 max-w-5xl mx-auto pb-16">
       {/* 头部说明 */}
       <section className="space-y-3">
-        <div className="flex items-center gap-2 text-xs font-mono text-[#E5192D] font-bold">
+        <div
+          className={`flex items-center gap-2 text-xs font-mono font-bold ${
+            isEmerald ? "text-[#059669]" : "text-[#E5192D]"
+          }`}
+        >
           <CloudRain className="w-4 h-4" />
           <span>ATMOSPHERE · 环境氛围与媒体处理</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-          暗房光影与 60% 渐变消融机制
+        <h1
+          className={`text-2xl sm:text-4xl font-black tracking-tight ${
+            isEmerald ? "text-slate-900" : "text-white"
+          }`}
+        >
+          {isEmerald ? "明朗白昼与 60% 渐变皓白消融机制" : "暗房光影与 60% 渐变消融机制"}
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed">
-          Channel 视觉质感的核心之一在于高阶的暗房光晕与平滑媒体过渡：包括 700ms 丝滑换图脊柱、60% 横向消融蒙版、算法散布关键词云图。
+        <p
+          className={`text-xs sm:text-sm max-w-3xl leading-relaxed ${
+            isEmerald ? "text-slate-600" : "text-zinc-300"
+          }`}
+        >
+          Channel 与 Sparx UI 视觉质感的核心之一在于高阶的景深光晕与平滑媒体过渡：包括 700ms 丝滑换图脊柱、60% 横向消融蒙版（暗黑与皓白自适应）、算法散布关键词云图。
         </p>
       </section>
 
@@ -63,7 +76,11 @@ export const AtmospherePage: React.FC = () => {
                   onClick={() => setActiveCoverIdx(i)}
                   className={`px-3 py-1 rounded text-xs font-mono cursor-pointer transition-all ${
                     activeCoverIdx === i
-                      ? "bg-[#E5192D] text-white font-bold"
+                      ? isEmerald
+                        ? "bg-[#059669] text-white font-bold"
+                        : "bg-[#E5192D] text-white font-bold"
+                      : isEmerald
+                      ? "bg-slate-100 text-slate-600 hover:text-slate-900"
                       : "bg-white/10 text-zinc-400 hover:text-white"
                   }`}
                 >
@@ -85,43 +102,61 @@ export const AtmospherePage: React.FC = () => {
   />
 </div>`}
       >
-        <div className="relative w-full max-w-xl h-72 sm:h-80 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+        <div
+          className={`relative w-full max-w-xl h-72 sm:h-80 rounded-2xl overflow-hidden border shadow-2xl ${
+            isEmerald ? "border-slate-200" : "border-white/10"
+          }`}
+        >
           <StageMediaSpine cover={SAMPLE_COVERS[activeCoverIdx]} />
-          <div className="absolute bottom-4 left-4 z-10 px-3 py-1 rounded-full bg-black/60 border border-white/10 text-xs font-mono text-white backdrop-blur-md">
+          <div
+            className={`absolute bottom-4 left-4 z-10 px-3 py-1 rounded-full border text-xs font-mono backdrop-blur-md ${
+              isEmerald
+                ? "bg-white/80 border-slate-200 text-slate-800"
+                : "bg-black/60 border-white/10 text-white"
+            }`}
+          >
             当前处于: {SAMPLE_COVERS[activeCoverIdx].title} (点击上方按钮观察平滑淡入)
           </div>
         </div>
       </ComponentPreview>
 
-      {/* 2. KeywordAtmosphere 关键词暗房散布云图 */}
+      {/* 2. KeywordAtmosphere 关键词散布云图 */}
       <ComponentPreview
-        title="KeywordAtmosphere 算法排版关键词散布暗房云图"
-        description="当篇章无头图或处于概念阐述时，以算法计算散布的无衬线与等宽大字，叠合 40px 网格纹理与绯红弱径向晕光。"
+        title="KeywordAtmosphere 算法排版关键词散布云图"
+        description="当篇章无头图或处于概念阐述时，以算法计算散布的无衬线与等宽大字，叠合 40px 网格纹理与弱径向晕光。"
         code={`import { KeywordAtmosphere } from "@/sparx-ui";
 
 <div className="relative w-full h-80 rounded-2xl overflow-hidden">
   <KeywordAtmosphere mode="stage" />
 </div>`}
       >
-        <div className="relative w-full max-w-xl h-72 sm:h-80 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+        <div
+          className={`relative w-full max-w-xl h-72 sm:h-80 rounded-2xl overflow-hidden border shadow-2xl ${
+            isEmerald ? "border-slate-200 bg-slate-50" : "border-white/10 bg-black"
+          }`}
+        >
           <KeywordAtmosphere mode="stage" words={DEFAULT_KEYWORD_WORDS} />
         </div>
       </ComponentPreview>
 
       {/* 3. AmbientDissolveMask 60% 横向消融蒙版 */}
       <ComponentPreview
-        title="AmbientDissolveMask 60% 消融蒙版"
-        description="将左侧 60% 大画幅图片在向右延展至 58% 处完全融入 #030406 暗房基底，桌面端与移动端双向响应。"
+        title="AmbientDissolveMask 60% 自适应消融蒙版"
+        description="将左侧 60% 大画幅图片在向右延展至 58% 处完全融入当前底色（极客暗房 #030406 或皓白卡片 #FFFFFF），自适应 CSS 变量。"
         code={`import { AmbientDissolveMask } from "@/sparx-ui";
 
-<div className="relative w-full h-64 rounded-2xl overflow-hidden bg-cover bg-center" style={{ backgroundImage: 'url(...) '}}>
+<div className="relative w-full h-64 rounded-2xl overflow-hidden bg-cover bg-center">
   <AmbientDissolveMask />
   <div className="relative z-10 p-6 flex justify-end">
-    <span className="text-white text-sm font-bold">右侧平滑融进纯黑背景</span>
+    <span className="text-sm font-bold">右侧平滑融进背景</span>
   </div>
 </div>`}
       >
-        <div className="relative w-full max-w-xl h-64 rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-neutral-900">
+        <div
+          className={`relative w-full max-w-xl h-64 rounded-2xl overflow-hidden border shadow-2xl ${
+            isEmerald ? "border-slate-200 bg-white" : "border-white/10 bg-[#030406]"
+          }`}
+        >
           <img
             src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=85"
             alt="Preview"
@@ -130,9 +165,16 @@ export const AtmospherePage: React.FC = () => {
           <AmbientDissolveMask />
           <div className="relative z-10 h-full flex items-center justify-end pr-8">
             <div className="max-w-xs text-right space-y-1">
-              <span className="text-xs font-mono text-[#E5192D] font-bold">60% DISSOLVE</span>
-              <p className="text-xs text-zinc-300">
-                左侧图片经过精心校准的渐变梯度，在 58% 宽度处柔和消融进 #030406 暗底。
+              <span
+                className={`text-xs font-mono font-bold ${
+                  isEmerald ? "text-[#059669]" : "text-[#E5192D]"
+                }`}
+              >
+                60% DISSOLVE
+              </span>
+              <p className={`text-xs ${isEmerald ? "text-slate-600" : "text-zinc-300"}`}>
+                左侧图片经过精心校准的渐变梯度，在 58% 宽度处柔和消融进
+                {isEmerald ? " 纯白 (#FFFFFF) 卡片底色。" : " 暗室 (#030406) 暗底。"}
               </p>
             </div>
           </div>
@@ -149,7 +191,11 @@ export const AtmospherePage: React.FC = () => {
   <VideoTitleCard provider="BILIBILI" onPlay={() => console.log("Play")} />
 </div>`}
       >
-        <div className="relative w-full max-w-xl h-64 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+        <div
+          className={`relative w-full max-w-xl h-64 rounded-2xl overflow-hidden border shadow-2xl ${
+            isEmerald ? "border-slate-200" : "border-white/10"
+          }`}
+        >
           <VideoTitleCard provider="BILIBILI" onPlay={() => alert("触发视频播放")} />
         </div>
       </ComponentPreview>

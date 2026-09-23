@@ -4,35 +4,100 @@
   --font-cjk: "Noto Sans SC", "MiSans", "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
   --font-sans: "Space Grotesk", var(--font-cjk);
   --font-mono: "IBM Plex Mono", var(--font-cjk), ui-monospace, SFMono-Regular, monospace;
-  
-  --color-void-950: #020204;
-  --color-void-900: #030406;
-  --color-void-850: #050505;
-  --color-void-800: #08090E;
-  --color-void-700: #12131A;
-  
-  --color-flare: #E5192D;
-  --color-flare-neon: #FF2D55;
-  --color-flare-dark: #A80D1D;
+}
+
+:root,
+[data-theme="void-flare"] {
+  --sparx-bg-canvas: #020204;
+  --sparx-bg-stage: #030406;
+  --sparx-bg-reading: #050505;
+  --sparx-bg-dock: #08090E;
+  --sparx-bg-card: #12131A;
+  --sparx-bg-muted: #181922;
+
+  --sparx-accent-core: #E5192D;
+  --sparx-accent-neon: #FF2D55;
+  --sparx-accent-dark: #A80D1D;
+  --sparx-accent-subtle: rgba(229, 25, 45, 0.08);
+  --sparx-accent-border: rgba(229, 25, 45, 0.25);
+
+  --sparx-text-primary: #FFFFFF;
+  --sparx-text-secondary: #D4D4D8;
+  --sparx-text-muted: #A1A1AA;
+  --sparx-text-dim: #71717A;
+
+  --sparx-border-subtle: rgba(255, 255, 255, 0.06);
+  --sparx-border-std: rgba(255, 255, 255, 0.10);
+  --sparx-border-elevated: rgba(255, 255, 255, 0.16);
+  --sparx-border-focus: rgba(229, 25, 45, 0.40);
+
+  --sparx-glow-flare: 0 0 20px rgba(229, 25, 45, 0.45);
+  --sparx-glow-flare-lg: 0 0 32px rgba(229, 25, 45, 0.65);
+  --sparx-glow-shadow-sm: 0 0 10px rgba(229, 25, 45, 0.40);
+
+  --sparx-mask-horizontal: linear-gradient(to right, rgba(3,4,6,0) 0%, rgba(3,4,6,0.08) 20%, rgba(3,4,6,0.6) 38%, rgba(3,4,6,0.95) 50%, #030406 58%);
+  --sparx-mask-vertical: linear-gradient(to top, #030406 0%, rgba(3,4,6,0.85) 60%, transparent 100%);
+  --sparx-monograph-spine-gradient: linear-gradient(to top, #020204 0%, rgba(2,2,4,0.9) 50%, rgba(2,2,4,0.75) 100%);
+  --sparx-grid-line: rgba(255, 255, 255, 0.03);
+
+  --sparx-scrollbar-thumb: #27272a;
+  --sparx-scrollbar-thumb-hover: #3f3f46;
+}
+
+[data-theme="glacial-emerald"] {
+  --sparx-bg-canvas: #F8FAFC;
+  --sparx-bg-stage: #FFFFFF;
+  --sparx-bg-reading: #FFFFFF;
+  --sparx-bg-dock: #FFFFFF;
+  --sparx-bg-card: #FFFFFF;
+  --sparx-bg-muted: #F1F5F9;
+
+  --sparx-accent-core: #059669;
+  --sparx-accent-neon: #10B981;
+  --sparx-accent-dark: #047857;
+  --sparx-accent-subtle: rgba(16, 185, 129, 0.08);
+  --sparx-accent-border: rgba(16, 185, 129, 0.30);
+
+  --sparx-text-primary: #0F172A;
+  --sparx-text-secondary: #334155;
+  --sparx-text-muted: #64748B;
+  --sparx-text-dim: #94A3B8;
+
+  --sparx-border-subtle: rgba(0, 0, 0, 0.06);
+  --sparx-border-std: rgba(0, 0, 0, 0.10);
+  --sparx-border-elevated: rgba(0, 0, 0, 0.16);
+  --sparx-border-focus: rgba(16, 185, 129, 0.40);
+
+  --sparx-glow-flare: 0 0 20px rgba(16, 185, 129, 0.35);
+  --sparx-glow-flare-lg: 0 0 32px rgba(16, 185, 129, 0.50);
+  --sparx-glow-shadow-sm: 0 0 10px rgba(16, 185, 129, 0.35);
+
+  --sparx-mask-horizontal: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.6) 38%, rgba(255,255,255,0.95) 50%, #FFFFFF 58%);
+  --sparx-mask-vertical: linear-gradient(to top, #FFFFFF 0%, rgba(255,255,255,0.85) 60%, transparent 100%);
+  --sparx-monograph-spine-gradient: linear-gradient(to top, #F8FAFC 0%, rgba(248,250,252,0.9) 50%, rgba(248,250,252,0.75) 100%);
+  --sparx-grid-line: rgba(0, 0, 0, 0.04);
+
+  --sparx-scrollbar-thumb: #cbd5e1;
+  --sparx-scrollbar-thumb-hover: #94a3b8;
 }
 
 @layer utilities {
   .bg-grid-pattern {
     background-size: 40px 40px;
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-image: linear-gradient(to right, var(--sparx-grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--sparx-grid-line) 1px, transparent 1px);
   }
 
   .text-glow {
-    text-shadow: 0 0 15px rgba(229, 25, 45, 0.55);
+    text-shadow: 0 0 15px var(--sparx-accent-border);
   }
 
   .glow-flare {
-    box-shadow: 0 0 20px rgba(229, 25, 45, 0.45);
+    box-shadow: var(--sparx-glow-flare);
   }
 
   .glow-flare-lg {
-    box-shadow: 0 0 32px rgba(229, 25, 45, 0.65);
+    box-shadow: var(--sparx-glow-flare-lg);
   }
 
   @keyframes arrow-breathe {
@@ -45,8 +110,8 @@
   }
 
   @keyframes importing-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(229, 25, 45, 0.45); }
-    50% { box-shadow: 0 0 0 6px rgba(229, 25, 45, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 var(--sparx-accent-border); }
+    50% { box-shadow: 0 0 0 6px rgba(0, 0, 0, 0); }
   }
 
   .animate-importing-pulse {
@@ -71,10 +136,11 @@
 
 @layer base {
   html {
-    background-color: #020204;
-    color: #ffffff;
+    background-color: var(--sparx-bg-canvas);
+    color: var(--sparx-text-primary);
     font-family: var(--font-sans);
     font-size: 15px;
+    transition: background-color 200ms ease, color 200ms ease;
   }
 
   @media (min-width: 1536px) {
@@ -84,8 +150,8 @@
   }
 
   body {
-    background-color: #020204;
-    color: #ffffff;
+    background-color: var(--sparx-bg-canvas);
+    color: var(--sparx-text-primary);
     font-family: var(--font-sans);
     -webkit-font-smoothing: auto;
     -moz-osx-font-smoothing: auto;
@@ -93,6 +159,7 @@
     min-height: 100dvh;
     font-size: 1rem;
     line-height: 1.6;
+    transition: background-color 200ms ease, color 200ms ease;
   }
 
   /* 严格遵循产品准则：最小渲染字号 12px，全站杜绝 Serif 衬线体，低分屏避免 300 细字断墨 */
@@ -113,11 +180,11 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #27272a;
+    background: var(--sparx-scrollbar-thumb);
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #3f3f46;
+    background: var(--sparx-scrollbar-thumb-hover);
   }
 
   .subtle-scroll::-webkit-scrollbar {
@@ -125,14 +192,14 @@
     height: 6px;
   }
   .subtle-scroll::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.02);
+    background: transparent;
   }
   .subtle-scroll::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--sparx-scrollbar-thumb);
     border-radius: 9999px;
   }
   .subtle-scroll::-webkit-scrollbar-thumb:hover {
-    background: rgba(229, 25, 45, 0.5);
+    background: var(--sparx-accent-core);
   }
 
   .no-scrollbar::-webkit-scrollbar {

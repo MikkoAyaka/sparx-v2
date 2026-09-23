@@ -1,5 +1,6 @@
 import React from "react";
 import { clsx } from "clsx";
+import { useSparxTheme } from "../tokens/colors";
 
 export interface PillDockItem<T extends string = string> {
   id: T;
@@ -23,6 +24,9 @@ export function PillDock<T extends string = string>({
   size = "md",
   className,
 }: PillDockProps<T>) {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
+
   const sizeStyles = {
     sm: "p-1 gap-1 text-xs",
     md: "p-1.5 gap-1.5 text-xs sm:text-sm",
@@ -36,7 +40,10 @@ export function PillDock<T extends string = string>({
   return (
     <nav
       className={clsx(
-        "inline-flex items-center bg-[#08090E] border border-white/10 rounded-xl font-mono select-none shadow-xl backdrop-blur-xl",
+        "inline-flex items-center rounded-xl font-mono select-none backdrop-blur-xl transition-colors duration-200 border",
+        isEmerald
+          ? "bg-white/95 border-slate-200 text-slate-700 shadow-md"
+          : "bg-[#08090E] border-white/10 text-zinc-400 shadow-xl",
         sizeStyles[size],
         className
       )}
@@ -52,7 +59,11 @@ export function PillDock<T extends string = string>({
               "flex items-center gap-2 font-medium transition-all duration-200 cursor-pointer whitespace-nowrap",
               itemSizeStyles[size],
               isActive
-                ? "bg-[#E5192D] text-white font-bold shadow-[0_0_14px_rgba(229,25,45,0.45)]"
+                ? isEmerald
+                  ? "bg-[#059669] text-white font-bold shadow-[0_0_14px_rgba(16,185,129,0.35)]"
+                  : "bg-[#E5192D] text-white font-bold shadow-[0_0_14px_rgba(229,25,45,0.45)]"
+                : isEmerald
+                ? "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                 : "text-zinc-400 hover:text-white hover:bg-white/5"
             )}
           >

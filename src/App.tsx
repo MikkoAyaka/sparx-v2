@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { SparxThemeProvider } from "./sparx-ui";
 import { ShowcaseShell, type ShowcaseNavId } from "./showcase/layout/ShowcaseShell";
 import { OverviewPage } from "./showcase/pages/OverviewPage";
 import { AgentPromptPage } from "./showcase/pages/AgentPromptPage";
@@ -14,41 +15,43 @@ export function App() {
   const [activeNav, setActiveNav] = useState<ShowcaseNavId>("overview");
 
   return (
-    <ShowcaseShell activeNav={activeNav} onNavChange={setActiveNav}>
-      {activeNav === "overview" && (
-        <OverviewPage onNavigateTo={(id) => setActiveNav(id as ShowcaseNavId)} />
-      )}
+    <SparxThemeProvider defaultTheme="void-flare">
+      <ShowcaseShell activeNav={activeNav} onNavChange={setActiveNav}>
+        {activeNav === "overview" && (
+          <OverviewPage onNavigateTo={(id) => setActiveNav(id as ShowcaseNavId)} />
+        )}
 
-      {activeNav === "prompt" && <AgentPromptPage />}
+        {activeNav === "prompt" && <AgentPromptPage />}
 
-      {activeNav === "guardrails" && <GuardrailsPage />}
+        {activeNav === "guardrails" && <GuardrailsPage />}
 
-      {activeNav === "primitives" && <PrimitivesPage />}
+        {activeNav === "primitives" && <PrimitivesPage />}
 
-      {activeNav === "atmosphere" && <AtmospherePage />}
+        {activeNav === "atmosphere" && <AtmospherePage />}
 
-      {activeNav === "patterns" && (
-        <PatternsPage onNavigateTo={(id) => setActiveNav(id as ShowcaseNavId)} />
-      )}
+        {activeNav === "patterns" && (
+          <PatternsPage onNavigateTo={(id) => setActiveNav(id as ShowcaseNavId)} />
+        )}
 
-      {activeNav === "stage-scene" && (
-        <div className="w-full flex-1 flex flex-col justify-center">
-          <HorizonStageScene onInspectEntry={() => setActiveNav("monograph-scene")} />
-        </div>
-      )}
+        {activeNav === "stage-scene" && (
+          <div className="w-full flex-1 flex flex-col justify-center">
+            <HorizonStageScene onInspectEntry={() => setActiveNav("monograph-scene")} />
+          </div>
+        )}
 
-      {activeNav === "monograph-scene" && (
-        <div className="w-full flex-1">
-          <SplitMonographScene onBackToStage={() => setActiveNav("stage-scene")} />
-        </div>
-      )}
+        {activeNav === "monograph-scene" && (
+          <div className="w-full flex-1">
+            <SplitMonographScene onBackToStage={() => setActiveNav("stage-scene")} />
+          </div>
+        )}
 
-      {activeNav === "terminal-scene" && (
-        <div className="w-full flex-1">
-          <DeveloperTerminalScene />
-        </div>
-      )}
-    </ShowcaseShell>
+        {activeNav === "terminal-scene" && (
+          <div className="w-full flex-1">
+            <DeveloperTerminalScene />
+          </div>
+        )}
+      </ShowcaseShell>
+    </SparxThemeProvider>
   );
 }
 

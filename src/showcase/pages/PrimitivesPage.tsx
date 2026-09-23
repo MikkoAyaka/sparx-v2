@@ -9,11 +9,15 @@ import {
   GlassCard,
   CodeBlock,
   type StatusDotProps,
+  useSparxTheme,
 } from "@/sparx-ui";
 import { ComponentPreview } from "../components/ComponentPreview";
 import { Layers } from "lucide-react";
 
 export const PrimitivesPage: React.FC = () => {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
+
   // Button controls
   const [btnVariant, setBtnVariant] = useState<"flare" | "outline" | "ghost" | "glass" | "subtle">("flare");
   const [btnSize, setBtnSize] = useState<"sm" | "md" | "lg">("md");
@@ -30,26 +34,42 @@ export const PrimitivesPage: React.FC = () => {
   // PillDock controls
   const [activeTab, setActiveTab] = useState("overview");
 
+  const selectClass = isEmerald
+    ? "bg-slate-100 border border-slate-300 rounded px-2 py-0.5 text-slate-800 text-xs"
+    : "bg-black/60 border border-white/20 rounded px-2 py-0.5 text-white text-xs";
+
   return (
     <div className="space-y-12 max-w-5xl mx-auto pb-16">
       {/* 头部说明 */}
       <section className="space-y-3">
-        <div className="flex items-center gap-2 text-xs font-mono text-[#E5192D] font-bold">
+        <div
+          className={`flex items-center gap-2 text-xs font-mono font-bold ${
+            isEmerald ? "text-[#059669]" : "text-[#E5192D]"
+          }`}
+        >
           <Layers className="w-4 h-4" />
           <span>PRIMITIVES · 基础交互原语</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+        <h1
+          className={`text-2xl sm:text-4xl font-black tracking-tight ${
+            isEmerald ? "text-slate-900" : "text-white"
+          }`}
+        >
           轻量、高对比度的界面基本粒度
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-300 max-w-3xl leading-relaxed">
-          所有原语均严格遵循无衬线字体约束、≥12px 最小安全字号、暗房双层微弱边框与绯红激光发光体系，支持一键复制代码与参数联动调试。
+        <p
+          className={`text-xs sm:text-sm max-w-3xl leading-relaxed ${
+            isEmerald ? "text-slate-600" : "text-zinc-300"
+          }`}
+        >
+          所有原语均严格遵循无衬线字体约束、≥12px 最小安全字号、双风格表面适配（虚空暗房 / 皓白极翠）与高压主色发光体系，支持一键复制代码与参数联动调试。
         </p>
       </section>
 
       {/* 1. Button 按钮 */}
       <ComponentPreview
         title="Button 按钮原语"
-        description="支持绯红激光、幽灵、毛玻璃等形态，具备 hover translate 箭头与光学辉光。"
+        description="支持核心激光/稳态极翠、幽灵、毛玻璃等形态，具备 hover translate 箭头与光学辉光。"
         controls={
           <div className="flex flex-wrap items-center gap-4">
             <label className="flex items-center gap-1.5 cursor-pointer">
@@ -57,13 +77,13 @@ export const PrimitivesPage: React.FC = () => {
               <select
                 value={btnVariant}
                 onChange={(e) => setBtnVariant(e.target.value as any)}
-                className="bg-black/60 border border-white/20 rounded px-2 py-0.5 text-white"
+                className={selectClass}
               >
-                <option value="flare">flare (核心激光)</option>
+                <option value="flare">flare ({isEmerald ? "核心极翠" : "核心激光"})</option>
                 <option value="outline">outline (线框)</option>
                 <option value="ghost">ghost (幽灵)</option>
                 <option value="glass">glass (毛玻璃)</option>
-                <option value="subtle">subtle (暗房次级)</option>
+                <option value="subtle">subtle (次级表面)</option>
               </select>
             </label>
 
@@ -72,7 +92,7 @@ export const PrimitivesPage: React.FC = () => {
               <select
                 value={btnSize}
                 onChange={(e) => setBtnSize(e.target.value as any)}
-                className="bg-black/60 border border-white/20 rounded px-2 py-0.5 text-white"
+                className={selectClass}
               >
                 <option value="sm">sm</option>
                 <option value="md">md</option>
@@ -85,7 +105,7 @@ export const PrimitivesPage: React.FC = () => {
                 type="checkbox"
                 checked={btnArrow}
                 onChange={(e) => setBtnArrow(e.target.checked)}
-                className="accent-[#E5192D]"
+                className={isEmerald ? "accent-[#059669]" : "accent-[#E5192D]"}
               />
               <span>微动效箭头</span>
             </label>
@@ -95,7 +115,7 @@ export const PrimitivesPage: React.FC = () => {
                 type="checkbox"
                 checked={btnGlow}
                 onChange={(e) => setBtnGlow(e.target.checked)}
-                className="accent-[#E5192D]"
+                className={isEmerald ? "accent-[#059669]" : "accent-[#E5192D]"}
               />
               <span>光学发光</span>
             </label>
@@ -136,7 +156,7 @@ export const PrimitivesPage: React.FC = () => {
               max="20"
               value={gaugeMinutes}
               onChange={(e) => setGaugeMinutes(Number(e.target.value))}
-              className="accent-[#E5192D] cursor-pointer"
+              className={isEmerald ? "accent-[#059669] cursor-pointer" : "accent-[#E5192D] cursor-pointer"}
             />
           </div>
         }
@@ -163,9 +183,9 @@ export const PrimitivesPage: React.FC = () => {
               <select
                 value={dotStatus}
                 onChange={(e) => setDotStatus(e.target.value as any)}
-                className="bg-black/60 border border-white/20 rounded px-2 py-0.5 text-white"
+                className={selectClass}
               >
-                <option value="live">live (绯红核心)</option>
+                <option value="live">live (核心主色)</option>
                 <option value="radar">radar (实时雷达/青色)</option>
                 <option value="caution">caution (警戒/琥珀)</option>
                 <option value="arch">arch (架构/紫色)</option>
@@ -178,7 +198,7 @@ export const PrimitivesPage: React.FC = () => {
                 type="checkbox"
                 checked={dotPulse}
                 onChange={(e) => setDotPulse(e.target.checked)}
-                className="accent-[#E5192D]"
+                className={isEmerald ? "accent-[#059669]" : "accent-[#E5192D]"}
               />
               <span>扩散呼吸动效</span>
             </label>
@@ -188,7 +208,7 @@ export const PrimitivesPage: React.FC = () => {
 
 <div className="flex items-center gap-3">
   <StatusDot status="${dotStatus}" pulse={${dotPulse}} />
-  <Badge variant="flare" dot>独立出版</Badge>
+  <Badge variant="${isEmerald ? "emerald" : "flare"}" dot>独立出版</Badge>
   <Badge variant="emerald" dot>在线运行</Badge>
   <Tag prefixHash>架构哲学</Tag>
   <Tag prefixHash active>设计系统</Tag>
@@ -196,7 +216,7 @@ export const PrimitivesPage: React.FC = () => {
       >
         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <StatusDot status={dotStatus} pulse={dotPulse} size="md" />
-          <Badge variant="flare" dot>
+          <Badge variant={isEmerald ? "emerald" : "flare"} dot>
             独立出版
           </Badge>
           <Badge variant="emerald" dot>
@@ -207,7 +227,7 @@ export const PrimitivesPage: React.FC = () => {
           </Badge>
           <Tag prefixHash>分布式架构</Tag>
           <Tag prefixHash active>
-            暗房虚空视界
+            {isEmerald ? "皓白极翠稳态" : "暗房虚空视界"}
           </Tag>
         </div>
       </ComponentPreview>
@@ -243,32 +263,50 @@ export const PrimitivesPage: React.FC = () => {
         />
       </ComponentPreview>
 
-      {/* 5. GlassCard 毛玻璃暗房卡片 */}
+      {/* 5. GlassCard 毛玻璃卡片 */}
       <ComponentPreview
-        title="GlassCard 暗房卡片容器"
-        description="提供 stage、elevated、translucent 多层景深表面，内嵌微弱细边框。"
+        title="GlassCard 层次卡片容器"
+        description="提供 stage、elevated、translucent 多层景深表面，内嵌精密细边框。"
         code={`import { GlassCard } from "@/sparx-ui";
 
 <GlassCard variant="elevated" hoverEffect className="p-6 max-w-md">
-  <h4 className="font-bold text-white text-base">高可用出版讲台</h4>
-  <p className="text-xs text-zinc-400 mt-2">
-    基于深黑纯粹暗房与绯红激光发光，为高信噪比思考留出安静框架。
+  <h4 className="font-bold text-base">高可用出版讲台</h4>
+  <p className="text-xs mt-2">
+    基于统一设计公理，为高信噪比思考留出安静框架。
   </p>
 </GlassCard>`}
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
           <GlassCard variant="stage" hoverEffect className="p-6 space-y-2">
-            <span className="text-xs font-mono text-[#E5192D] font-bold">VARIANT: STAGE</span>
-            <h4 className="font-bold text-white text-sm">主舞台大卡容器 (#030406)</h4>
-            <p className="text-xs text-zinc-400">
+            <span
+              className={`text-xs font-mono font-bold ${
+                isEmerald ? "text-[#059669]" : "text-[#E5192D]"
+              }`}
+            >
+              VARIANT: STAGE
+            </span>
+            <h4
+              className={`font-bold text-sm ${
+                isEmerald ? "text-slate-900" : "text-white"
+              }`}
+            >
+              主舞台大卡容器 ({isEmerald ? "#FFFFFF" : "#030406"})
+            </h4>
+            <p className={`text-xs ${isEmerald ? "text-slate-500" : "text-zinc-400"}`}>
               用于首页与沉浸式独立视口的主舞台容器。
             </p>
           </GlassCard>
 
           <GlassCard variant="elevated" hoverEffect className="p-6 space-y-2">
-            <span className="text-xs font-mono text-cyan-400 font-bold">VARIANT: ELEVATED</span>
-            <h4 className="font-bold text-white text-sm">悬浮抬升表面 (#08090E)</h4>
-            <p className="text-xs text-zinc-400">
+            <span className="text-xs font-mono text-cyan-500 font-bold">VARIANT: ELEVATED</span>
+            <h4
+              className={`font-bold text-sm ${
+                isEmerald ? "text-slate-900" : "text-white"
+              }`}
+            >
+              悬浮抬升表面 ({isEmerald ? "#FFFFFF" : "#08090E"})
+            </h4>
+            <p className={`text-xs ${isEmerald ? "text-slate-500" : "text-zinc-400"}`}>
               用于浮动卡片、控制坞与代码容器。
             </p>
           </GlassCard>

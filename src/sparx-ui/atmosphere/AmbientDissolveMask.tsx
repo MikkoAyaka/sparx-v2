@@ -20,8 +20,7 @@ export const AmbientDissolveMask: React.FC<AmbientDissolveMaskProps> = ({
             className
           )}
           style={{
-            background:
-              "linear-gradient(to right, rgba(3,4,6,0) 0%, rgba(3,4,6,0.08) 20%, rgba(3,4,6,0.6) 38%, rgba(3,4,6,0.95) 50%, #030406 58%)",
+            background: "var(--sparx-mask-horizontal)",
           }}
         />
       )}
@@ -30,9 +29,11 @@ export const AmbientDissolveMask: React.FC<AmbientDissolveMaskProps> = ({
           aria-hidden="true"
           className={clsx(
             "absolute inset-0 pointer-events-none lg:hidden z-[5]",
-            "bg-gradient-to-t from-[#030406] via-[#030406]/85 to-transparent",
             className
           )}
+          style={{
+            background: "var(--sparx-mask-vertical)",
+          }}
         />
       )}
     </>

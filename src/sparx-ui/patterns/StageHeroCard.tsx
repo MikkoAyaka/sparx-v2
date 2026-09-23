@@ -7,6 +7,7 @@ import { Button } from "../primitives/Button";
 import { Tag } from "../primitives/Tag";
 import { SegmentedRail, type SegmentedRailItem } from "./SegmentedRail";
 import { scheduleAdjacentPreload } from "./adjacentPreload";
+import { useSparxTheme } from "../tokens/colors";
 
 export interface StageEntry {
   id: string;
@@ -40,6 +41,9 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
   enableWheel = true,
   className,
 }) => {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
+
   const activeEntry = entries[activeIndex] ?? entries[0];
   const touchStartXRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
@@ -132,7 +136,10 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       className={clsx(
-        "relative rounded-2xl sm:rounded-3xl overflow-hidden h-full max-h-[820px] 2xl:max-h-[960px] bg-[#030406] border border-white/10 flex flex-col justify-between p-4 sm:p-8 lg:p-10 xl:p-12 shadow-2xl",
+        "relative rounded-2xl sm:rounded-3xl overflow-hidden h-full max-h-[820px] 2xl:max-h-[960px] flex flex-col justify-between p-4 sm:p-8 lg:p-10 xl:p-12 transition-colors duration-200 border",
+        isEmerald
+          ? "bg-white border-slate-200 text-slate-900 shadow-xl"
+          : "bg-[#030406] border-white/10 text-white shadow-2xl",
         className
       )}
     >
@@ -150,15 +157,39 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
       {/* 顶层元信息栏 */}
       <div className="relative z-10 shrink-0 flex items-center justify-between text-xs sm:text-sm font-mono">
         <div className="flex items-center gap-2.5">
-          <span className="w-2 h-2 rounded-full bg-[#E5192D] shadow-[0_0_8px_#E5192D]" />
-          <span className="text-white font-bold tracking-wider uppercase">
+          <span
+            className={clsx(
+              "w-2 h-2 rounded-full",
+              isEmerald
+                ? "bg-[#059669] shadow-[0_0_8px_#059669]"
+                : "bg-[#E5192D] shadow-[0_0_8px_#E5192D]"
+            )}
+          />
+          <span
+            className={clsx(
+              "font-bold tracking-wider uppercase",
+              isEmerald ? "text-slate-800" : "text-white"
+            )}
+          >
             {activeEntry.category || "独立出版"}
           </span>
         </div>
 
         {activeEntry.date && (
-          <div className="flex items-center gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-white/5 border border-white/10 text-zinc-300">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E5192D]" />
+          <div
+            className={clsx(
+              "flex items-center gap-2 px-2.5 sm:px-3 py-1 rounded-full border text-xs",
+              isEmerald
+                ? "bg-slate-100 border-slate-200 text-slate-600"
+                : "bg-white/5 border-white/10 text-zinc-300"
+            )}
+          >
+            <span
+              className={clsx(
+                "w-1.5 h-1.5 rounded-full",
+                isEmerald ? "bg-[#059669]" : "bg-[#E5192D]"
+              )}
+            />
             <span>{activeEntry.date}</span>
           </div>
         )}
@@ -173,7 +204,12 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
         <div className="lg:col-span-6 pl-0 sm:pl-1 lg:pl-8 pr-0 sm:pr-8 py-1 sm:py-4 space-y-3 sm:space-y-5">
           <div className="space-y-1.5 sm:space-y-2.5">
             {activeEntry.date && (
-              <div className="text-xs sm:text-sm font-mono text-[#E5192D] tracking-widest font-bold">
+              <div
+                className={clsx(
+                  "text-xs sm:text-sm font-mono tracking-widest font-bold",
+                  isEmerald ? "text-[#059669]" : "text-[#E5192D]"
+                )}
+              >
                 {activeEntry.date} 出版
               </div>
             )}
@@ -182,13 +218,25 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
               onClick={() => onOpenEntry?.(activeEntry)}
               className="cursor-pointer group block"
             >
-              <h1 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-white tracking-tight leading-snug group-hover:text-red-400 transition-colors line-clamp-2">
+              <h1
+                className={clsx(
+                  "text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tight leading-snug transition-colors line-clamp-2",
+                  isEmerald
+                    ? "text-slate-900 group-hover:text-emerald-700"
+                    : "text-white group-hover:text-red-400"
+                )}
+              >
                 {activeEntry.title}
               </h1>
             </div>
 
             {activeEntry.summary && (
-              <p className="text-sm sm:text-base text-zinc-300 leading-relaxed max-w-lg line-clamp-2 sm:line-clamp-3">
+              <p
+                className={clsx(
+                  "text-sm sm:text-base leading-relaxed max-w-lg line-clamp-2 sm:line-clamp-3",
+                  isEmerald ? "text-slate-600" : "text-zinc-300"
+                )}
+              >
                 {activeEntry.summary}
               </p>
             )}
@@ -204,7 +252,12 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
           )}
 
           {/* 阅读刻度规与展卷按钮 */}
-          <div className="flex items-center justify-between gap-3 pt-3 sm:pt-5 border-t border-white/10">
+          <div
+            className={clsx(
+              "flex items-center justify-between gap-3 pt-3 sm:pt-5 border-t",
+              isEmerald ? "border-slate-200" : "border-white/10"
+            )}
+          >
             <ReadingGauge minutes={activeEntry.readingMinutes || 5} />
 
             <Button
@@ -220,7 +273,12 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
       </div>
 
       {/* 底层：导览名录标尺 */}
-      <div className="relative z-10 shrink-0 pt-2.5 sm:pt-5 border-t border-white/10">
+      <div
+        className={clsx(
+          "relative z-10 shrink-0 pt-2.5 sm:pt-5 border-t",
+          isEmerald ? "border-slate-200" : "border-white/10"
+        )}
+      >
         <SegmentedRail
           items={railItems}
           activeIndex={activeIndex}

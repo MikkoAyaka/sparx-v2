@@ -1,5 +1,5 @@
 import React from "react";
-import { PillDock, type PillDockItem } from "@/sparx-ui";
+import { PillDock, type PillDockItem, useSparxTheme } from "@/sparx-ui";
 import {
   Compass,
   Sparkles,
@@ -35,6 +35,9 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
   onNavChange,
   children,
 }) => {
+  const { themeId, setThemeId, isDark } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
+
   const isSceneMode =
     activeNav === "stage-scene" ||
     activeNav === "monograph-scene" ||
@@ -55,29 +58,109 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
     { id: "terminal-scene", label: "开放终端", icon: <Terminal className="w-3.5 h-3.5" /> },
   ];
 
-  // 沉浸式全屏场景体验模式（参考 sparx-v1 交互结构：纯粹 100dvh 视口锁定，顶部悬浮轻量控制条）
+  // 风格切换器胶囊组件
+  const StyleSwitcher = (
+    <div
+      className={`flex items-center p-0.5 sm:p-1 rounded-xl border text-xs font-mono select-none ${
+        isEmerald ? "bg-slate-100 border-slate-200" : "bg-[#08090E] border-white/10"
+      }`}
+    >
+      <button
+        type="button"
+        onClick={() => setThemeId("void-flare")}
+        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all cursor-pointer font-medium ${
+          themeId === "void-flare"
+            ? "bg-[#E5192D] text-white font-bold shadow-[0_0_10px_rgba(229,25,45,0.4)]"
+            : isEmerald
+            ? "text-slate-500 hover:text-slate-900"
+            : "text-zinc-400 hover:text-white"
+        }`}
+        title="虚空绯红 · 个人/前卫/极客暗房"
+      >
+        <span>✦</span>
+        <span className="hidden md:inline">虚空绯红</span>
+      </button>
+      <button
+        type="button"
+        onClick={() => setThemeId("glacial-emerald")}
+        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all cursor-pointer font-medium ${
+          themeId === "glacial-emerald"
+            ? "bg-[#059669] text-white font-bold shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+            : isEmerald
+            ? "text-slate-500 hover:text-slate-900"
+            : "text-zinc-400 hover:text-white"
+        }`}
+        title="皓白极翠 · 企业/稳态/生产高亮"
+      >
+        <span>◈</span>
+        <span className="hidden md:inline">皓白极翠</span>
+      </button>
+    </div>
+  );
+
+  // 沉浸式全屏场景体验模式（100dvh 视口锁定，顶部悬浮轻量控制条）
   if (isSceneMode) {
     return (
-      <div className="h-[100dvh] w-full flex flex-col bg-[#020204] text-white overflow-hidden selection:bg-[#E5192D] selection:text-white">
+      <div
+        className={`h-[100dvh] w-full flex flex-col overflow-hidden transition-colors duration-200 ${
+          isEmerald
+            ? "bg-[#F8FAFC] text-slate-900 selection:bg-[#059669] selection:text-white"
+            : "bg-[#020204] text-white selection:bg-[#E5192D] selection:text-white"
+        }`}
+      >
         {/* 顶部悬浮控制浮层 */}
-        <header className="shrink-0 bg-[#020204]/95 backdrop-blur-xl border-b border-white/10 px-3 sm:px-6 py-2 sm:py-2.5 z-50 flex items-center justify-between gap-4">
+        <header
+          className={`shrink-0 px-3 sm:px-6 py-2 sm:py-2.5 z-50 flex items-center justify-between gap-4 border-b backdrop-blur-xl ${
+            isEmerald
+              ? "bg-white/90 border-slate-200"
+              : "bg-[#020204]/95 border-white/10"
+          }`}
+        >
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => onNavChange("overview")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/15 text-white text-xs font-mono font-bold transition-all cursor-pointer active:scale-95 shrink-0"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-mono font-bold transition-all cursor-pointer active:scale-95 shrink-0 ${
+                isEmerald
+                  ? "bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-800"
+                  : "bg-white/10 hover:bg-white/15 border-white/15 text-white"
+              }`}
             >
               ← 返回设计文档
             </button>
-            <span className="hidden sm:inline-block text-xs font-mono text-zinc-600">|</span>
-            <span className="hidden md:inline-flex items-center gap-1.5 text-xs font-mono text-zinc-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E5192D]" />
+            <span
+              className={`hidden sm:inline-block text-xs font-mono ${
+                isEmerald ? "text-slate-300" : "text-zinc-600"
+              }`}
+            >
+              |
+            </span>
+            <span
+              className={`hidden md:inline-flex items-center gap-1.5 text-xs font-mono ${
+                isEmerald ? "text-slate-500" : "text-zinc-400"
+              }`}
+            >
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  isEmerald ? "bg-[#059669]" : "bg-[#E5192D]"
+                }`}
+              />
               <span>全屏沉浸模式 · 支持滚轮阻尼漫游与键盘 ← / → 方向键</span>
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
-            <div className="flex items-center bg-[#08090E] p-1 rounded-xl border border-white/10 text-xs font-mono">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* 风格切换器 */}
+            {StyleSwitcher}
+
+            {/* 场景切页 */}
+            <div
+              className={`flex items-center p-1 rounded-xl border text-xs font-mono ${
+                isEmerald
+                  ? "bg-slate-100 border-slate-200"
+                  : "bg-[#08090E] border-white/10"
+              }`}
+            >
               {sceneNavItems.map((item) => (
                 <button
                   key={item.id}
@@ -85,7 +168,11 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
                   onClick={() => onNavChange(item.id)}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                     activeNav === item.id
-                      ? "bg-[#E5192D] text-white font-bold shadow-[0_0_10px_rgba(229,25,45,0.4)]"
+                      ? isEmerald
+                        ? "bg-[#059669] text-white font-bold shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+                        : "bg-[#E5192D] text-white font-bold shadow-[0_0_10px_rgba(229,25,45,0.4)]"
+                      : isEmerald
+                      ? "text-slate-600 hover:text-slate-900"
                       : "text-zinc-400 hover:text-white"
                   }`}
                 >
@@ -107,26 +194,67 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
 
   // 常规设计规范与组件文档模式
   return (
-    <div className="min-h-[100dvh] w-full flex flex-col bg-[#020204] text-white selection:bg-[#E5192D] selection:text-white">
+    <div
+      className={`min-h-[100dvh] w-full flex flex-col transition-colors duration-200 ${
+        isEmerald
+          ? "bg-[#F8FAFC] text-slate-900 selection:bg-[#059669] selection:text-white"
+          : "bg-[#020204] text-white selection:bg-[#E5192D] selection:text-white"
+      }`}
+    >
       {/* 顶部全局导航栏 */}
-      <header className="sticky top-0 z-50 bg-[#020204]/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3">
+      <header
+        className={`sticky top-0 z-50 px-4 sm:px-8 py-3 border-b backdrop-blur-xl transition-colors duration-200 ${
+          isEmerald
+            ? "bg-white/90 border-slate-200 text-slate-900"
+            : "bg-[#020204]/90 border-white/10 text-white"
+        }`}
+      >
         <div className="max-w-[96rem] 2xl:max-w-[110rem] mx-auto flex flex-wrap items-center justify-between gap-4">
           {/* 左侧品牌 */}
           <div
             onClick={() => onNavChange("overview")}
             className="flex items-center gap-3 select-none cursor-pointer group shrink-0"
           >
-            <div className="w-8 h-8 rounded-lg bg-[#E5192D] flex items-center justify-center font-black text-white text-sm shadow-[0_0_16px_rgba(229,25,45,0.45)] group-hover:shadow-[0_0_24px_rgba(229,25,45,0.7)] transition-all">
+            <div
+              className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-white text-sm transition-all ${
+                isEmerald
+                  ? "bg-[#059669] shadow-[0_0_16px_rgba(16,185,129,0.35)] group-hover:shadow-[0_0_24px_rgba(16,185,129,0.55)]"
+                  : "bg-[#E5192D] shadow-[0_0_16px_rgba(229,25,45,0.45)] group-hover:shadow-[0_0_24px_rgba(229,25,45,0.7)]"
+              }`}
+            >
               ✦
             </div>
             <div>
-              <div className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
+              <div
+                className={`text-sm font-bold tracking-tight flex items-center gap-2 ${
+                  isEmerald ? "text-slate-900" : "text-white"
+                }`}
+              >
                 <span>SPARX UI</span>
-                <span className="text-zinc-600 font-normal">/</span>
-                <span className="text-[#E5192D] font-mono text-xs font-bold">V2</span>
+                <span className={isEmerald ? "text-slate-400" : "text-zinc-600"}>/</span>
+                <span
+                  className={`font-mono text-xs font-bold ${
+                    isEmerald ? "text-[#059669]" : "text-[#E5192D]"
+                  }`}
+                >
+                  V2
+                </span>
+                <span
+                  className={`text-[12px] px-2 py-0.5 rounded-full border font-mono ${
+                    isEmerald
+                      ? "bg-emerald-50 border-emerald-200 text-emerald-700"
+                      : "bg-red-500/10 border-red-500/20 text-red-300"
+                  }`}
+                >
+                  {isEmerald ? "皓白极翠 · 企业稳态" : "虚空绯红 · 极客前卫"}
+                </span>
               </div>
-              <div className="text-[12px] text-zinc-400">
-                Channel 视觉规范与通用设计系统
+              <div
+                className={`text-[12px] ${
+                  isEmerald ? "text-slate-500" : "text-zinc-400"
+                }`}
+              >
+                通用设计体系与多风格实现框架
               </div>
             </div>
           </div>
@@ -141,16 +269,36 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
             />
           </div>
 
-          {/* 右侧沉浸式场景切换入口 */}
-          <div className="flex items-center gap-2 shrink-0">
-            <div className="hidden sm:flex items-center bg-[#08090E] p-1 rounded-xl border border-white/10 text-xs font-mono">
-              <span className="px-2 text-zinc-500 font-bold">沉浸式场景:</span>
+          {/* 右侧：风格切换器 + 沉浸式场景切换入口 */}
+          <div className="flex items-center gap-3 shrink-0">
+            {/* 多风格切换器 */}
+            {StyleSwitcher}
+
+            {/* 场景切页 */}
+            <div
+              className={`hidden sm:flex items-center p-1 rounded-xl border text-xs font-mono ${
+                isEmerald
+                  ? "bg-slate-100 border-slate-200 text-slate-600"
+                  : "bg-[#08090E] border-white/10 text-zinc-400"
+              }`}
+            >
+              <span
+                className={`px-2 font-bold ${
+                  isEmerald ? "text-slate-400" : "text-zinc-500"
+                }`}
+              >
+                沉浸式:
+              </span>
               {sceneNavItems.map((item) => (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => onNavChange(item.id)}
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white transition-all cursor-pointer"
+                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                    isEmerald
+                      ? "text-slate-600 hover:text-slate-900"
+                      : "text-zinc-400 hover:text-white"
+                  }`}
                 >
                   {item.icon}
                   <span>{item.label}</span>
@@ -161,8 +309,18 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
         </div>
 
         {/* 移动端两行切换导轨 */}
-        <div className="lg:hidden mt-3 pt-2 border-t border-white/5 flex flex-col gap-2">
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-1 p-1 bg-[#08090E] rounded-xl border border-white/10 text-xs font-mono text-center">
+        <div
+          className={`lg:hidden mt-3 pt-2 border-t flex flex-col gap-2 ${
+            isEmerald ? "border-slate-200" : "border-white/5"
+          }`}
+        >
+          <div
+            className={`grid grid-cols-3 sm:grid-cols-6 gap-1 p-1 rounded-xl border text-xs font-mono text-center ${
+              isEmerald
+                ? "bg-slate-100 border-slate-200"
+                : "bg-[#08090E] border-white/10"
+            }`}
+          >
             {primaryNavItems.map((item) => (
               <button
                 key={item.id}
@@ -170,7 +328,11 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
                 onClick={() => onNavChange(item.id)}
                 className={`py-1.5 px-1 rounded-lg font-medium transition-all truncate text-[12px] cursor-pointer ${
                   activeNav === item.id
-                    ? "bg-[#E5192D] text-white font-bold"
+                    ? isEmerald
+                      ? "bg-[#059669] text-white font-bold"
+                      : "bg-[#E5192D] text-white font-bold"
+                    : isEmerald
+                    ? "text-slate-600 hover:text-slate-900"
                     : "text-zinc-400 hover:text-white"
                 }`}
               >
@@ -179,13 +341,23 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
             ))}
           </div>
 
-          <div className="grid grid-cols-3 gap-1 p-1 bg-[#08090E] rounded-xl border border-white/10 text-xs font-mono text-center sm:hidden">
+          <div
+            className={`grid grid-cols-3 gap-1 p-1 rounded-xl border text-xs font-mono text-center sm:hidden ${
+              isEmerald
+                ? "bg-slate-100 border-slate-200"
+                : "bg-[#08090E] border-white/10"
+            }`}
+          >
             {sceneNavItems.map((item) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => onNavChange(item.id)}
-                className="py-1 px-1 rounded-lg font-medium transition-all truncate text-[12px] text-zinc-400 hover:text-white cursor-pointer"
+                className={`py-1 px-1 rounded-lg font-medium transition-all truncate text-[12px] cursor-pointer ${
+                  isEmerald
+                    ? "text-slate-600 hover:text-slate-900"
+                    : "text-zinc-400 hover:text-white"
+                }`}
               >
                 {item.label}
               </button>
@@ -200,24 +372,38 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
       </main>
 
       {/* 底部版权与元信息 */}
-      <footer className="border-t border-white/[0.06] bg-[#020204]/90 px-4 sm:px-8 py-3 flex flex-wrap gap-3 items-center justify-between text-xs font-mono text-zinc-500 select-none">
+      <footer
+        className={`border-t px-4 sm:px-8 py-3 flex flex-wrap gap-3 items-center justify-between text-xs font-mono select-none transition-colors duration-200 ${
+          isEmerald
+            ? "border-slate-200 bg-white/90 text-slate-500"
+            : "border-white/[0.06] bg-[#020204]/90 text-zinc-500"
+        }`}
+      >
         <div className="flex items-center gap-2">
-          <span>Sparx UI v2</span>
+          <span className="font-bold">Sparx UI v2</span>
           <span>·</span>
-          <span>基于 Mikko Ayaka 个人频道美学体系</span>
+          <span>设计公理框架与多风格实现（虚空绯红 / 皓白极翠）</span>
         </div>
         <div className="flex items-center gap-4">
           <a
             href="https://channel.mikkoayaka.com"
             target="_blank"
             rel="noreferrer"
-            className="hover:text-zinc-300 transition-colors flex items-center gap-1"
+            className={`transition-colors flex items-center gap-1 ${
+              isEmerald ? "hover:text-slate-800 text-slate-600" : "hover:text-zinc-300"
+            }`}
           >
             <span>源频道在线 (Channel)</span>
-            <ExternalLink className="w-3 h-3 text-[#E5192D]" />
+            <ExternalLink
+              className={`w-3 h-3 ${
+                isEmerald ? "text-[#059669]" : "text-[#E5192D]"
+              }`}
+            />
           </a>
-          <span className="text-zinc-700">|</span>
-          <span className="text-zinc-400">最小渲染字号 ≥ 12px · 全站杜绝衬线</span>
+          <span className={isEmerald ? "text-slate-300" : "text-zinc-700"}>|</span>
+          <span className={isEmerald ? "text-slate-600 font-medium" : "text-zinc-400"}>
+            最小渲染字号 ≥ 12px · 全站杜绝衬线
+          </span>
         </div>
       </footer>
     </div>

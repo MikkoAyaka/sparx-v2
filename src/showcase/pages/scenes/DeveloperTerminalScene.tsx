@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PillDock, CodeBlock, Badge, StatusDot } from "@/sparx-ui";
+import { PillDock, CodeBlock, Badge, StatusDot, useSparxTheme } from "@/sparx-ui";
 import { Terminal, Database, Send, Radio } from "lucide-react";
 
 type LangKey = "curl" | "javascript" | "python" | "go" | "rust";
@@ -11,7 +11,7 @@ const ENDPOINTS = [
     format: "JSON Feed 1.1",
     desc: "全量已出版文章元数据流，具备完整摘要与发布时间线",
     status: "200 OK · 边缘缓存",
-    icon: <Database className="w-4 h-4 text-cyan-400" />,
+    icon: <Database className="w-4 h-4 text-cyan-500" />,
   },
   {
     method: "GET",
@@ -19,7 +19,7 @@ const ENDPOINTS = [
     format: "RSS 2.0 / Atom",
     desc: "标准兼容的聚合订阅流，适配各类阅读器与自动化分发",
     status: "200 OK · 边缘可用",
-    icon: <Radio className="w-4 h-4 text-emerald-400" />,
+    icon: <Radio className="w-4 h-4 text-emerald-500" />,
   },
   {
     method: "POST",
@@ -27,7 +27,7 @@ const ENDPOINTS = [
     format: "REST / JSON",
     desc: "接收读者轻共鸣点赞反馈，Upstash Redis 原子计数与持久化",
     status: "200 OK · 速率限制 60/min",
-    icon: <Send className="w-4 h-4 text-[#E5192D]" />,
+    icon: <Send className="w-4 h-4 text-[#059669]" />,
   },
   {
     method: "GET",
@@ -35,12 +35,12 @@ const ENDPOINTS = [
     format: "REST / JSON",
     desc: "技术情报流多源事件总线与大模型分析快照",
     status: "200 OK · 实时同步",
-    icon: <Terminal className="w-4 h-4 text-purple-400" />,
+    icon: <Terminal className="w-4 h-4 text-purple-500" />,
   },
 ];
 
 const CODE_EXAMPLES: Record<LangKey, string> = {
-  curl: `# 1. 抓取最新个人出版 JSON Feed 流
+  curl: `# 1. 抓取最新出版 JSON Feed 流
 curl -s "https://channel.mikkoayaka.com/feed.json" | jq .items[0]
 
 # 2. 提交读者轻共鸣反馈
@@ -57,7 +57,7 @@ for (const item of channel.items) {
   console.log(\`- \${item.title} -> \${item.url}\`);
 }`,
 
-  python: `# 纯标准库获取最新个人频道
+  python: `# 纯标准库获取最新频道内容
 import json
 from urllib.request import urlopen
 
@@ -122,6 +122,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 };
 
 export const DeveloperTerminalScene: React.FC = () => {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
   const [activeLang, setActiveLang] = useState<LangKey>("curl");
 
   const langNav = [
@@ -133,16 +135,34 @@ export const DeveloperTerminalScene: React.FC = () => {
   ];
 
   return (
-    <div className="w-full h-full rounded-2xl sm:rounded-3xl border border-white/10 bg-[#030406] p-6 sm:p-10 flex flex-col justify-between overflow-y-auto subtle-scroll shadow-2xl">
+    <div
+      className={`w-full h-full rounded-2xl sm:rounded-3xl border p-6 sm:p-10 flex flex-col justify-between overflow-y-auto subtle-scroll shadow-2xl transition-colors duration-200 ${
+        isEmerald
+          ? "bg-white border-slate-200 text-slate-900"
+          : "bg-[#030406] border-white/10 text-white"
+      }`}
+    >
       <div className="space-y-6">
         {/* 顶部标题 */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
+        <div
+          className={`flex flex-wrap items-center justify-between gap-4 border-b pb-6 ${
+            isEmerald ? "border-slate-200" : "border-white/10"
+          }`}
+        >
           <div className="space-y-1">
-            <div className="flex items-center gap-2 text-xs font-mono text-[#E5192D] font-bold tracking-widest">
+            <div
+              className={`flex items-center gap-2 text-xs font-mono font-bold tracking-widest ${
+                isEmerald ? "text-[#059669]" : "text-[#E5192D]"
+              }`}
+            >
               <StatusDot status="live" size="sm" />
               <span>TERMINAL ACCESS · 开放终端</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            <h1
+              className={`text-2xl sm:text-3xl font-black tracking-tight ${
+                isEmerald ? "text-slate-900" : "text-white"
+              }`}
+            >
               频道 API 与订阅端点规范
             </h1>
           </div>
@@ -151,7 +171,7 @@ export const DeveloperTerminalScene: React.FC = () => {
             <Badge variant="emerald" dot>
               边缘网关正常
             </Badge>
-            <Badge variant="flare" mono>
+            <Badge variant={isEmerald ? "emerald" : "flare"} mono>
               v2.0 STABLE
             </Badge>
           </div>
@@ -162,26 +182,58 @@ export const DeveloperTerminalScene: React.FC = () => {
           {ENDPOINTS.map((ep) => (
             <div
               key={ep.path}
-              className="p-4 rounded-2xl border border-white/10 bg-[#08090E] hover:border-white/20 transition-all space-y-2 shadow-lg"
+              className={`p-4 rounded-2xl border transition-all space-y-2 shadow-md ${
+                isEmerald
+                  ? "bg-slate-50 border-slate-200 hover:border-slate-300"
+                  : "bg-[#08090E] border-white/10 hover:border-white/20 shadow-lg"
+              }`}
             >
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5">
-                  <span className="p-1.5 rounded-lg bg-white/5 border border-white/10 shrink-0">
+                  <span
+                    className={`p-1.5 rounded-lg border shrink-0 ${
+                      isEmerald
+                        ? "bg-white border-slate-200"
+                        : "bg-white/5 border-white/10"
+                    }`}
+                  >
                     {ep.icon}
                   </span>
-                  <span className="font-mono text-xs font-bold text-[#E5192D]">
+                  <span
+                    className={`font-mono text-xs font-bold ${
+                      isEmerald ? "text-[#059669]" : "text-[#E5192D]"
+                    }`}
+                  >
                     {ep.method}
                   </span>
-                  <span className="font-mono text-xs text-white font-bold">
+                  <span
+                    className={`font-mono text-xs font-bold ${
+                      isEmerald ? "text-slate-900" : "text-white"
+                    }`}
+                  >
                     {ep.path}
                   </span>
                 </div>
-                <span className="text-[12px] font-mono text-zinc-400 bg-white/5 px-2 py-0.5 rounded-md border border-white/10">
+                <span
+                  className={`text-[12px] font-mono px-2 py-0.5 rounded-md border ${
+                    isEmerald
+                      ? "text-slate-600 bg-white border-slate-200"
+                      : "text-zinc-400 bg-white/5 border-white/10"
+                  }`}
+                >
                   {ep.format}
                 </span>
               </div>
-              <p className="text-xs text-zinc-300">{ep.desc}</p>
-              <div className="text-[12px] font-mono text-zinc-500 pt-1 border-t border-white/5">
+              <p className={`text-xs ${isEmerald ? "text-slate-600" : "text-zinc-300"}`}>
+                {ep.desc}
+              </p>
+              <div
+                className={`text-[12px] font-mono pt-1 border-t ${
+                  isEmerald
+                    ? "text-slate-400 border-slate-200"
+                    : "text-zinc-500 border-white/5"
+                }`}
+              >
                 {ep.status}
               </div>
             </div>
@@ -191,8 +243,16 @@ export const DeveloperTerminalScene: React.FC = () => {
         {/* 客户端代码切换演练场 */}
         <div className="space-y-3 pt-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="text-xs font-mono text-zinc-400 font-bold flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E5192D]" />
+            <span
+              className={`text-xs font-mono font-bold flex items-center gap-2 ${
+                isEmerald ? "text-slate-600" : "text-zinc-400"
+              }`}
+            >
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  isEmerald ? "bg-[#059669]" : "bg-[#E5192D]"
+                }`}
+              />
               <span>多语言消费示例：</span>
             </span>
 

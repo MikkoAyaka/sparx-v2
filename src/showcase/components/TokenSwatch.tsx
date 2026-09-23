@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { clsx } from "clsx";
 import { Check } from "lucide-react";
+import { useSparxTheme } from "@/sparx-ui";
 
 export interface TokenSwatchProps {
   name: string;
@@ -17,6 +18,8 @@ export const TokenSwatch: React.FC<TokenSwatchProps> = ({
   type = "color",
   className,
 }) => {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -33,23 +36,45 @@ export const TokenSwatch: React.FC<TokenSwatchProps> = ({
     <div
       onClick={handleCopy}
       className={clsx(
-        "group relative rounded-2xl border border-white/10 bg-[#08090E] p-4 transition-all duration-200 hover:border-white/20 hover:scale-[1.02] cursor-pointer shadow-lg",
+        "group relative rounded-2xl border transition-all duration-200 hover:scale-[1.02] cursor-pointer shadow-md p-4",
+        isEmerald
+          ? "bg-white border-slate-200 hover:border-emerald-500/40"
+          : "bg-[#08090E] border-white/10 hover:border-white/20 shadow-lg",
         className
       )}
     >
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="space-y-0.5">
-          <div className="text-xs font-mono font-bold text-white group-hover:text-red-400 transition-colors">
+          <div
+            className={clsx(
+              "text-xs font-mono font-bold transition-colors",
+              isEmerald
+                ? "text-slate-900 group-hover:text-emerald-700"
+                : "text-white group-hover:text-red-400"
+            )}
+          >
             {name}
           </div>
           {description && (
-            <div className="text-[12px] text-zinc-300">{description}</div>
+            <div
+              className={clsx(
+                "text-[12px]",
+                isEmerald ? "text-slate-500" : "text-zinc-300"
+              )}
+            >
+              {description}
+            </div>
           )}
         </div>
 
-        <span className="text-[12px] font-mono text-zinc-500 shrink-0">
+        <span
+          className={clsx(
+            "text-[12px] font-mono shrink-0",
+            isEmerald ? "text-slate-400" : "text-zinc-500"
+          )}
+        >
           {copied ? (
-            <span className="text-emerald-400 flex items-center gap-1 font-bold">
+            <span className="text-emerald-600 flex items-center gap-1 font-bold">
               <Check className="w-3 h-3" /> 已复制
             </span>
           ) : (
@@ -61,31 +86,66 @@ export const TokenSwatch: React.FC<TokenSwatchProps> = ({
       {type === "color" && (
         <div className="flex items-center gap-3">
           <div
-            className="w-10 h-10 rounded-xl border border-white/15 shrink-0 shadow-md"
+            className={clsx(
+              "w-10 h-10 rounded-xl shrink-0 shadow-sm border",
+              isEmerald ? "border-slate-300" : "border-white/15"
+            )}
             style={{ backgroundColor: value }}
           />
-          <div className="font-mono text-xs text-zinc-300 select-all">{value}</div>
+          <div
+            className={clsx(
+              "font-mono text-xs select-all",
+              isEmerald ? "text-slate-700" : "text-zinc-300"
+            )}
+          >
+            {value}
+          </div>
         </div>
       )}
 
       {type === "shadow" && (
         <div className="space-y-2">
           <div
-            className="w-full h-8 rounded-lg bg-neutral-900 border border-white/10 flex items-center justify-center text-xs font-mono text-white"
+            className={clsx(
+              "w-full h-8 rounded-lg flex items-center justify-center text-xs font-mono border",
+              isEmerald
+                ? "bg-slate-50 border-slate-200 text-slate-800"
+                : "bg-neutral-900 border-white/10 text-white"
+            )}
             style={{ boxShadow: value }}
           >
             Luminescence Glow
           </div>
-          <div className="font-mono text-[12px] text-zinc-400 truncate select-all">{value}</div>
+          <div
+            className={clsx(
+              "font-mono text-[12px] truncate select-all",
+              isEmerald ? "text-slate-500" : "text-zinc-400"
+            )}
+          >
+            {value}
+          </div>
         </div>
       )}
 
       {type === "font" && (
         <div className="space-y-1">
-          <div className="text-sm text-zinc-200 truncate" style={{ fontFamily: value }}>
+          <div
+            className={clsx(
+              "text-sm truncate",
+              isEmerald ? "text-slate-800" : "text-zinc-200"
+            )}
+            style={{ fontFamily: value }}
+          >
             The quick brown fox jumps over the lazy dog.
           </div>
-          <div className="font-mono text-[12px] text-zinc-400 select-all">{value}</div>
+          <div
+            className={clsx(
+              "font-mono text-[12px] select-all",
+              isEmerald ? "text-slate-500" : "text-zinc-400"
+            )}
+          >
+            {value}
+          </div>
         </div>
       )}
     </div>

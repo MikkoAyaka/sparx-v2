@@ -1,5 +1,6 @@
 import React from "react";
 import { clsx } from "clsx";
+import { useSparxTheme } from "../tokens/colors";
 
 export interface SegmentedRailItem {
   id: string;
@@ -21,19 +22,36 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({
   onSelect,
   className,
 }) => {
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
   const total = items.length;
 
   return (
     <div className={clsx("w-full select-none", className)}>
       {/* 移动端专属导览标尺：紧凑步进、左右翻页按钮与全宽分段指示条 */}
       <div className="sm:hidden space-y-2">
-        <div className="flex items-center justify-between text-xs font-mono text-zinc-400">
+        <div
+          className={clsx(
+            "flex items-center justify-between text-xs font-mono",
+            isEmerald ? "text-slate-500" : "text-zinc-400"
+          )}
+        >
           <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E5192D]" />
-            <span className="text-zinc-200 font-bold">
+            <span
+              className={clsx(
+                "w-1.5 h-1.5 rounded-full",
+                isEmerald ? "bg-[#059669]" : "bg-[#E5192D]"
+              )}
+            />
+            <span
+              className={clsx(
+                "font-bold",
+                isEmerald ? "text-slate-900" : "text-zinc-200"
+              )}
+            >
               {String(activeIndex + 1).padStart(2, "0")}
             </span>
-            <span className="text-zinc-600">/</span>
+            <span className={isEmerald ? "text-slate-300" : "text-zinc-600"}>/</span>
             <span>{String(total).padStart(2, "0")}</span>
           </div>
 
@@ -41,7 +59,12 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({
             <button
               type="button"
               onClick={() => onSelect((activeIndex - 1 + total) % total)}
-              className="px-2 py-0.5 rounded bg-white/10 text-zinc-300 hover:bg-white/20 active:scale-95 transition-all text-xs font-mono cursor-pointer"
+              className={clsx(
+                "px-2 py-0.5 rounded active:scale-95 transition-all text-xs font-mono cursor-pointer",
+                isEmerald
+                  ? "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  : "bg-white/10 text-zinc-300 hover:bg-white/20"
+              )}
               aria-label="上一项"
             >
               ←
@@ -49,7 +72,12 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({
             <button
               type="button"
               onClick={() => onSelect((activeIndex + 1) % total)}
-              className="px-2 py-0.5 rounded bg-white/10 text-zinc-300 hover:bg-white/20 active:scale-95 transition-all text-xs font-mono cursor-pointer"
+              className={clsx(
+                "px-2 py-0.5 rounded active:scale-95 transition-all text-xs font-mono cursor-pointer",
+                isEmerald
+                  ? "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  : "bg-white/10 text-zinc-300 hover:bg-white/20"
+              )}
               aria-label="下一项"
             >
               →
@@ -70,7 +98,11 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({
                 className={clsx(
                   "h-1.5 rounded-full transition-all duration-300",
                   activeIndex === idx
-                    ? "bg-[#E5192D] shadow-[0_0_8px_#E5192D]"
+                    ? isEmerald
+                      ? "bg-[#059669] shadow-[0_0_8px_#059669]"
+                      : "bg-[#E5192D] shadow-[0_0_8px_#E5192D]"
+                    : isEmerald
+                    ? "bg-slate-200 hover:bg-slate-300"
                     : "bg-white/20 hover:bg-white/40"
                 )}
               />
@@ -81,7 +113,12 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({
 
       {/* 桌面端导览名录：多列网格卡片 */}
       <div className="hidden sm:block">
-        <div className="flex items-center justify-between text-xs sm:text-sm text-zinc-400 mb-2.5 font-mono">
+        <div
+          className={clsx(
+            "flex items-center justify-between text-xs sm:text-sm mb-2.5 font-mono",
+            isEmerald ? "text-slate-500" : "text-zinc-400"
+          )}
+        >
           <span>列表导览 ({total})</span>
         </div>
 
@@ -96,7 +133,11 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({
                 className={clsx(
                   "h-1.5 rounded-full transition-all duration-300",
                   activeIndex === idx
-                    ? "bg-[#E5192D] shadow-[0_0_10px_#E5192D]"
+                    ? isEmerald
+                      ? "bg-[#059669] shadow-[0_0_10px_#059669]"
+                      : "bg-[#E5192D] shadow-[0_0_10px_#E5192D]"
+                    : isEmerald
+                    ? "bg-slate-200 group-hover:bg-slate-300"
                     : "bg-white/15 group-hover:bg-white/40"
                 )}
               />
@@ -104,13 +145,22 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({
                 className={clsx(
                   "text-xs sm:text-sm flex justify-between items-center gap-1.5 transition-colors",
                   activeIndex === idx
-                    ? "font-bold text-white"
+                    ? isEmerald
+                      ? "font-bold text-slate-900"
+                      : "font-bold text-white"
+                    : isEmerald
+                    ? "text-slate-500 group-hover:text-slate-800"
                     : "text-zinc-400 group-hover:text-zinc-200"
                 )}
               >
                 <span className="truncate">{item.title}</span>
                 {item.meta && (
-                  <span className="shrink-0 font-mono text-zinc-500 text-xs">
+                  <span
+                    className={clsx(
+                      "shrink-0 font-mono text-xs",
+                      isEmerald ? "text-slate-400" : "text-zinc-500"
+                    )}
+                  >
                     {item.meta}
                   </span>
                 )}
