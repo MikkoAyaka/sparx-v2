@@ -148,7 +148,7 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
       <AmbientDissolveMask />
 
       {/* 顶层元信息栏 */}
-      <div className="relative z-10 shrink-0 flex items-center justify-between text-xs font-mono">
+      <div className="relative z-10 shrink-0 flex items-center justify-between text-xs sm:text-sm font-mono">
         <div className="flex items-center gap-2.5">
           <span className="w-2 h-2 rounded-full bg-[#E5192D] shadow-[0_0_8px_#E5192D]" />
           <span className="text-white font-bold tracking-wider uppercase">
@@ -173,7 +173,7 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
         <div className="lg:col-span-6 pl-0 sm:pl-1 lg:pl-8 pr-0 sm:pr-8 py-1 sm:py-4 space-y-3 sm:space-y-5">
           <div className="space-y-1.5 sm:space-y-2.5">
             {activeEntry.date && (
-              <div className="text-xs font-mono text-[#E5192D] tracking-widest font-bold">
+              <div className="text-xs sm:text-sm font-mono text-[#E5192D] tracking-widest font-bold">
                 {activeEntry.date} 出版
               </div>
             )}
@@ -188,7 +188,7 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
             </div>
 
             {activeEntry.summary && (
-              <p className="text-xs sm:text-sm lg:text-base font-light text-zinc-300 leading-relaxed max-w-lg line-clamp-2 sm:line-clamp-3">
+              <p className="text-sm sm:text-base font-light text-zinc-300 leading-relaxed max-w-lg line-clamp-2 sm:line-clamp-3">
                 {activeEntry.summary}
               </p>
             )}

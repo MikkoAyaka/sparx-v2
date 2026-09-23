@@ -248,15 +248,21 @@ export const AgentPromptPage: React.FC = () => {
                 </tr>
                 <tr>
                   <td className="p-3 font-bold text-white">Body</td>
-                  <td className="p-3 text-[#E5192D] font-bold">15px (0.9375rem)</td>
+                  <td className="p-3 text-[#E5192D] font-bold">1rem (15~16px)</td>
                   <td className="p-3 font-bold text-[#E5192D]">1.85</td>
-                  <td className="p-3 text-zinc-400">正文出版级舒缓排印（Channel 独创）</td>
+                  <td className="p-3 text-zinc-400">正文出版级舒缓排印（清晰易读，兼顾标准屏与 4K）</td>
+                </tr>
+                <tr>
+                  <td className="p-3 font-bold text-white">Caption</td>
+                  <td className="p-3 text-white font-mono">0.875rem (13.5~14px)</td>
+                  <td className="p-3">1.6</td>
+                  <td className="p-3 text-zinc-400">次级说明、标签文本、按钮基准</td>
                 </tr>
                 <tr className="bg-[#E5192D]/5">
                   <td className="p-3 font-bold text-[#FF2D55]">Meta Mono (Floor)</td>
-                  <td className="p-3 font-bold text-[#FF2D55]">12px (0.75rem)</td>
+                  <td className="p-3 font-bold text-[#FF2D55]">0.75rem (12px)</td>
                   <td className="p-3">1.5</td>
-                  <td className="p-3 text-red-300">全站不可逾越的最小字号底线</td>
+                  <td className="p-3 text-red-300">全站不可逾越的最小字号底线（微型时间戳、状态点）</td>
                 </tr>
               </tbody>
             </table>

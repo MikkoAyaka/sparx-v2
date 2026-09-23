@@ -84,7 +84,7 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
               <span>2. 严格排印红线（Typographic Rigor）</span>
             </div>
             <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
-              两条绝对不可逾越的护栏：<strong className="text-white font-semibold">渲染字号必须大于等于 12px</strong>（严禁任何小于 12px 的碎字）；<strong className="text-white font-semibold">全站严格杜绝衬线体（Serif）</strong>。正文严格为 15px leading-[1.85] text-neutral-300。
+              两条绝对不可逾越的护栏：<strong className="text-white font-semibold">渲染字号必须大于等于 12px</strong>（严禁任何小于 12px 的碎字，微型时间戳/状态点专享 12px，常规辅助提升至 13~14px）；<strong className="text-white font-semibold">全站严格杜绝衬线体（Serif）</strong>。正文采用出版级 15~16px (1rem) leading-[1.85] text-neutral-300。
             </p>
           </div>
 

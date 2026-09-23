@@ -40,22 +40,22 @@ export const typographyScale = {
     lineHeight: "1.4",
   },
   bodyLarge: {
-    size: "1rem", // 16px
+    size: "1.125rem", // 17px ~ 18px
     weight: "400",
     lineHeight: "1.8",
   },
   body: {
-    size: "0.9375rem", // 15px (Channel canonical editorial body size)
+    size: "1rem", // 15px ~ 16px (Comfortable editorial body size)
     weight: "400",
     lineHeight: "1.85",
   },
   caption: {
-    size: "0.8125rem", // 13px
+    size: "0.875rem", // 13.5px ~ 14px (Secondary explanations, buttons, tags)
     weight: "400",
     lineHeight: "1.6",
   },
   metaMono: {
-    size: "0.75rem", // 12px (Minimum allowed floor)
+    size: "0.75rem", // 12px (Strict floor: reserved for micro timestamps, codes, status tags)
     weight: "600",
     letterSpacing: "0.05em",
     lineHeight: "1.5",

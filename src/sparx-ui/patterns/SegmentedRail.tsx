@@ -81,7 +81,7 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({
 
       {/* 桌面端导览名录：多列网格卡片 */}
       <div className="hidden sm:block">
-        <div className="flex items-center justify-between text-xs text-zinc-400 mb-2 font-mono">
+        <div className="flex items-center justify-between text-xs sm:text-sm text-zinc-400 mb-2.5 font-mono">
           <span>列表导览 ({total})</span>
         </div>
 
@@ -102,7 +102,7 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({
               />
               <div
                 className={clsx(
-                  "text-xs flex justify-between items-center gap-1.5 transition-colors",
+                  "text-xs sm:text-sm flex justify-between items-center gap-1.5 transition-colors",
                   activeIndex === idx
                     ? "font-bold text-white"
                     : "text-zinc-400 group-hover:text-zinc-200"

@@ -74,6 +74,13 @@
     background-color: #020204;
     color: #ffffff;
     font-family: var(--font-sans);
+    font-size: 15px;
+  }
+
+  @media (min-width: 1536px) {
+    html {
+      font-size: 16px;
+    }
   }
 
   body {
@@ -83,7 +90,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100dvh;
-    font-size: 14px;
+    font-size: 1rem;
+    line-height: 1.6;
   }
 
   /* 严格遵循产品准则：最小渲染字号 12px，全站杜绝 Serif 衬线体 */

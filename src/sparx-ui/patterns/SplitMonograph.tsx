@@ -79,7 +79,7 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
               </>
             )}
             {typeof readingHeat === "number" && (
-              <span className="ml-auto inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#E5192D]/15 border border-[#E5192D]/30 text-red-200 text-xs font-mono font-bold">
+              <span className="ml-auto inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#E5192D]/15 border border-[#E5192D]/30 text-red-200 text-xs sm:text-sm font-mono font-bold">
                 <Flame className="w-3.5 h-3.5 text-[#E5192D]" />
                 <span>{readingHeat} 热度</span>
               </span>
@@ -91,7 +91,7 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
           </h1>
 
           {summary && (
-            <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-light line-clamp-4">
+            <p className="text-sm sm:text-base text-zinc-300 leading-relaxed font-light line-clamp-4">
               {summary}
             </p>
           )}

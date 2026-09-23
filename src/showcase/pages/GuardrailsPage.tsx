@@ -25,7 +25,7 @@ const GUARDRAIL_ITEMS: GuardrailItem[] = [
     category: "排印红线",
     title: "强制字号 ≥ 12px 与全站杜绝衬线体",
     problem: "界面存在小于 12px 的微小碎字导致阅读费眼，衬线体破坏前卫工业质感。",
-    solution: "确立全站不可逾越的排印红线：最小渲染字号 ≥ 12px，全站严禁 Serif 衬线体，正文使用 Space Grotesk + MiSans，代码与元数据使用 IBM Plex Mono。",
+    solution: "确立全站不可逾越的排印红线：最小渲染字号严格 ≥ 12px（底线仅留给微型时间戳/状态点，常规辅助提升至 13~14px，正文提升至 15~16px 舒适阅读阶），全站严禁 Serif 衬线体，正文使用 Space Grotesk + MiSans，代码与元数据使用 IBM Plex Mono。",
     codeRef: "src/sparx-ui/tokens/typography.ts",
   },
   {
