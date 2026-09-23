@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { clsx } from "clsx";
-import { ArrowLeft, Clock, BookOpen } from "lucide-react";
+import { ArrowLeft, Clock, BookOpen, Flame } from "lucide-react";
 import { StageMediaSpine, type StageMediaCover } from "../atmosphere/StageMediaSpine";
 import { ReadingGauge } from "../primitives/ReadingGauge";
 import { Tag } from "../primitives/Tag";
@@ -11,12 +11,15 @@ export interface SplitMonographProps {
   date?: string;
   category?: string;
   readingMinutes?: number;
+  readingHeat?: number;
   tags?: string[];
   cover?: StageMediaCover;
   onBack?: () => void;
   backText?: string;
   children: React.ReactNode;
   spineFooter?: React.ReactNode;
+  onScroll?: React.UIEventHandler<HTMLDivElement>;
+  canvasRef?: React.Ref<HTMLDivElement>;
   className?: string;
 }
 
@@ -26,15 +29,19 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
   date,
   category = "独立出版",
   readingMinutes = 5,
+  readingHeat,
   tags = [],
   cover,
   onBack,
   backText = "返回舞台",
   children,
   spineFooter,
+  onScroll,
+  canvasRef,
   className,
 }) => {
-  const readingCanvasRef = useRef<HTMLDivElement>(null);
+  const internalRef = useRef<HTMLDivElement>(null);
+  const activeRef = canvasRef || internalRef;
 
   return (
     <div
@@ -62,7 +69,7 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
             </button>
           )}
 
-          <div className="flex items-center gap-2 text-xs font-mono">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
             <span className="w-2 h-2 rounded-full bg-[#E5192D] shadow-[0_0_8px_#E5192D]" />
             <span className="text-white font-bold tracking-wider uppercase">{category}</span>
             {date && (
@@ -70,6 +77,12 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
                 <span className="text-zinc-600">·</span>
                 <span className="text-zinc-400">{date}</span>
               </>
+            )}
+            {typeof readingHeat === "number" && (
+              <span className="ml-auto inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#E5192D]/15 border border-[#E5192D]/30 text-red-200 text-xs font-mono font-bold">
+                <Flame className="w-3.5 h-3.5 text-[#E5192D]" />
+                <span>{readingHeat} 热度</span>
+              </span>
             )}
           </div>
 
@@ -101,7 +114,8 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
 
       {/* 右侧 65% 无界排版画布 (Scrollable Reading Canvas - 唯一正文滚动区域) */}
       <main
-        ref={readingCanvasRef}
+        ref={activeRef}
+        onScroll={onScroll}
         className="lg:col-span-8 xl:col-span-8 overflow-y-auto subtle-scroll bg-[#050505] p-6 sm:p-10 lg:p-14 xl:p-16 selection:bg-[#E5192D] selection:text-white"
       >
         <div className="max-w-3xl mx-auto space-y-6">

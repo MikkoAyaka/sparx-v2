@@ -83,7 +83,6 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({
       <div className="hidden sm:block">
         <div className="flex items-center justify-between text-xs text-zinc-400 mb-2 font-mono">
           <span>列表导览 ({total})</span>
-          <span className="text-zinc-500">滚轮或键盘左右键切换</span>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 cursor-pointer">

@@ -6,6 +6,7 @@ import { ReadingGauge } from "../primitives/ReadingGauge";
 import { Button } from "../primitives/Button";
 import { Tag } from "../primitives/Tag";
 import { SegmentedRail, type SegmentedRailItem } from "./SegmentedRail";
+import { scheduleAdjacentPreload } from "./adjacentPreload";
 
 export interface StageEntry {
   id: string;
@@ -105,6 +106,18 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
     window.addEventListener("wheel", handleWheel, { passive: true });
     return () => window.removeEventListener("wheel", handleWheel);
   }, [activeIndex, enableWheel, entries.length, onChangeIndex]);
+
+  // 附近卡片静默预加载：在空闲时段预抓取相邻卡片大图，消除切页卡顿 (Issue #3)
+  useEffect(() => {
+    if (!entries.length) return;
+    const cancel = scheduleAdjacentPreload({
+      currentIndex: activeIndex,
+      total: entries.length,
+      radius: 1,
+      getUrl: (idx) => entries[idx]?.cover?.imageUrl,
+    });
+    return cancel;
+  }, [activeIndex, entries]);
 
   if (!activeEntry) return null;
 

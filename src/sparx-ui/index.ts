@@ -32,6 +32,7 @@ export * from "./patterns/StageHeroCard";
 export * from "./patterns/SplitMonograph";
 export * from "./patterns/FeedbackDock";
 export * from "./patterns/SegmentedRail";
+export * from "./patterns/adjacentPreload";
 
 // Agent Prompt
 export * from "./prompt/agentPrompt";

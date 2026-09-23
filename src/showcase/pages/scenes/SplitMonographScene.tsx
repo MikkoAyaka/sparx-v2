@@ -1,5 +1,11 @@
-import React, { useState } from "react";
-import { SplitMonograph, FeedbackDock, CodeBlock, type FeedbackOption } from "@/sparx-ui";
+import React, { useState, useRef } from "react";
+import {
+  SplitMonograph,
+  FeedbackDock,
+  CodeBlock,
+  type FeedbackOption,
+  type StageMediaCover,
+} from "@/sparx-ui";
 
 const MOCK_FEEDBACK_OPTIONS: FeedbackOption[] = [
   { id: "insightful", label: "透彻深邃", emoji: "⚡", count: 42 },
@@ -8,10 +14,47 @@ const MOCK_FEEDBACK_OPTIONS: FeedbackOption[] = [
   { id: "aesthetic", label: "审美享受", emoji: "❖", count: 64 },
 ];
 
+const SECTION_COVERS: Record<string, StageMediaCover> = {
+  header: {
+    sourceUrl: "cover-header",
+    imageUrl: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=85",
+    title: "高可用出版架构",
+  },
+  section1: {
+    sourceUrl: "cover-section1",
+    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=85",
+    title: "100dvh 暗室与视口锁定",
+  },
+  section2: {
+    sourceUrl: "cover-section2",
+    imageUrl: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=85",
+    title: "双轨解耦与环境光脊柱",
+  },
+};
+
 export const SplitMonographScene: React.FC<{ onBackToStage?: () => void }> = ({
   onBackToStage,
 }) => {
   const [feedbackOptions, setFeedbackOptions] = useState(MOCK_FEEDBACK_OPTIONS);
+  const [activeCover, setActiveCover] = useState<StageMediaCover>(SECTION_COVERS.header);
+
+  // 监听右侧阅读画布的滚动流，根据用户当前所阅读的最下方的图片/视频媒体流畅切换左侧背景 (Item 10)
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const scrollTop = e.currentTarget.scrollTop;
+    if (scrollTop < 80) {
+      if (activeCover.sourceUrl !== SECTION_COVERS.header.sourceUrl) {
+        setActiveCover(SECTION_COVERS.header);
+      }
+    } else if (scrollTop >= 80 && scrollTop < 350) {
+      if (activeCover.sourceUrl !== SECTION_COVERS.section1.sourceUrl) {
+        setActiveCover(SECTION_COVERS.section1);
+      }
+    } else {
+      if (activeCover.sourceUrl !== SECTION_COVERS.section2.sourceUrl) {
+        setActiveCover(SECTION_COVERS.section2);
+      }
+    }
+  };
 
   return (
     <div className="w-full h-full">
@@ -21,14 +64,19 @@ export const SplitMonographScene: React.FC<{ onBackToStage?: () => void }> = ({
         date="2026-09-18"
         category="架构哨所"
         readingMinutes={7}
+        readingHeat={98}
         tags={["架构哲学", "分布式系统", "独立出版", "边缘计算"]}
-        cover={{
-          sourceUrl: "cover-1",
-          imageUrl: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=85",
-          title: "高可用出版架构",
-        }}
+        cover={activeCover}
         onBack={onBackToStage}
         backText="返回出版舞台"
+        onScroll={handleScroll}
+        spineFooter={
+          <div className="text-[12px] font-mono text-zinc-500 flex items-center justify-between">
+            <span>视线联动：随着右侧正文滚动自动换景</span>
+            <span className="text-zinc-600">·</span>
+            <span className="text-[#E5192D]">700ms 丝滑融变</span>
+          </div>
+        }
       >
         {/* 正文排版内容：严格遵循 Channel Editorial 规约 */}
         <section className="space-y-6">

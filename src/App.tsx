@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ShowcaseShell, type ShowcaseNavId } from "./showcase/layout/ShowcaseShell";
 import { OverviewPage } from "./showcase/pages/OverviewPage";
 import { AgentPromptPage } from "./showcase/pages/AgentPromptPage";
+import { GuardrailsPage } from "./showcase/pages/GuardrailsPage";
 import { PrimitivesPage } from "./showcase/pages/PrimitivesPage";
 import { AtmospherePage } from "./showcase/pages/AtmospherePage";
 import { PatternsPage } from "./showcase/pages/PatternsPage";
@@ -19,6 +20,8 @@ export function App() {
       )}
 
       {activeNav === "prompt" && <AgentPromptPage />}
+
+      {activeNav === "guardrails" && <GuardrailsPage />}
 
       {activeNav === "primitives" && <PrimitivesPage />}
 
