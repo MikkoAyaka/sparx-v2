@@ -138,7 +138,7 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
       className={clsx(
         "relative rounded-2xl sm:rounded-3xl overflow-hidden h-full max-h-[820px] 2xl:max-h-[960px] flex flex-col justify-between p-4 sm:p-8 lg:p-10 xl:p-12 transition-colors duration-200 border",
         isEmerald
-          ? "bg-white border-slate-200 text-slate-900 shadow-xl"
+          ? "bg-white border-slate-200 text-slate-900 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
           : "bg-[#030406] border-white/10 text-white shadow-2xl",
         className
       )}
@@ -161,7 +161,7 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
             className={clsx(
               "w-2 h-2 rounded-full",
               isEmerald
-                ? "bg-[#059669] shadow-[0_0_8px_#059669]"
+                ? "bg-[#059669]"
                 : "bg-[#E5192D] shadow-[0_0_8px_#E5192D]"
             )}
           />

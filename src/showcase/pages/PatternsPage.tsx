@@ -16,14 +16,14 @@ export const PatternsPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
   const [railIndex, setRailIndex] = useState(0);
 
   const mockRailItems = [
-    { id: "1", title: "高可用出版架构", meta: "09-18" },
-    { id: "2", title: "智能体环境感知", meta: "09-12" },
-    { id: "3", title: "暗房虚空美学", meta: "09-08" },
+    { id: "1", title: "边缘计算发布架构", meta: "09-18" },
+    { id: "2", title: "推理模型交互设计", meta: "09-12" },
+    { id: "3", title: "视口锁定与消融美学", meta: "09-08" },
     { id: "4", title: "微反馈协议落地", meta: "08-30" },
   ];
 
   return (
-    <div className="space-y-12 max-w-5xl mx-auto pb-16">
+    <div className="w-full min-w-0 max-w-5xl mx-auto space-y-12 pb-16">
       {/* 头部说明 */}
       <section className="space-y-3">
         <div
@@ -54,7 +54,7 @@ export const PatternsPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
       <section
         className={`p-6 rounded-2xl border flex flex-wrap items-center justify-between gap-4 transition-all duration-200 ${
           isEmerald
-            ? "border-emerald-200 bg-gradient-to-r from-emerald-50/80 via-white to-slate-50 text-slate-900 shadow-md"
+            ? "border-emerald-200 bg-gradient-to-r from-emerald-50/80 via-white to-slate-50 text-slate-900 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
             : "border-[#E5192D]/30 bg-gradient-to-r from-[#E5192D]/10 via-[#08090E] to-[#030406] text-white"
         }`}
       >
@@ -106,10 +106,10 @@ export const PatternsPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
 
 <FeedbackDock
   options={[
-    { id: "insightful", label: "透彻深邃", emoji: "⚡", count: 42 },
-    { id: "inspiring", label: "深有启发", emoji: "✦", count: 28 },
-    { id: "arguable", label: "引发论证", emoji: "◈", count: 15 },
-    { id: "aesthetic", label: "审美享受", emoji: "❖", count: 64 },
+    { id: "insightful", label: "很有启发", emoji: "⚡", count: 42 },
+    { id: "inspiring", label: "引发思考", emoji: "✦", count: 28 },
+    { id: "arguable", label: "值得商榷", emoji: "◈", count: 15 },
+    { id: "aesthetic", label: "设计精妙", emoji: "❖", count: 64 },
   ]}
   onSelectReaction={(id) => console.log("Reacted:", id)}
 />`}
@@ -117,10 +117,10 @@ export const PatternsPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
         <div className="w-full max-w-xl">
           <FeedbackDock
             options={[
-              { id: "insightful", label: "透彻深邃", emoji: "⚡", count: 42 },
-              { id: "inspiring", label: "深有启发", emoji: "✦", count: 28 },
-              { id: "arguable", label: "引发论证", emoji: "◈", count: 15 },
-              { id: "aesthetic", label: "审美享受", emoji: "❖", count: 64 },
+              { id: "insightful", label: "很有启发", emoji: "⚡", count: 42 },
+              { id: "inspiring", label: "引发思考", emoji: "✦", count: 28 },
+              { id: "arguable", label: "值得商榷", emoji: "◈", count: 15 },
+              { id: "aesthetic", label: "设计精妙", emoji: "❖", count: 64 },
             ]}
           />
         </div>
@@ -134,9 +134,9 @@ export const PatternsPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
 
 <SegmentedRail
   items={[
-    { id: "1", title: "高可用出版架构", meta: "09-18" },
-    { id: "2", title: "智能体环境感知", meta: "09-12" },
-    { id: "3", title: "暗房虚空美学", meta: "09-08" },
+    { id: "1", title: "边缘计算发布架构", meta: "09-18" },
+    { id: "2", title: "推理模型交互设计", meta: "09-12" },
+    { id: "3", title: "视口锁定与消融美学", meta: "09-08" },
     { id: "4", title: "微反馈协议落地", meta: "08-30" },
   ]}
   activeIndex={${railIndex}}

@@ -99,7 +99,7 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({
                   "h-1.5 rounded-full transition-all duration-300",
                   activeIndex === idx
                     ? isEmerald
-                      ? "bg-[#059669] shadow-[0_0_8px_#059669]"
+                      ? "bg-[#059669]"
                       : "bg-[#E5192D] shadow-[0_0_8px_#E5192D]"
                     : isEmerald
                     ? "bg-slate-200 hover:bg-slate-300"
@@ -134,7 +134,7 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({
                   "h-1.5 rounded-full transition-all duration-300",
                   activeIndex === idx
                     ? isEmerald
-                      ? "bg-[#059669] shadow-[0_0_10px_#059669]"
+                      ? "bg-[#059669]"
                       : "bg-[#E5192D] shadow-[0_0_10px_#E5192D]"
                     : isEmerald
                     ? "bg-slate-200 group-hover:bg-slate-300"

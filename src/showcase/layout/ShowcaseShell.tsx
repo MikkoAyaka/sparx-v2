@@ -11,12 +11,14 @@ import {
   Terminal,
   ShieldCheck,
   ExternalLink,
+  FileText,
 } from "lucide-react";
 
 export type ShowcaseNavId =
   | "overview"
   | "prompt"
   | "guardrails"
+  | "copywriting"
   | "primitives"
   | "atmosphere"
   | "patterns"
@@ -47,6 +49,7 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
     { id: "overview", label: "概览", icon: <Compass className="w-3.5 h-3.5" /> },
     { id: "prompt", label: "Agent 提示词", icon: <Sparkles className="w-3.5 h-3.5" /> },
     { id: "guardrails", label: "规约指南", icon: <ShieldCheck className="w-3.5 h-3.5" /> },
+    { id: "copywriting", label: "文案规范", icon: <FileText className="w-3.5 h-3.5" /> },
     { id: "primitives", label: "基础原语", icon: <Layers className="w-3.5 h-3.5" /> },
     { id: "atmosphere", label: "环境氛围", icon: <CloudRain className="w-3.5 h-3.5" /> },
     { id: "patterns", label: "复合模式", icon: <LayoutGrid className="w-3.5 h-3.5" /> },
@@ -61,14 +64,14 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
   // 风格切换器胶囊组件
   const StyleSwitcher = (
     <div
-      className={`flex items-center p-0.5 sm:p-1 rounded-xl border text-xs font-mono select-none ${
+      className={`flex items-center p-1 sm:p-1.5 rounded-xl border text-sm font-mono select-none ${
         isEmerald ? "bg-slate-100 border-slate-200" : "bg-[#08090E] border-white/10"
       }`}
     >
       <button
         type="button"
         onClick={() => setThemeId("void-flare")}
-        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all cursor-pointer font-medium ${
+        className={`flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all cursor-pointer font-medium text-sm ${
           themeId === "void-flare"
             ? "bg-[#E5192D] text-white font-bold shadow-[0_0_10px_rgba(229,25,45,0.4)]"
             : isEmerald
@@ -83,9 +86,9 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
       <button
         type="button"
         onClick={() => setThemeId("glacial-emerald")}
-        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all cursor-pointer font-medium ${
+        className={`flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all cursor-pointer font-medium text-sm ${
           themeId === "glacial-emerald"
-            ? "bg-[#059669] text-white font-bold shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+            ? "bg-[#059669] text-white font-bold"
             : isEmerald
             ? "text-slate-500 hover:text-slate-900"
             : "text-zinc-400 hover:text-white"
@@ -155,7 +158,7 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
 
             {/* 场景切页 */}
             <div
-              className={`flex items-center p-1 rounded-xl border text-xs font-mono ${
+              className={`flex items-center p-1 sm:p-1.5 rounded-xl border text-sm font-mono ${
                 isEmerald
                   ? "bg-slate-100 border-slate-200"
                   : "bg-[#08090E] border-white/10"
@@ -166,10 +169,10 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
                   key={item.id}
                   type="button"
                   onClick={() => onNavChange(item.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                  className={`flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all cursor-pointer text-sm font-medium ${
                     activeNav === item.id
                       ? isEmerald
-                        ? "bg-[#059669] text-white font-bold shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+                        ? "bg-[#059669] text-white font-bold"
                         : "bg-[#E5192D] text-white font-bold shadow-[0_0_10px_rgba(229,25,45,0.4)]"
                       : isEmerald
                       ? "text-slate-600 hover:text-slate-900"
@@ -203,13 +206,14 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
     >
       {/* 顶部全局导航栏 */}
       <header
-        className={`sticky top-0 z-50 px-4 sm:px-8 py-3 border-b backdrop-blur-xl transition-colors duration-200 ${
+        className={`sticky top-0 z-50 border-b backdrop-blur-xl transition-colors duration-200 ${
           isEmerald
-            ? "bg-white/90 border-slate-200 text-slate-900"
-            : "bg-[#020204]/90 border-white/10 text-white"
+            ? "bg-white/95 border-slate-200 text-slate-900"
+            : "bg-[#020204]/95 border-white/10 text-white"
         }`}
       >
-        <div className="max-w-[96rem] 2xl:max-w-[110rem] mx-auto flex flex-wrap items-center justify-between gap-4">
+        {/* 第一层：品牌与全局系统控制 (Brand & Theme Switcher) */}
+        <div className="max-w-[96rem] 2xl:max-w-[110rem] mx-auto px-4 sm:px-8 py-2.5 flex items-center justify-between gap-4">
           {/* 左侧品牌 */}
           <div
             onClick={() => onNavChange("overview")}
@@ -218,8 +222,8 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
             <div
               className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-white text-sm transition-all ${
                 isEmerald
-                  ? "bg-[#059669] shadow-[0_0_16px_rgba(16,185,129,0.35)] group-hover:shadow-[0_0_24px_rgba(16,185,129,0.55)]"
-                  : "bg-[#E5192D] shadow-[0_0_16px_rgba(229,25,45,0.45)] group-hover:shadow-[0_0_24px_rgba(229,25,45,0.7)]"
+                  ? "bg-[#059669] shadow-[0_1px_2px_rgba(0,0,0,0.03)] group-hover:bg-emerald-700"
+                  : "bg-[#E5192D] shadow-[0_0_10px_rgba(229,25,45,0.35)] group-hover:shadow-[0_0_14px_rgba(229,25,45,0.5)]"
               }`}
             >
               ✦
@@ -233,14 +237,14 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
                 <span>SPARX UI</span>
                 <span className={isEmerald ? "text-slate-400" : "text-zinc-600"}>/</span>
                 <span
-                  className={`font-mono text-xs font-bold ${
+                  className={`font-mono text-sm font-bold ${
                     isEmerald ? "text-[#059669]" : "text-[#E5192D]"
                   }`}
                 >
                   V2
                 </span>
                 <span
-                  className={`text-[12px] px-2 py-0.5 rounded-full border font-mono ${
+                  className={`text-sm px-3 py-0.5 rounded-full border font-mono ${
                     isEmerald
                       ? "bg-emerald-50 border-emerald-200 text-emerald-700"
                       : "bg-red-500/10 border-red-500/20 text-red-300"
@@ -249,55 +253,37 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
                   {isEmerald ? "皓白极翠 · 企业稳态" : "虚空绯红 · 极客前卫"}
                 </span>
               </div>
-              <div
-                className={`text-[12px] ${
-                  isEmerald ? "text-slate-500" : "text-zinc-400"
-                }`}
-              >
-                通用设计体系与多风格实现框架
-              </div>
             </div>
           </div>
 
-          {/* 中间文档与原语主导航 */}
-          <div className="hidden lg:flex items-center gap-3">
-            <PillDock
-              items={primaryNavItems}
-              activeId={activeNav}
-              onChange={(id) => onNavChange(id as ShowcaseNavId)}
-              size="sm"
-            />
-          </div>
-
-          {/* 右侧：风格切换器 + 沉浸式场景切换入口 */}
-          <div className="flex items-center gap-3 shrink-0">
-            {/* 多风格切换器 */}
+          {/* 右侧：多风格切换器 + 沉浸式场景快捷入口 */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {StyleSwitcher}
 
             {/* 场景切页 */}
             <div
-              className={`hidden sm:flex items-center p-1 rounded-xl border text-xs font-mono ${
+              className={`hidden sm:flex items-center p-1 rounded-xl border text-sm font-mono ${
                 isEmerald
                   ? "bg-slate-100 border-slate-200 text-slate-600"
                   : "bg-[#08090E] border-white/10 text-zinc-400"
               }`}
             >
               <span
-                className={`px-2 font-bold ${
+                className={`px-2 text-xs font-bold ${
                   isEmerald ? "text-slate-400" : "text-zinc-500"
                 }`}
               >
-                沉浸式:
+                全屏体验:
               </span>
               {sceneNavItems.map((item) => (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => onNavChange(item.id)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer text-sm font-medium ${
                     isEmerald
-                      ? "text-slate-600 hover:text-slate-900"
-                      : "text-zinc-400 hover:text-white"
+                      ? "text-slate-600 hover:text-slate-900 hover:bg-white/80"
+                      : "text-zinc-400 hover:text-white hover:bg-white/5"
                   }`}
                 >
                   {item.icon}
@@ -308,66 +294,25 @@ export const ShowcaseShell: React.FC<ShowcaseShellProps> = ({
           </div>
         </div>
 
-        {/* 移动端两行切换导轨 */}
+        {/* 第二层：主文档板块专属导轨 (Documentation Primary Nav PillDock) */}
         <div
-          className={`lg:hidden mt-3 pt-2 border-t flex flex-col gap-2 ${
-            isEmerald ? "border-slate-200" : "border-white/5"
+          className={`border-t px-4 sm:px-8 py-2 transition-colors duration-200 ${
+            isEmerald ? "border-slate-100 bg-slate-50/70" : "border-white/5 bg-[#05060A]/80"
           }`}
         >
-          <div
-            className={`grid grid-cols-3 sm:grid-cols-6 gap-1 p-1 rounded-xl border text-xs font-mono text-center ${
-              isEmerald
-                ? "bg-slate-100 border-slate-200"
-                : "bg-[#08090E] border-white/10"
-            }`}
-          >
-            {primaryNavItems.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => onNavChange(item.id)}
-                className={`py-1.5 px-1 rounded-lg font-medium transition-all truncate text-[12px] cursor-pointer ${
-                  activeNav === item.id
-                    ? isEmerald
-                      ? "bg-[#059669] text-white font-bold"
-                      : "bg-[#E5192D] text-white font-bold"
-                    : isEmerald
-                    ? "text-slate-600 hover:text-slate-900"
-                    : "text-zinc-400 hover:text-white"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-
-          <div
-            className={`grid grid-cols-3 gap-1 p-1 rounded-xl border text-xs font-mono text-center sm:hidden ${
-              isEmerald
-                ? "bg-slate-100 border-slate-200"
-                : "bg-[#08090E] border-white/10"
-            }`}
-          >
-            {sceneNavItems.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => onNavChange(item.id)}
-                className={`py-1 px-1 rounded-lg font-medium transition-all truncate text-[12px] cursor-pointer ${
-                  isEmerald
-                    ? "text-slate-600 hover:text-slate-900"
-                    : "text-zinc-400 hover:text-white"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+          <div className="max-w-[96rem] 2xl:max-w-[110rem] mx-auto flex items-center justify-start overflow-x-auto subtle-scroll py-0.5">
+            <PillDock
+              items={primaryNavItems}
+              activeId={activeNav}
+              onChange={(id) => onNavChange(id as ShowcaseNavId)}
+              size="sm"
+            />
           </div>
         </div>
       </header>
 
-      {/* 主展示区 */}
-      <main className="flex-1 w-full p-4 sm:p-8 lg:p-10 flex flex-col">
+      {/* 主展示区：固定骨架与严格防撑大 */}
+      <main className="flex-1 w-full min-w-0 max-w-6xl 2xl:max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 flex flex-col">
         {children}
       </main>
 

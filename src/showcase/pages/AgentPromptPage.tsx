@@ -34,7 +34,7 @@ export const AgentPromptPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-12 max-w-5xl mx-auto pb-16">
+    <div className="w-full min-w-0 space-y-12 max-w-5xl mx-auto pb-16">
       {/* 头部说明 */}
       <section className="space-y-3">
         <div
@@ -93,7 +93,7 @@ export const AgentPromptPage: React.FC = () => {
               onClick={() => handleSelectStyle("glacial-emerald")}
               className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all cursor-pointer font-medium ${
                 themeId === "glacial-emerald"
-                  ? "bg-[#059669] text-white font-bold shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+                  ? "bg-[#059669] text-white font-bold"
                   : isEmerald
                   ? "text-slate-600 hover:text-slate-900"
                   : "text-zinc-400 hover:text-white"
@@ -108,8 +108,10 @@ export const AgentPromptPage: React.FC = () => {
 
       {/* 提示词卡片与复制器 */}
       <section
-        className={`rounded-2xl sm:rounded-3xl border overflow-hidden shadow-2xl transition-colors duration-200 ${
-          isEmerald ? "bg-white border-slate-200" : "bg-[#030406] border-white/10"
+        className={`rounded-2xl sm:rounded-3xl border overflow-hidden transition-colors duration-200 ${
+          isEmerald
+            ? "bg-white border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+            : "bg-[#030406] border-white/10 shadow-2xl"
         }`}
       >
         <div
@@ -156,7 +158,7 @@ export const AgentPromptPage: React.FC = () => {
                 className={`px-3 py-1 rounded-lg transition-all cursor-pointer font-medium ${
                   lang === "zh"
                     ? isEmerald
-                      ? "bg-[#059669] text-white font-bold shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+                      ? "bg-[#059669] text-white font-bold"
                       : "bg-[#E5192D] text-white font-bold shadow-[0_0_10px_rgba(229,25,45,0.4)]"
                     : isEmerald
                     ? "text-slate-600 hover:text-slate-900"
@@ -171,7 +173,7 @@ export const AgentPromptPage: React.FC = () => {
                 className={`px-3 py-1 rounded-lg transition-all cursor-pointer font-medium ${
                   lang === "en"
                     ? isEmerald
-                      ? "bg-[#059669] text-white font-bold shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+                      ? "bg-[#059669] text-white font-bold"
                       : "bg-[#E5192D] text-white font-bold shadow-[0_0_10px_rgba(229,25,45,0.4)]"
                     : isEmerald
                     ? "text-slate-600 hover:text-slate-900"
@@ -187,17 +189,17 @@ export const AgentPromptPage: React.FC = () => {
               size="sm"
               glow
               onClick={handleCopyPrompt}
-              className="gap-1.5"
+              className="gap-1.5 shrink-0 whitespace-nowrap"
             >
               {copied ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-white" />
-                  <span>已复制提示词</span>
+                  <span>已复制</span>
                 </>
               ) : (
                 <>
                   <Copy className="w-3.5 h-3.5" />
-                  <span>一键复制此风格提示词</span>
+                  <span>复制</span>
                 </>
               )}
             </Button>
@@ -282,7 +284,7 @@ export const AgentPromptPage: React.FC = () => {
               isEmerald ? "text-[#059669]" : "text-[#E5192D]"
             }`}
           >
-            {isEmerald ? "稳态极翠强调 (Sovereign Emerald & Semantics)" : "绯红激光强调 (Laser Flare & Semantics)"}
+            {isEmerald ? "稳态极翠强调与通用语义 (Emerald & Semantics)" : "绯红激光强调与通用语义 (Laser Flare & Semantics)"}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
             <TokenSwatch
@@ -291,29 +293,29 @@ export const AgentPromptPage: React.FC = () => {
               description={`核心交互主色 (${currentTheme.accent.core})`}
             />
             <TokenSwatch
-              name="theme.accent.neon"
-              value={currentTheme.accent.neon}
-              description={`高能高光强调 (${currentTheme.accent.neon})`}
+              name="theme.semantics.success"
+              value={currentTheme.semantics.success}
+              description={`成功/就绪状态 (${currentTheme.semantics.success})`}
             />
             <TokenSwatch
-              name="semantic.active"
-              value="#10B981"
-              description="在线/就绪状态 (Emerald 500)"
+              name="theme.semantics.info"
+              value={currentTheme.semantics.info}
+              description={`信息/提示状态 (${currentTheme.semantics.info})`}
             />
             <TokenSwatch
-              name="semantic.radar"
-              value="#06B6D4"
-              description="实时情报/雷达 (Cyan 500)"
+              name="theme.semantics.warning"
+              value={currentTheme.semantics.warning}
+              description={`警示/待核验状态 (${currentTheme.semantics.warning})`}
             />
             <TokenSwatch
-              name="semantic.caution"
-              value="#F59E0B"
-              description="警示/重试状态 (Amber 500)"
+              name="theme.semantics.error"
+              value={currentTheme.semantics.error}
+              description={`异常/阻断状态 (${currentTheme.semantics.error})`}
             />
             <TokenSwatch
-              name="semantic.arch"
-              value="#8B5CF6"
-              description="底层架构/深度 (Violet 500)"
+              name="theme.semantics.neutral"
+              value={currentTheme.semantics.neutral}
+              description={`次级/中性辅助 (${currentTheme.semantics.neutral})`}
             />
           </div>
         </div>

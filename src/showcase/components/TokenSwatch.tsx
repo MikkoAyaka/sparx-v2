@@ -36,10 +36,10 @@ export const TokenSwatch: React.FC<TokenSwatchProps> = ({
     <div
       onClick={handleCopy}
       className={clsx(
-        "group relative rounded-2xl border transition-all duration-200 hover:scale-[1.02] cursor-pointer shadow-md p-4",
+        "group relative rounded-2xl border transition-colors duration-150 cursor-pointer p-4",
         isEmerald
-          ? "bg-white border-slate-200 hover:border-emerald-500/40"
-          : "bg-[#08090E] border-white/10 hover:border-white/20 shadow-lg",
+          ? "bg-white border-slate-200 hover:opacity-85 hover:bg-slate-50/50 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+          : "bg-[#08090E] border-white/10 hover:border-white/20 shadow-md",
         className
       )}
     >
@@ -87,8 +87,8 @@ export const TokenSwatch: React.FC<TokenSwatchProps> = ({
         <div className="flex items-center gap-3">
           <div
             className={clsx(
-              "w-10 h-10 rounded-xl shrink-0 shadow-sm border",
-              isEmerald ? "border-slate-300" : "border-white/15"
+              "w-10 h-10 rounded-xl shrink-0 border",
+              isEmerald ? "border-slate-300" : "border-white/15 shadow-sm"
             )}
             style={{ backgroundColor: value }}
           />

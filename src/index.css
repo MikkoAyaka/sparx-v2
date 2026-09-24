@@ -4,6 +4,8 @@
   --font-cjk: "Noto Sans SC", "MiSans", "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
   --font-sans: "Space Grotesk", var(--font-cjk);
   --font-mono: "IBM Plex Mono", var(--font-cjk), ui-monospace, SFMono-Regular, monospace;
+  --text-xs: 0.875rem;
+  --text-xs--line-height: 1.25rem;
 }
 
 :root,
@@ -19,7 +21,13 @@
   --sparx-accent-neon: #FF2D55;
   --sparx-accent-dark: #A80D1D;
   --sparx-accent-subtle: rgba(229, 25, 45, 0.08);
-  --sparx-accent-border: rgba(229, 25, 45, 0.25);
+  --sparx-accent-border: rgba(229, 25, 45, 0.22);
+
+  --sparx-semantic-success: #10B981;
+  --sparx-semantic-info: #0D9488;
+  --sparx-semantic-warning: #E5A93C;
+  --sparx-semantic-error: #F43F5E;
+  --sparx-semantic-neutral: #71717A;
 
   --sparx-text-primary: #FFFFFF;
   --sparx-text-secondary: #D4D4D8;
@@ -29,11 +37,14 @@
   --sparx-border-subtle: rgba(255, 255, 255, 0.06);
   --sparx-border-std: rgba(255, 255, 255, 0.10);
   --sparx-border-elevated: rgba(255, 255, 255, 0.16);
-  --sparx-border-focus: rgba(229, 25, 45, 0.40);
+  --sparx-border-focus: rgba(229, 25, 45, 0.35);
 
-  --sparx-glow-flare: 0 0 20px rgba(229, 25, 45, 0.45);
-  --sparx-glow-flare-lg: 0 0 32px rgba(229, 25, 45, 0.65);
-  --sparx-glow-shadow-sm: 0 0 10px rgba(229, 25, 45, 0.40);
+  /* 克制收敛的暗房阴影与微光 */
+  --sparx-glow-flare: 0 0 12px rgba(229, 25, 45, 0.28);
+  --sparx-glow-flare-lg: 0 0 20px rgba(229, 25, 45, 0.40);
+  --sparx-glow-shadow-sm: 0 0 8px rgba(229, 25, 45, 0.22);
+  --sparx-shadow-card: 0 12px 24px -8px rgba(0, 0, 0, 0.65);
+  --sparx-shadow-floating: 0 20px 35px -10px rgba(0, 0, 0, 0.75);
 
   --sparx-mask-horizontal: linear-gradient(to right, rgba(3,4,6,0) 0%, rgba(3,4,6,0.08) 20%, rgba(3,4,6,0.6) 38%, rgba(3,4,6,0.95) 50%, #030406 58%);
   --sparx-mask-vertical: linear-gradient(to top, #030406 0%, rgba(3,4,6,0.85) 60%, transparent 100%);
@@ -55,22 +66,31 @@
   --sparx-accent-core: #059669;
   --sparx-accent-neon: #10B981;
   --sparx-accent-dark: #047857;
-  --sparx-accent-subtle: rgba(16, 185, 129, 0.08);
-  --sparx-accent-border: rgba(16, 185, 129, 0.30);
+  --sparx-accent-subtle: rgba(5, 150, 105, 0.07);
+  --sparx-accent-border: rgba(5, 150, 105, 0.22);
+
+  --sparx-semantic-success: #059669;
+  --sparx-semantic-info: #0D9488;
+  --sparx-semantic-warning: #D97706; /* 考究温润的琥珀蜜蜡黄 */
+  --sparx-semantic-error: #E11D48;
+  --sparx-semantic-neutral: #64748B;
 
   --sparx-text-primary: #0F172A;
   --sparx-text-secondary: #334155;
   --sparx-text-muted: #64748B;
   --sparx-text-dim: #94A3B8;
 
-  --sparx-border-subtle: rgba(0, 0, 0, 0.06);
-  --sparx-border-std: rgba(0, 0, 0, 0.10);
-  --sparx-border-elevated: rgba(0, 0, 0, 0.16);
-  --sparx-border-focus: rgba(16, 185, 129, 0.40);
+  --sparx-border-subtle: rgba(0, 0, 0, 0.05);
+  --sparx-border-std: rgba(0, 0, 0, 0.09);
+  --sparx-border-elevated: rgba(0, 0, 0, 0.14);
+  --sparx-border-focus: rgba(5, 150, 105, 0.35);
 
-  --sparx-glow-flare: 0 0 20px rgba(16, 185, 129, 0.35);
-  --sparx-glow-flare-lg: 0 0 32px rgba(16, 185, 129, 0.50);
-  --sparx-glow-shadow-sm: 0 0 10px rgba(16, 185, 129, 0.35);
+  /* 浅色企业稳态：肉眼第一眼几乎无法感知，但细看是有阴影的极致微弱效果 */
+  --sparx-glow-flare: 0 1px 3px rgba(5, 150, 105, 0.08);
+  --sparx-glow-flare-lg: 0 2px 6px rgba(5, 150, 105, 0.12);
+  --sparx-glow-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --sparx-shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --sparx-shadow-floating: 0 2px 6px -1px rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
 
   --sparx-mask-horizontal: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.6) 38%, rgba(255,255,255,0.95) 50%, #FFFFFF 58%);
   --sparx-mask-vertical: linear-gradient(to top, #FFFFFF 0%, rgba(255,255,255,0.85) 60%, transparent 100%);
@@ -89,11 +109,21 @@
   }
 
   .text-glow {
-    text-shadow: 0 0 15px var(--sparx-accent-border);
+    text-shadow: 0 0 12px var(--sparx-accent-border);
   }
 
   .glow-flare {
     box-shadow: var(--sparx-glow-flare);
+  }
+
+  /* 结构化 Outline 加粗层级系统（对齐 Modrinth 质感） */
+  .border-outline-active {
+    border-width: 2px;
+    border-color: var(--sparx-accent-core);
+  }
+
+  .border-outline-emphasis {
+    border-width: 2px;
   }
 
   .glow-flare-lg {
@@ -111,7 +141,7 @@
 
   @keyframes importing-pulse {
     0%, 100% { box-shadow: 0 0 0 0 var(--sparx-accent-border); }
-    50% { box-shadow: 0 0 0 6px rgba(0, 0, 0, 0); }
+    50% { box-shadow: 0 0 0 4px rgba(0, 0, 0, 0); }
   }
 
   .animate-importing-pulse {
@@ -121,7 +151,7 @@
   @keyframes spineMediaFadeIn {
     0% {
       opacity: 0;
-      transform: scale(1.03);
+      transform: scale(1.02);
     }
     100% {
       opacity: 1;
@@ -130,7 +160,7 @@
   }
 
   .animate-spine-fade-in {
-    animation: spineMediaFadeIn 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: spineMediaFadeIn 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 }
 
@@ -162,13 +192,22 @@
     transition: background-color 200ms ease, color 200ms ease;
   }
 
-  /* 严格遵循产品准则：最小渲染字号 12px，全站杜绝 Serif 衬线体，低分屏避免 300 细字断墨 */
+  /* 严格遵循产品准则：最小渲染字号 14px，全站杜绝 Serif 衬线体，低分屏避免 300 细字断墨 */
   * {
     font-family: inherit;
   }
 
-  /* 保护小字号在非 4K / 96 DPI 屏幕下的实线笔画完整性 */
-  .text-xs, .text-sm, [class*="text-[12px]"], [class*="text-[13px]"], [class*="text-[14px]"] {
+  /* 全局强制 14px 最小字号底线，保障在 1080p / 2k 屏幕下的极高辨识度 */
+  .text-xs {
+    font-size: 0.875rem !important; /* 14px 物理底线 */
+    line-height: 1.25rem !important;
+  }
+
+  [class*="text-[12px]"], [class*="text-[13px]"] {
+    font-size: 14px !important;
+  }
+
+  .text-xs, .text-sm, [class*="text-[14px]"] {
     font-weight: 400;
   }
 

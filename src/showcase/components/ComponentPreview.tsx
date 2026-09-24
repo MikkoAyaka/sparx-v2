@@ -38,8 +38,8 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
   return (
     <div
       className={clsx(
-        "rounded-2xl sm:rounded-3xl border overflow-hidden shadow-xl transition-all duration-200",
-        isEmerald ? "bg-white border-slate-200" : "bg-[#030406] border-white/10",
+        "w-full min-w-0 max-w-full rounded-2xl sm:rounded-3xl border overflow-hidden transition-colors duration-150",
+        isEmerald ? "bg-white border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]" : "bg-[#030406] border-white/10 shadow-lg",
         className
       )}
     >
@@ -92,7 +92,7 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
                 "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer font-medium",
                 activeTab === "preview"
                   ? isEmerald
-                    ? "bg-[#059669] text-white shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+                    ? "bg-[#059669] text-white font-bold"
                     : "bg-[#E5192D] text-white shadow-[0_0_10px_rgba(229,25,45,0.4)]"
                   : isEmerald
                   ? "text-slate-600 hover:text-slate-900"
@@ -109,7 +109,7 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
                 "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer font-medium",
                 activeTab === "code"
                   ? isEmerald
-                    ? "bg-[#059669] text-white shadow-[0_0_10px_rgba(16,185,129,0.35)]"
+                    ? "bg-[#059669] text-white font-bold"
                     : "bg-[#E5192D] text-white shadow-[0_0_10px_rgba(229,25,45,0.4)]"
                   : isEmerald
                   ? "text-slate-600 hover:text-slate-900"
@@ -169,7 +169,7 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
       {activeTab === "preview" ? (
         <div
           className={clsx(
-            "p-6 sm:p-10 flex items-center justify-center min-h-[160px] relative overflow-hidden",
+            "w-full min-w-0 p-6 sm:p-10 flex items-center justify-center min-h-[160px] relative overflow-hidden",
             isEmerald
               ? "bg-gradient-to-b from-slate-50/80 to-white"
               : "bg-gradient-to-b from-[#020204]/60 to-[#030406]"
@@ -180,11 +180,11 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
       ) : (
         <div
           className={clsx(
-            "p-5 overflow-x-auto subtle-scroll text-xs sm:text-sm font-mono leading-relaxed",
+            "w-full min-w-0 max-w-full p-5 overflow-x-auto subtle-scroll text-xs sm:text-sm font-mono leading-relaxed",
             isEmerald ? "bg-slate-50 text-slate-800" : "bg-[#050505] text-zinc-300"
           )}
         >
-          <pre>
+          <pre className="min-w-0 overflow-x-auto">
             <code>{code.trim()}</code>
           </pre>
         </div>

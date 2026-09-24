@@ -39,7 +39,7 @@ export const PrimitivesPage: React.FC = () => {
     : "bg-black/60 border border-white/20 rounded px-2 py-0.5 text-white text-xs";
 
   return (
-    <div className="space-y-12 max-w-5xl mx-auto pb-16">
+    <div className="w-full min-w-0 max-w-5xl mx-auto space-y-12 pb-16">
       {/* 头部说明 */}
       <section className="space-y-3">
         <div
@@ -242,7 +242,7 @@ export const PrimitivesPage: React.FC = () => {
   items={[
     { id: "overview", label: "出版舞台" },
     { id: "friends", label: "友人网络" },
-    { id: "updates", label: "实时情报" },
+    { id: "updates", label: "动态更新" },
     { id: "terminal", label: "开放终端" },
   ]}
   activeId="${activeTab}"
@@ -254,7 +254,7 @@ export const PrimitivesPage: React.FC = () => {
           items={[
             { id: "overview", label: "出版舞台" },
             { id: "friends", label: "友人网络" },
-            { id: "updates", label: "实时情报" },
+            { id: "updates", label: "动态更新" },
             { id: "terminal", label: "开放终端" },
           ]}
           activeId={activeTab}

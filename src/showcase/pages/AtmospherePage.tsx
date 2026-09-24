@@ -10,7 +10,7 @@ import {
 import { ComponentPreview } from "../components/ComponentPreview";
 import { CloudRain } from "lucide-react";
 
-const SAMPLE_COVERS = [
+const DARK_SAMPLE_COVERS = [
   {
     sourceUrl: "cover-a",
     imageUrl: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=85",
@@ -28,13 +28,33 @@ const SAMPLE_COVERS = [
   },
 ];
 
+const LIGHT_SAMPLE_COVERS = [
+  {
+    sourceUrl: "cover-a-light",
+    imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=85",
+    title: "高可用企业出版架构",
+  },
+  {
+    sourceUrl: "cover-b-light",
+    imageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=85",
+    title: "生产级工程研发生态",
+  },
+  {
+    sourceUrl: "cover-c-light",
+    imageUrl: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1600&q=85",
+    title: "皓白极翠极简工学",
+  },
+];
+
 export const AtmospherePage: React.FC = () => {
   const { themeId } = useSparxTheme();
   const isEmerald = themeId === "glacial-emerald";
   const [activeCoverIdx, setActiveCoverIdx] = useState(0);
 
+  const sampleCovers = isEmerald ? LIGHT_SAMPLE_COVERS : DARK_SAMPLE_COVERS;
+
   return (
-    <div className="space-y-12 max-w-5xl mx-auto pb-16">
+    <div className="w-full min-w-0 space-y-12 max-w-5xl mx-auto pb-16">
       {/* 头部说明 */}
       <section className="space-y-3">
         <div
@@ -69,7 +89,7 @@ export const AtmospherePage: React.FC = () => {
           <div className="flex items-center gap-2">
             <span>切换封面图:</span>
             <div className="flex items-center gap-1.5">
-              {SAMPLE_COVERS.map((c, i) => (
+              {sampleCovers.map((c, i) => (
                 <button
                   key={c.sourceUrl}
                   type="button"
@@ -95,19 +115,19 @@ export const AtmospherePage: React.FC = () => {
 <div className="relative w-full h-80 rounded-2xl overflow-hidden">
   <StageMediaSpine
     cover={{
-      sourceUrl: "${SAMPLE_COVERS[activeCoverIdx].sourceUrl}",
-      imageUrl: "${SAMPLE_COVERS[activeCoverIdx].imageUrl}",
-      title: "${SAMPLE_COVERS[activeCoverIdx].title}",
+      sourceUrl: "${sampleCovers[activeCoverIdx]?.sourceUrl}",
+      imageUrl: "${sampleCovers[activeCoverIdx]?.imageUrl}",
+      title: "${sampleCovers[activeCoverIdx]?.title}",
     }}
   />
 </div>`}
       >
         <div
-          className={`relative w-full max-w-xl h-72 sm:h-80 rounded-2xl overflow-hidden border shadow-2xl ${
-            isEmerald ? "border-slate-200" : "border-white/10"
+          className={`relative w-full max-w-xl h-72 sm:h-80 rounded-2xl overflow-hidden border ${
+            isEmerald ? "border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]" : "border-white/10 shadow-2xl"
           }`}
         >
-          <StageMediaSpine cover={SAMPLE_COVERS[activeCoverIdx]} />
+          <StageMediaSpine cover={sampleCovers[activeCoverIdx]} />
           <div
             className={`absolute bottom-4 left-4 z-10 px-3 py-1 rounded-full border text-xs font-mono backdrop-blur-md ${
               isEmerald
@@ -115,7 +135,7 @@ export const AtmospherePage: React.FC = () => {
                 : "bg-black/60 border-white/10 text-white"
             }`}
           >
-            当前处于: {SAMPLE_COVERS[activeCoverIdx].title} (点击上方按钮观察平滑淡入)
+            当前处于: {sampleCovers[activeCoverIdx]?.title} (点击上方按钮观察平滑淡入)
           </div>
         </div>
       </ComponentPreview>
@@ -131,8 +151,8 @@ export const AtmospherePage: React.FC = () => {
 </div>`}
       >
         <div
-          className={`relative w-full max-w-xl h-72 sm:h-80 rounded-2xl overflow-hidden border shadow-2xl ${
-            isEmerald ? "border-slate-200 bg-slate-50" : "border-white/10 bg-black"
+          className={`relative w-full max-w-xl h-72 sm:h-80 rounded-2xl overflow-hidden border ${
+            isEmerald ? "border-slate-200 bg-slate-50 shadow-[0_1px_2px_rgba(0,0,0,0.03)]" : "border-white/10 bg-black shadow-2xl"
           }`}
         >
           <KeywordAtmosphere mode="stage" words={DEFAULT_KEYWORD_WORDS} />
@@ -142,7 +162,7 @@ export const AtmospherePage: React.FC = () => {
       {/* 3. AmbientDissolveMask 60% 横向消融蒙版 */}
       <ComponentPreview
         title="AmbientDissolveMask 60% 自适应消融蒙版"
-        description="将左侧 60% 大画幅图片在向右延展至 58% 处完全融入当前底色（极客暗房 #030406 或皓白卡片 #FFFFFF），自适应 CSS 变量。"
+        description="针对双风格深度定制：暗黑模式下深黑大图柔和隐入暗房；浅色模式下采用高调（High-key）明朗建筑视觉，配合平滑阿尔法渐变，轻盈消融进纯白底色，彻底杜绝死黑硬溶造成的污浊灰泥感。"
         code={`import { AmbientDissolveMask } from "@/sparx-ui";
 
 <div className="relative w-full h-64 rounded-2xl overflow-hidden bg-cover bg-center">
@@ -153,12 +173,16 @@ export const AtmospherePage: React.FC = () => {
 </div>`}
       >
         <div
-          className={`relative w-full max-w-xl h-64 rounded-2xl overflow-hidden border shadow-2xl ${
-            isEmerald ? "border-slate-200 bg-white" : "border-white/10 bg-[#030406]"
+          className={`relative w-full max-w-xl h-64 rounded-2xl overflow-hidden border ${
+            isEmerald ? "border-slate-200 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.03)]" : "border-white/10 bg-[#030406] shadow-2xl"
           }`}
         >
           <img
-            src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=85"
+            src={
+              isEmerald
+                ? "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=85"
+                : "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=85"
+            }
             alt="Preview"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -173,8 +197,9 @@ export const AtmospherePage: React.FC = () => {
                 60% DISSOLVE
               </span>
               <p className={`text-xs ${isEmerald ? "text-slate-600" : "text-zinc-300"}`}>
-                左侧图片经过精心校准的渐变梯度，在 58% 宽度处柔和消融进
-                {isEmerald ? " 纯白 (#FFFFFF) 卡片底色。" : " 暗室 (#030406) 暗底。"}
+                {isEmerald
+                  ? "浅色高调极简建筑摄影，经过精密阿尔法消融曲线，在 58% 处轻盈融进纯白 (#FFFFFF) 卡片底色，透气自然。"
+                  : "暗色极客大图在 58% 宽度处柔和消融进暗室 (#030406) 底色。"}
               </p>
             </div>
           </div>
@@ -192,8 +217,8 @@ export const AtmospherePage: React.FC = () => {
 </div>`}
       >
         <div
-          className={`relative w-full max-w-xl h-64 rounded-2xl overflow-hidden border shadow-2xl ${
-            isEmerald ? "border-slate-200" : "border-white/10"
+          className={`relative w-full max-w-xl h-64 rounded-2xl overflow-hidden border ${
+            isEmerald ? "border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]" : "border-white/10 shadow-2xl"
           }`}
         >
           <VideoTitleCard provider="BILIBILI" onPlay={() => alert("触发视频播放")} />

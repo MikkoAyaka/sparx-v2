@@ -84,7 +84,7 @@ export const FeedbackDock: React.FC<FeedbackDockProps> = ({
             className={clsx(
               "rounded-2xl rounded-br-sm border px-4 py-2.5 text-sm transition-all duration-200",
               isEmerald
-                ? "border-emerald-500/30 bg-gradient-to-br from-emerald-50 to-slate-50 text-slate-800 shadow-md"
+                ? "border border-slate-200 bg-emerald-50/60 text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
                 : "border-[#E5192D]/30 bg-gradient-to-br from-[#E5192D]/15 to-white/5 text-white shadow-xl"
             )}
           >
@@ -106,7 +106,7 @@ export const FeedbackDock: React.FC<FeedbackDockProps> = ({
                 "flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-200 cursor-pointer active:scale-95 text-xs",
                 isSelected
                   ? isEmerald
-                    ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-900 font-bold shadow-[0_0_12px_rgba(16,185,129,0.25)]"
+                    ? "border-2 border-[#059669] bg-emerald-50 text-emerald-900 font-bold"
                     : "border-[#E5192D]/40 bg-[#E5192D]/15 text-white shadow-[0_0_12px_rgba(229,25,45,0.35)]"
                   : isEmerald
                   ? "border-slate-200 bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 hover:border-slate-300"

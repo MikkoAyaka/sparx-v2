@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { clsx } from "clsx";
+import { useSparxTheme } from "../tokens/colors";
 
 export interface StageMediaCover {
   sourceUrl: string;
@@ -42,6 +43,9 @@ export const StageMediaSpine: React.FC<StageMediaSpineProps> = ({
     }
   }, [cover, currentCover]);
 
+  const { themeId } = useSparxTheme();
+  const isEmerald = themeId === "glacial-emerald";
+
   const renderCover = (item?: StageMediaCover, isFadeIn?: boolean) => {
     if (!item) return null;
     const isVideo = item.kind === "video" || Boolean(item.videoUrl) || /\.(?:mp4|webm|ogg|mov)$/i.test(item.sourceUrl);
@@ -51,7 +55,8 @@ export const StageMediaSpine: React.FC<StageMediaSpineProps> = ({
       <div
         key={item.sourceUrl}
         className={clsx(
-          "absolute inset-0 overflow-hidden bg-[#030406]",
+          "absolute inset-0 overflow-hidden",
+          isEmerald ? "bg-slate-100" : "bg-[#030406]",
           isFadeIn ? "animate-spine-fade-in" : "opacity-100"
         )}
       >
@@ -72,7 +77,14 @@ export const StageMediaSpine: React.FC<StageMediaSpineProps> = ({
             className="w-full h-full object-cover saturate-[0.85] brightness-[0.92]"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-neutral-900 via-[#08090E] to-[#020204]" />
+          <div
+            className={clsx(
+              "w-full h-full",
+              isEmerald
+                ? "bg-gradient-to-br from-slate-100 via-slate-50 to-white"
+                : "bg-gradient-to-br from-neutral-900 via-[#08090E] to-[#020204]"
+            )}
+          />
         )}
         {children}
       </div>

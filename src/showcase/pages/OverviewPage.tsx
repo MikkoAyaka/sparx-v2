@@ -9,18 +9,20 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
   const isEmerald = themeId === "glacial-emerald";
 
   return (
-    <div className="space-y-12 max-w-5xl mx-auto pb-16">
+    <div className="w-full min-w-0 max-w-5xl mx-auto space-y-12 pb-16">
       {/* 英雄头图区域 */}
       <section
-        className={`relative rounded-3xl border p-8 sm:p-12 overflow-hidden shadow-2xl transition-colors duration-200 ${
-          isEmerald ? "bg-white border-slate-200" : "bg-[#030406] border-white/10"
+        className={`relative rounded-3xl border p-8 sm:p-12 overflow-hidden transition-colors duration-200 ${
+          isEmerald
+            ? "bg-white border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+            : "bg-[#030406] border-white/10 shadow-sm"
         }`}
       >
         <div
           className={`absolute inset-0 pointer-events-none ${
             isEmerald
-              ? "bg-[radial-gradient(circle_at_70%_20%,rgba(16,185,129,0.12),transparent_50%),linear-gradient(135deg,rgb(248,250,252),rgb(255,255,255))]"
-              : "bg-[radial-gradient(circle_at_70%_20%,rgba(229,25,45,0.18),transparent_50%),linear-gradient(135deg,rgb(14,15,22),rgb(3,4,6))]"
+              ? "bg-[radial-gradient(circle_at_70%_20%,rgba(16,185,129,0.08),transparent_50%),linear-gradient(135deg,rgb(248,250,252),rgb(255,255,255))]"
+              : "bg-[radial-gradient(circle_at_70%_20%,rgba(229,25,45,0.12),transparent_50%),linear-gradient(135deg,rgb(14,15,22),rgb(3,4,6))]"
           }`}
         />
         <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
@@ -30,8 +32,8 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
             <span
               className={`w-2.5 h-2.5 rounded-full ${
                 isEmerald
-                  ? "bg-[#059669] shadow-[0_0_12px_#059669]"
-                  : "bg-[#E5192D] shadow-[0_0_12px_#E5192D]"
+                  ? "bg-[#059669]"
+                  : "bg-[#E5192D] shadow-[0_0_8px_#E5192D]"
               }`}
             />
             <span
@@ -50,7 +52,7 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
           >
             {isEmerald
               ? "皓白极翠稳态与企业级数字出版"
-              : "暗房虚空视界与主权出版美学"}
+              : "极客暗房与沉浸式数字出版美学"}
           </h1>
 
           <p
@@ -80,6 +82,12 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
             </Button>
             <Button
               variant="outline"
+              onClick={() => onNavigateTo("copywriting")}
+            >
+              文案规范指南
+            </Button>
+            <Button
+              variant="outline"
               onClick={() => onNavigateTo("primitives")}
             >
               检视通用原语
@@ -103,10 +111,10 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div
-            className={`p-6 rounded-2xl border space-y-3 shadow-xl transition-colors duration-200 ${
+            className={`p-6 rounded-2xl border space-y-3 transition-colors duration-200 ${
               isEmerald
-                ? "bg-white border-slate-200 text-slate-800"
-                : "bg-[#08090E] border-white/10 text-white"
+                ? "bg-white border-slate-200 text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+                : "bg-[#08090E] border-white/10 text-white shadow-sm"
             }`}
           >
             <div className="flex items-center gap-2.5 text-sm font-bold">
@@ -126,15 +134,15 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
             <p className={`text-xs sm:text-sm leading-relaxed ${isEmerald ? "text-slate-600" : "text-zinc-400"}`}>
               {isEmerald
                 ? "企业模式采用纯净高亮的皓白极翠底色（#F8FAFC 视口、#FFFFFF 纯白舞台卡片），以沉稳高信噪比的翡翠绿（#059669 / #10B981）作为核心交互，辅以精密灰阶边框。"
-                : "极客模式基底绝不采用廉价泛白的深灰，而是采用绝对暗房黑阶（#020204 视口画布、#030406 舞台、#050505 展卷画布）。核心交互全部使用绯红激光（#E5192D / #FF2D55）辅以精确的光学发光阴影。"}
+                : "极客模式基底绝不采用廉价泛白的深灰，而是采用绝对暗房黑阶（#020204 视口画布、#030406 舞台、#050505 展卷画布）。核心交互使用高对比度绯红（#E5192D / #FF2D55）辅以精确克制的光学发光。"}
             </p>
           </div>
 
           <div
-            className={`p-6 rounded-2xl border space-y-3 shadow-xl transition-colors duration-200 ${
+            className={`p-6 rounded-2xl border space-y-3 transition-colors duration-200 ${
               isEmerald
-                ? "bg-white border-slate-200 text-slate-800"
-                : "bg-[#08090E] border-white/10 text-white"
+                ? "bg-white border-slate-200 text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+                : "bg-[#08090E] border-white/10 text-white shadow-sm"
             }`}
           >
             <div className="flex items-center gap-2.5 text-sm font-bold">
@@ -157,18 +165,18 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
           </div>
 
           <div
-            className={`p-6 rounded-2xl border space-y-3 shadow-xl transition-colors duration-200 ${
+            className={`p-6 rounded-2xl border space-y-3 transition-colors duration-200 ${
               isEmerald
-                ? "bg-white border-slate-200 text-slate-800"
-                : "bg-[#08090E] border-white/10 text-white"
+                ? "bg-white border-slate-200 text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+                : "bg-[#08090E] border-white/10 text-white shadow-sm"
             }`}
           >
             <div className="flex items-center gap-2.5 text-sm font-bold">
               <span
                 className={`p-1.5 rounded-lg border ${
                   isEmerald
-                    ? "bg-cyan-50 border-cyan-200 text-cyan-600"
-                    : "bg-white/5 border-white/10 text-cyan-400"
+                    ? "bg-teal-50 border-teal-200 text-[#0D9488]"
+                    : "bg-white/5 border-white/10 text-teal-400"
                 }`}
               >
                 <Compass className="w-4 h-4" />
@@ -183,18 +191,18 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
           </div>
 
           <div
-            className={`p-6 rounded-2xl border space-y-3 shadow-xl transition-colors duration-200 ${
+            className={`p-6 rounded-2xl border space-y-3 transition-colors duration-200 ${
               isEmerald
-                ? "bg-white border-slate-200 text-slate-800"
-                : "bg-[#08090E] border-white/10 text-white"
+                ? "bg-white border-slate-200 text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+                : "bg-[#08090E] border-white/10 text-white shadow-sm"
             }`}
           >
             <div className="flex items-center gap-2.5 text-sm font-bold">
               <span
                 className={`p-1.5 rounded-lg border ${
                   isEmerald
-                    ? "bg-amber-50 border-amber-200 text-amber-600"
-                    : "bg-white/5 border-white/10 text-amber-400"
+                    ? "bg-amber-50 border-amber-200 text-[#D97706]"
+                    : "bg-white/5 border-white/10 text-[#E5A93C]"
                 }`}
               >
                 <Terminal className="w-4 h-4" />
@@ -214,7 +222,7 @@ export const OverviewPage: React.FC<{ onNavigateTo: (id: string) => void }> = ({
       <section
         className={`p-6 sm:p-8 rounded-2xl border space-y-4 transition-colors duration-200 ${
           isEmerald
-            ? "bg-white border-slate-200 text-slate-800 shadow-md"
+            ? "bg-white border-slate-200 text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
             : "bg-[#08090E] border-white/10 text-white"
         }`}
       >

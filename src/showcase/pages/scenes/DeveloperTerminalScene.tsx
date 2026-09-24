@@ -4,41 +4,6 @@ import { Terminal, Database, Send, Radio } from "lucide-react";
 
 type LangKey = "curl" | "javascript" | "python" | "go" | "rust";
 
-const ENDPOINTS = [
-  {
-    method: "GET",
-    path: "/feed.json",
-    format: "JSON Feed 1.1",
-    desc: "全量已出版文章元数据流，具备完整摘要与发布时间线",
-    status: "200 OK · 边缘缓存",
-    icon: <Database className="w-4 h-4 text-cyan-500" />,
-  },
-  {
-    method: "GET",
-    path: "/rss.xml",
-    format: "RSS 2.0 / Atom",
-    desc: "标准兼容的聚合订阅流，适配各类阅读器与自动化分发",
-    status: "200 OK · 边缘可用",
-    icon: <Radio className="w-4 h-4 text-emerald-500" />,
-  },
-  {
-    method: "POST",
-    path: "/api/channel-feedback",
-    format: "REST / JSON",
-    desc: "接收读者轻共鸣点赞反馈，Upstash Redis 原子计数与持久化",
-    status: "200 OK · 速率限制 60/min",
-    icon: <Send className="w-4 h-4 text-[#059669]" />,
-  },
-  {
-    method: "GET",
-    path: "/api/channel-events",
-    format: "REST / JSON",
-    desc: "技术情报流多源事件总线与大模型分析快照",
-    status: "200 OK · 实时同步",
-    icon: <Terminal className="w-4 h-4 text-purple-500" />,
-  },
-];
-
 const CODE_EXAMPLES: Record<LangKey, string> = {
   curl: `# 1. 抓取最新出版 JSON Feed 流
 curl -s "https://channel.mikkoayaka.com/feed.json" | jq .items[0]
@@ -46,7 +11,7 @@ curl -s "https://channel.mikkoayaka.com/feed.json" | jq .items[0]
 # 2. 提交读者轻共鸣反馈
 curl -X POST "https://channel.mikkoayaka.com/api/channel-feedback" \\
   -H "Content-Type: application/json" \\
-  -d '{"slug":"arch-defense","reactionId":"insightful"}'`,
+  -d '{"slug":"edge-publishing","reactionId":"insightful"}'`,
 
   javascript: `// 使用原生 ESM fetch 消费全量发布源
 const response = await fetch("https://channel.mikkoayaka.com/feed.json");
@@ -126,6 +91,65 @@ export const DeveloperTerminalScene: React.FC = () => {
   const isEmerald = themeId === "glacial-emerald";
   const [activeLang, setActiveLang] = useState<LangKey>("curl");
 
+  const endpoints = [
+    {
+      method: "GET",
+      path: "/feed.json",
+      format: "JSON Feed 1.1",
+      desc: "已出版文章元数据流，包含标题、摘要与发布时间线",
+      status: "200 OK · 边缘缓存",
+      icon: (
+        <Database
+          className={`w-4 h-4 ${
+            isEmerald ? "text-[#0D9488]" : "text-sky-400"
+          }`}
+        />
+      ),
+    },
+    {
+      method: "GET",
+      path: "/rss.xml",
+      format: "RSS 2.0 / Atom",
+      desc: "标准兼容的聚合订阅流，适配各类阅读器与自动化分发",
+      status: "200 OK · 边缘可用",
+      icon: (
+        <Radio
+          className={`w-4 h-4 ${
+            isEmerald ? "text-[#059669]" : "text-emerald-400"
+          }`}
+        />
+      ),
+    },
+    {
+      method: "POST",
+      path: "/api/channel-feedback",
+      format: "REST / JSON",
+      desc: "接收读者轻共鸣点赞反馈，Upstash Redis 原子计数与持久化",
+      status: "200 OK · 速率限制 60/min",
+      icon: (
+        <Send
+          className={`w-4 h-4 ${
+            isEmerald ? "text-[#D97706]" : "text-[#FF2D55]"
+          }`}
+        />
+      ),
+    },
+    {
+      method: "GET",
+      path: "/api/channel-stats",
+      format: "REST / JSON",
+      desc: "文章聚合指标快照，提供全量阅读统计与共鸣分布汇总",
+      status: "200 OK · 边缘只读",
+      icon: (
+        <Terminal
+          className={`w-4 h-4 ${
+            isEmerald ? "text-[#475569]" : "text-zinc-400"
+          }`}
+        />
+      ),
+    },
+  ];
+
   const langNav = [
     { id: "curl" as LangKey, label: "cURL" },
     { id: "javascript" as LangKey, label: "JavaScript" },
@@ -136,7 +160,7 @@ export const DeveloperTerminalScene: React.FC = () => {
 
   return (
     <div
-      className={`w-full h-full rounded-2xl sm:rounded-3xl border p-6 sm:p-10 flex flex-col justify-between overflow-y-auto subtle-scroll shadow-2xl transition-colors duration-200 ${
+      className={`w-full h-full rounded-2xl sm:rounded-3xl border p-6 sm:p-10 flex flex-col justify-between overflow-y-auto subtle-scroll shadow-sm transition-colors duration-200 ${
         isEmerald
           ? "bg-white border-slate-200 text-slate-900"
           : "bg-[#030406] border-white/10 text-white"
@@ -168,10 +192,10 @@ export const DeveloperTerminalScene: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <Badge variant="emerald" dot>
-              边缘网关正常
+            <Badge variant={isEmerald ? "emerald" : "flare"} dot>
+              边缘网关就绪
             </Badge>
-            <Badge variant={isEmerald ? "emerald" : "flare"} mono>
+            <Badge variant="outline" mono>
               v2.0 STABLE
             </Badge>
           </div>
@@ -179,13 +203,13 @@ export const DeveloperTerminalScene: React.FC = () => {
 
         {/* 四大开放端点卡片 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {ENDPOINTS.map((ep) => (
+          {endpoints.map((ep) => (
             <div
               key={ep.path}
-              className={`p-4 rounded-2xl border transition-all space-y-2 shadow-md ${
+              className={`p-4 rounded-2xl border transition-colors duration-150 space-y-2 ${
                 isEmerald
-                  ? "bg-slate-50 border-slate-200 hover:border-slate-300"
-                  : "bg-[#08090E] border-white/10 hover:border-white/20 shadow-lg"
+                  ? "bg-slate-50/70 border-slate-200 hover:opacity-85 hover:bg-slate-100/70 transition-opacity duration-200 shadow-none"
+                  : "bg-[#08090E] border-white/10 hover:border-white/20 shadow-md"
               }`}
             >
               <div className="flex items-center justify-between gap-2">
@@ -230,7 +254,7 @@ export const DeveloperTerminalScene: React.FC = () => {
               <div
                 className={`text-[12px] font-mono pt-1 border-t ${
                   isEmerald
-                    ? "text-slate-400 border-slate-200"
+                    ? "text-slate-500 border-slate-200"
                     : "text-zinc-500 border-white/5"
                 }`}
               >

@@ -3,7 +3,16 @@ import { clsx } from "clsx";
 import { useSparxTheme } from "../tokens/colors";
 
 export interface StatusDotProps {
-  status?: "live" | "radar" | "caution" | "arch" | "idle";
+  status?:
+    | "live"
+    | "radar"
+    | "caution"
+    | "arch"
+    | "idle"
+    | "success"
+    | "info"
+    | "warning"
+    | "error";
   pulse?: boolean;
   size?: "sm" | "md" | "lg";
   className?: string;
@@ -24,34 +33,60 @@ export const StatusDot: React.FC<StatusDotProps> = ({
     lg: "w-2.5 h-2.5",
   };
 
-  const colorMap = {
-    live: isEmerald ? "bg-[#059669] shadow-[0_0_8px_#059669]" : "bg-[#E5192D] shadow-[0_0_8px_#E5192D]",
-    radar: "bg-cyan-500 shadow-[0_0_8px_#06B6D4]",
-    caution: "bg-amber-500 shadow-[0_0_8px_#F59E0B]",
-    arch: "bg-purple-500 shadow-[0_0_8px_#A855F7]",
-    idle: "bg-zinc-400 shadow-none",
+  const resolvedStatus =
+    status === "live"
+      ? "primary"
+      : status === "radar"
+      ? "info"
+      : status === "caution"
+      ? "warning"
+      : status === "arch"
+      ? "info"
+      : status;
+
+  const colorMap: Record<string, string> = {
+    primary: isEmerald
+      ? "bg-[#059669]"
+      : "bg-[#E5192D] shadow-[0_0_8px_#E5192D]",
+    success: isEmerald
+      ? "bg-[#059669]"
+      : "bg-emerald-400 shadow-[0_0_8px_#34D399]",
+    info: isEmerald
+      ? "bg-[#0D9488]"
+      : "bg-teal-400 shadow-[0_0_8px_#2DD4BF]",
+    warning: isEmerald
+      ? "bg-[#D97706]"
+      : "bg-[#E5A93C] shadow-[0_0_8px_#E5A93C]",
+    error: isEmerald
+      ? "bg-[#E11D48]"
+      : "bg-rose-400 shadow-[0_0_8px_#FB7185]",
+    idle: isEmerald ? "bg-slate-400" : "bg-zinc-500",
   };
 
-  const pulseRingColor = {
-    live: isEmerald ? "bg-[#059669]" : "bg-[#E5192D]",
-    radar: "bg-cyan-500",
-    caution: "bg-amber-500",
-    arch: "bg-purple-500",
-    idle: "bg-zinc-400",
+  const pulseRingColor: Record<string, string> = {
+    primary: isEmerald ? "bg-[#059669]" : "bg-[#E5192D]",
+    success: isEmerald ? "bg-[#059669]" : "bg-emerald-400",
+    info: isEmerald ? "bg-[#0D9488]" : "bg-teal-400",
+    warning: isEmerald ? "bg-[#D97706]" : "bg-[#E5A93C]",
+    error: isEmerald ? "bg-[#E11D48]" : "bg-rose-400",
+    idle: isEmerald ? "bg-slate-400" : "bg-zinc-500",
   };
+
+  const activeColor = colorMap[resolvedStatus] || colorMap.primary;
+  const activePulse = pulseRingColor[resolvedStatus] || pulseRingColor.primary;
 
   return (
     <span className={clsx("relative inline-flex items-center justify-center shrink-0", className)}>
       {pulse && status !== "idle" && (
         <span
           className={clsx(
-            "absolute rounded-full opacity-75 animate-ping",
+            "absolute rounded-full opacity-60 animate-ping",
             sizeMap[size],
-            pulseRingColor[status]
+            activePulse
           )}
         />
       )}
-      <span className={clsx("relative rounded-full", sizeMap[size], colorMap[status])} />
+      <span className={clsx("relative rounded-full", sizeMap[size], activeColor)} />
     </span>
   );
 };

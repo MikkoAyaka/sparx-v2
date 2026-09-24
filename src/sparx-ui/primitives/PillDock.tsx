@@ -28,13 +28,13 @@ export function PillDock<T extends string = string>({
   const isEmerald = themeId === "glacial-emerald";
 
   const sizeStyles = {
-    sm: "p-1 gap-1 text-xs",
-    md: "p-1.5 gap-1.5 text-xs sm:text-sm",
+    sm: "p-1.5 gap-1.5 text-sm",
+    md: "p-2 gap-2 text-sm",
   };
 
   const itemSizeStyles = {
-    sm: "px-3 py-1.5 rounded-lg",
-    md: "px-4 py-2 rounded-lg",
+    sm: "px-4 py-2 rounded-lg",
+    md: "px-5 py-2.5 rounded-lg",
   };
 
   return (
@@ -42,7 +42,7 @@ export function PillDock<T extends string = string>({
       className={clsx(
         "inline-flex items-center rounded-xl font-mono select-none backdrop-blur-xl transition-colors duration-200 border",
         isEmerald
-          ? "bg-white/95 border-slate-200 text-slate-700 shadow-md"
+          ? "bg-white/95 border-slate-200 text-slate-700 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
           : "bg-[#08090E] border-white/10 text-zinc-400 shadow-xl",
         sizeStyles[size],
         className
@@ -60,7 +60,7 @@ export function PillDock<T extends string = string>({
               itemSizeStyles[size],
               isActive
                 ? isEmerald
-                  ? "bg-[#059669] text-white font-bold shadow-[0_0_14px_rgba(16,185,129,0.35)]"
+                  ? "bg-[#059669] text-white font-bold"
                   : "bg-[#E5192D] text-white font-bold shadow-[0_0_14px_rgba(229,25,45,0.45)]"
                 : isEmerald
                 ? "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
