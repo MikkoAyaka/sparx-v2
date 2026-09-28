@@ -4,10 +4,11 @@ import { ArrowRight } from "lucide-react";
 import { useSparxTheme } from "../tokens/colors";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "flare" | "outline" | "ghost" | "glass" | "subtle";
+  variant?: "flare" | "outline" | "ghost" | "glass" | "subtle" | "primary" | "secondary";
   size?: "sm" | "md" | "lg";
   withArrow?: boolean;
   glow?: boolean;
+  icon?: React.ReactNode;
   children: React.ReactNode;
 }
 
@@ -18,6 +19,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size = "md",
       withArrow = false,
       glow = false,
+      icon,
       className,
       children,
       ...props
@@ -60,12 +62,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         : "bg-[#08090E] border border-white/10 text-zinc-300 hover:text-white hover:border-[#E5192D]/40",
     };
 
+    const resolvedVariant =
+      variant === "primary" ? "flare" : variant === "secondary" ? "glass" : variant;
+
     return (
       <button
         ref={ref}
-        className={clsx(baseStyles, sizeStyles[size], variantStyles[variant], className)}
+        className={clsx(baseStyles, sizeStyles[size], variantStyles[resolvedVariant], className)}
         {...props}
       >
+        {icon && <span className="shrink-0">{icon}</span>}
         <span>{children}</span>
         {withArrow && (
           <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />

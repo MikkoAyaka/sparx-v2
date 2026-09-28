@@ -75,7 +75,7 @@ export const CopywritingGuidePage: React.FC = () => {
 
   return (
     <div className="w-full min-w-0 max-w-5xl mx-auto space-y-12 pb-16">
-      {/* 英雄标题区域 */}
+      {/* 页首介绍 */}
       <section
         className={`relative rounded-3xl border p-8 sm:p-12 overflow-hidden transition-colors duration-200 ${
           isEmerald
@@ -103,7 +103,7 @@ export const CopywritingGuidePage: React.FC = () => {
                 isEmerald ? "text-[#059669]" : "text-[#E5192D]"
               }`}
             >
-              EDITORIAL PROTOCOL · 文案规范与人本表达
+              COPYWRITING GUIDE · 文案规范
             </span>
           </div>
 
@@ -112,7 +112,7 @@ export const CopywritingGuidePage: React.FC = () => {
               isEmerald ? "text-slate-900" : "text-white"
             }`}
           >
-            文案规范与人本表达体系
+            文案规范
           </h1>
 
           <p
@@ -120,21 +120,20 @@ export const CopywritingGuidePage: React.FC = () => {
               isEmerald ? "text-slate-600" : "text-zinc-300"
             }`}
           >
-            界面的质感不仅来自像素与间距，更来自文字的呼吸与真实感。
-            Sparx UI v2 坚决拒绝无病呻吟的虚空科幻词与机器拼凑的生僻词，
-            提倡<strong>真实、具体、克制与有温度</strong>的工程表达，让每一个字符都能与人类现实世界产生真诚共鸣。
+            界面好不好用，文字和像素、间距一样重要。
+            Sparx UI v2 的文案不用空洞的科幻词，也不用拼凑出来的生僻词，而是追求<strong>真实、具体、克制、有温度</strong>：读者读完就知道发生了什么、接下来该做什么。
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-3">
             <Badge variant={isEmerald ? "emerald" : "flare"}>真实具体</Badge>
-            <Badge variant="outline">杜绝伪哲学术语</Badge>
+            <Badge variant="outline">不用伪哲学术语</Badge>
             <Badge variant="outline">中英文混排规范</Badge>
-            <Badge variant="outline">双风格语调适配</Badge>
+            <Badge variant="outline">两种主题的语气</Badge>
           </div>
         </div>
       </section>
 
-      {/* 核心文案四大原则 */}
+      {/* 四条基本原则 */}
       <section className="space-y-6">
         <div className="flex items-center gap-2">
           <Sparkles className={`w-4 h-4 ${isEmerald ? "text-[#059669]" : "text-[#E5192D]"}`} />
@@ -143,7 +142,7 @@ export const CopywritingGuidePage: React.FC = () => {
               isEmerald ? "text-slate-900" : "text-white"
             }`}
           >
-            文案核心四大公理
+            四条基本原则
           </h2>
         </div>
 
@@ -170,7 +169,7 @@ export const CopywritingGuidePage: React.FC = () => {
               </span>
             </div>
             <p className={`text-sm sm:text-base leading-relaxed ${isEmerald ? "text-slate-600" : "text-zinc-400"}`}>
-              内容必须立足于真实的人类工程实践与生活观察。个人频道的文案之所以令人共鸣，是因为讨论的是具体的“MC 游戏机制吐槽”、“螺丝刀与教育流水线寓言”、“清晰字号渲染”。坚决不使用看似高深却空洞无物的伪词。
+              内容必须立足于真实的人类工程实践与生活观察。个人频道的文章能打动读者，是因为讨论的是具体的“MC 游戏机制吐槽”、“螺丝刀与教育流水线寓言”、“清晰字号渲染”。不使用看起来高深、实际空洞的词。
             </p>
           </div>
 
@@ -196,7 +195,7 @@ export const CopywritingGuidePage: React.FC = () => {
               </span>
             </div>
             <p className={`text-sm sm:text-base leading-relaxed ${isEmerald ? "text-slate-600" : "text-zinc-400"}`}>
-              使用准确的技术实体与物理量代替模糊概括。写“Upstash Redis 原子递增”而不是“微共鸣在虚空留痕”；写“100dvh 视口锁定与 60% 渐变横向消融”而不是“无界暗房虚空视界”。具体才能经得起推敲。
+              使用准确的技术实体与物理量代替模糊概括。写“Upstash Redis 原子递增”而不是“微共鸣在虚空留痕”；写“100dvh 视口锁定与 60% 渐变横向消融”而不是“无界暗房虚空视界”。写得具体，才经得起推敲。
             </p>
           </div>
 
@@ -222,7 +221,7 @@ export const CopywritingGuidePage: React.FC = () => {
               </span>
             </div>
             <p className={`text-sm sm:text-base leading-relaxed ${isEmerald ? "text-slate-600" : "text-zinc-400"}`}>
-              杜绝任何谄媚、营销吹嘘或感叹号泛滥。不盲目追逐当下的网络热梗或低级流行语，也不堆砌过度修饰的形容词。文字的自律与留白，是高端设计系统信息高信噪比的前提。
+              不讨好读者，不做营销吹嘘，不滥用感叹号。不追网络热梗，不堆砌形容词。删掉不起作用的字，读者才能更快抓住重点。
             </p>
           </div>
 
@@ -248,7 +247,7 @@ export const CopywritingGuidePage: React.FC = () => {
               </span>
             </div>
             <p className={`text-sm sm:text-base leading-relaxed ${isEmerald ? "text-slate-600" : "text-zinc-400"}`}>
-              尊重读者的认知负荷，从读者真实处境出发解释技术权衡。将枯燥的技术指标转化为富有洞察力的工程思考，保留作者真诚的思考温度与人情味，而不是冷冰冰的机器输出。
+              考虑读者的阅读负担，从读者的实际处境出发解释技术取舍。把枯燥的技术指标讲成读者能理解的判断，保留作者自己的思考和语气，而不是读起来像机器生成的文字。
             </p>
           </div>
         </div>
@@ -263,10 +262,10 @@ export const CopywritingGuidePage: React.FC = () => {
                 isEmerald ? "text-slate-900" : "text-white"
               }`}
             >
-              文案鉴别对照库（Bad vs Good）
+              反例与正例（Bad vs Good）
             </h2>
             <p className={`text-sm ${isEmerald ? "text-slate-500" : "text-zinc-400"}`}>
-              系统梳理典型空洞生僻词与优质人类工程文案的对比，作为全站校验的黄金标准
+              常见的空洞写法和改写后的版本。修改全站文案时，以这些例子为准
             </p>
           </div>
         </div>
@@ -297,7 +296,7 @@ export const CopywritingGuidePage: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-                {/* 错误示范 */}
+                {/* 反例 */}
                 <div
                   className={`p-3.5 rounded-xl border flex flex-col justify-between space-y-2 ${
                     isEmerald
@@ -309,14 +308,14 @@ export const CopywritingGuidePage: React.FC = () => {
                     <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                     <div className="space-y-1">
                       <div className="text-sm font-mono font-bold text-rose-600">
-                        ❌ 假大空生僻词（杜绝）
+                        反例
                       </div>
                       <div className="text-sm font-semibold">{item.bad}</div>
                     </div>
                   </div>
                 </div>
 
-                {/* 正确示范 */}
+                {/* 正例 */}
                 <div
                   className={`p-3.5 rounded-xl border flex flex-col justify-between space-y-2 ${
                     isEmerald
@@ -328,7 +327,7 @@ export const CopywritingGuidePage: React.FC = () => {
                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                     <div className="space-y-1">
                       <div className="text-sm font-mono font-bold text-emerald-600">
-                        ✅ 真实工程表达（推荐）
+                        正例
                       </div>
                       <div className="text-sm font-semibold">{item.good}</div>
                     </div>
@@ -336,7 +335,7 @@ export const CopywritingGuidePage: React.FC = () => {
                 </div>
               </div>
 
-              {/* 剖析原因 */}
+              {/* 原因 */}
               <div
                 className={`text-sm pt-2 flex items-start gap-2 ${
                   isEmerald ? "text-slate-600" : "text-zinc-400"
@@ -344,7 +343,7 @@ export const CopywritingGuidePage: React.FC = () => {
               >
                 <AlertCircle className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-500" />
                 <span>
-                  <strong>规范解读：</strong>
+                  <strong>原因：</strong>
                   {item.reason}
                 </span>
               </div>
@@ -353,7 +352,7 @@ export const CopywritingGuidePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 标题与摘要撰写准则 */}
+      {/* 标题与摘要的写法 */}
       <section
         className={`p-6 sm:p-8 rounded-2xl border space-y-6 transition-colors duration-200 ${
           isEmerald ? "bg-white border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]" : "bg-[#08090E] border-white/10"
@@ -365,10 +364,10 @@ export const CopywritingGuidePage: React.FC = () => {
               isEmerald ? "text-slate-900" : "text-white"
             }`}
           >
-            标题与摘要黄金撰写公式
+            标题与摘要的写法
           </h3>
           <p className={`text-sm ${isEmerald ? "text-slate-500" : "text-zinc-400"}`}>
-            确保每一篇文章与卡片具备极高信息密度与明确的读者预期
+            读者只看标题和摘要，就应该知道这篇文章讲什么
           </p>
         </div>
 
@@ -379,7 +378,7 @@ export const CopywritingGuidePage: React.FC = () => {
                 isEmerald ? "text-[#059669]" : "text-[#E5192D]"
               }`}
             >
-              文章主标题公式
+              文章标题的结构
             </h4>
             <div
               className={`p-4 rounded-xl border text-sm leading-relaxed space-y-2 ${
@@ -392,7 +391,7 @@ export const CopywritingGuidePage: React.FC = () => {
               <p className={isEmerald ? "text-slate-600" : "text-zinc-400"}>
                 示例：<em>“摆脱被动投喂：基于边缘计算的独立出版系统实践”</em>
                 <br />
-                杜绝形式：<em>“在断裂带重建架构秩序”</em>（无痛点、无具体解法）。
+                反例：<em>“在断裂带重建架构秩序”</em>（无痛点、无具体解法）。
               </p>
             </div>
           </div>
@@ -403,7 +402,7 @@ export const CopywritingGuidePage: React.FC = () => {
                 isEmerald ? "text-[#059669]" : "text-[#E5192D]"
               }`}
             >
-              文章摘要公式（80~120 字）
+              文章摘要的结构（80~120 字）
             </h4>
             <div
               className={`p-4 rounded-xl border text-sm leading-relaxed space-y-2 ${
@@ -421,7 +420,7 @@ export const CopywritingGuidePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 双风格语调指引矩阵 */}
+      {/* 两种主题的语气 */}
       <section
         className={`p-6 sm:p-8 rounded-2xl border space-y-6 transition-colors duration-200 ${
           isEmerald ? "bg-white border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]" : "bg-[#08090E] border-white/10"
@@ -433,10 +432,10 @@ export const CopywritingGuidePage: React.FC = () => {
               isEmerald ? "text-slate-900" : "text-white"
             }`}
           >
-            双风格语调指引矩阵 (Tone Matrix)
+            两种主题的语气（Tone）
           </h3>
           <p className={`text-sm ${isEmerald ? "text-slate-500" : "text-zinc-400"}`}>
-            针对个人前卫与企业生产不同场景的细分语调规范
+            个人站点和企业应用面对的读者不同，语气也不同
           </p>
         </div>
 
@@ -448,12 +447,12 @@ export const CopywritingGuidePage: React.FC = () => {
           >
             <div className="flex items-center gap-2 font-mono text-sm font-bold text-[#E5192D]">
               <span>✦</span>
-              <span>虚空绯红 · 个人/前卫/极客</span>
+              <span>虚空绯红 · 个人站点</span>
             </div>
             <ul className={`text-sm space-y-2.5 ${isEmerald ? "text-slate-700" : "text-zinc-300"}`}>
-              <li>• <strong>第一人称与个性观点：</strong>允许使用清晰的“我”或“我们”，直抒胸臆，敢于指出主流机制的荒谬与弊端。</li>
-              <li>• <strong>生活与游戏隐喻：</strong>善用生动的现实比喻（如 Minecraft 战斗机制、超市货架、螺丝刀），让抽象的技术哲学落到实处。</li>
-              <li>• <strong>极客犀利但绝不轻浮：</strong>态度鲜明但不流于低级发泄，每一次批评背后都有严密的工程逻辑支撑。</li>
+              <li>• <strong>第一人称与个性观点：</strong>可以用“我”或“我们”，直接表达观点，也可以指出主流做法的问题。</li>
+              <li>• <strong>生活与游戏隐喻：</strong>用生活里的比喻（如 Minecraft 战斗机制、超市货架、螺丝刀）解释抽象的技术问题。</li>
+              <li>• <strong>观点鲜明，但不轻浮：</strong>批评要有工程上的理由，不是单纯发泄情绪。</li>
             </ul>
           </div>
 
@@ -464,18 +463,18 @@ export const CopywritingGuidePage: React.FC = () => {
           >
             <div className="flex items-center gap-2 font-mono text-sm font-bold text-[#059669]">
               <span>◈</span>
-              <span>皓白极翠 · 企业/稳态/生产</span>
+              <span>皓白极翠 · 企业应用</span>
             </div>
             <ul className={`text-sm space-y-2.5 ${isEmerald ? "text-slate-700" : "text-zinc-300"}`}>
-              <li>• <strong>客观第三人称陈述：</strong>以系统、服务、用户和边界条件为主语，陈述客观事实。</li>
-              <li>• <strong>可量化指标优先：</strong>写明 QPS、延时 P99、缓存命中率与故障恢复步骤，提供确定性的工程指南。</li>
-              <li>• <strong>稳健清晰杜绝营销腔：</strong>不使用“颠覆性”、“最强”、“革命性”等无意义修饰词，保证技术文档的长期可信度。</li>
+              <li>• <strong>客观第三人称陈述：</strong>以系统、服务、用户和边界条件为主语，陈述可以核实的事实。</li>
+              <li>• <strong>可量化指标优先：</strong>写明 QPS、P99 延时、缓存命中率和故障恢复步骤，让读者照着就能操作。</li>
+              <li>• <strong>不用营销腔：</strong>不使用“颠覆性”、“最强”、“革命性”这类空洞的修饰词，技术文档才能长期让人信任。</li>
             </ul>
           </div>
         </div>
       </section>
 
-      {/* 中英文排版与微小格式规则 */}
+      {/* 排版细节 */}
       <section
         className={`p-6 sm:p-8 rounded-2xl border space-y-4 transition-colors duration-200 ${
           isEmerald ? "bg-white border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]" : "bg-[#08090E] border-white/10"
@@ -487,28 +486,28 @@ export const CopywritingGuidePage: React.FC = () => {
           }`}
         >
           <span className={isEmerald ? "text-[#059669]" : "text-[#E5192D]"}>#</span>
-          <span>排印细节与字符级微规范</span>
+          <span>排版细节</span>
         </h3>
 
         <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm ${isEmerald ? "text-slate-700" : "text-zinc-300"}`}>
           <div className={`space-y-1 p-3 rounded-lg border ${isEmerald ? "border-slate-200 bg-slate-50/60" : "border-white/10 bg-white/[0.02]"}`}>
             <div className="font-bold">1. 盘古之白（中英文空格）</div>
             <p className={isEmerald ? "text-slate-500" : "text-zinc-400"}>
-              中文与英文、数字之间严格添加一个半角空格，例如：<code>Redis 缓存</code>、<code>100dvh 视口</code>。
+              中文与英文、数字之间加一个半角空格，例如：<code>Redis 缓存</code>、<code>100dvh 视口</code>。
             </p>
           </div>
 
           <div className={`space-y-1 p-3 rounded-lg border ${isEmerald ? "border-slate-200 bg-slate-50/60" : "border-white/10 bg-white/[0.02]"}`}>
             <div className="font-bold">2. 标点符号规范</div>
             <p className={isEmerald ? "text-slate-500" : "text-zinc-400"}>
-              全角中文正文使用全角标点（，。！？：）；代码块、API 路径与英文正文使用半角标点。
+              中文正文使用全角标点（，。！？：）；代码、API 路径和英文正文使用半角标点。
             </p>
           </div>
 
           <div className={`space-y-1 p-3 rounded-lg border ${isEmerald ? "border-slate-200 bg-slate-50/60" : "border-white/10 bg-white/[0.02]"}`}>
-            <div className="font-bold">3. 严禁全角英文与数字</div>
+            <div className="font-bold">3. 不使用全角英文和数字</div>
             <p className={isEmerald ? "text-slate-500" : "text-zinc-400"}>
-              严禁使用 <code>ＡＰＩ</code> 或 <code>１２ｐｘ</code> 等全角英数字，一律使用标准半角 ASCII 字符。
+              不要使用 <code>ＡＰＩ</code> 或 <code>１２ｐｘ</code> 等全角英文和数字，统一使用半角 ASCII 字符。
             </p>
           </div>
         </div>

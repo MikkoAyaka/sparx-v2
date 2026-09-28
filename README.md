@@ -1,95 +1,112 @@
-# Sparx UI v2 · 界面系统与 Agent 提示词规范
+# Sparx UI v2 · 设计系统与 Agent 提示词
 
-> 基于 **Mikko Ayaka 个人频道（Channel · [channel.mikkoayaka.com](https://channel.mikkoayaka.com)）**精心打磨的深黑出版设计系统、通用源码组件库与面向 Agent 的高信号提示词规范。
+> 从 Mikko Ayaka 个人频道（[channel.mikkoayaka.com](https://channel.mikkoayaka.com)）提炼的设计规范、React 组件库，以及可以直接交给 AI 编码助手的提示词。
 >
-> 🌐 **在线演示（GitHub Pages）**：[https://mikkoayaka.github.io/sparx-v2/](https://mikkoayaka.github.io/sparx-v2/)
+> 在线演示（GitHub Pages）：[https://mikkoayaka.github.io/sparx-v2/](https://mikkoayaka.github.io/sparx-v2/)
 
 ---
 
-## 🌟 设计起源与核心美学（Design Origin & Philosophy）
+## 一套规范，两种主题
 
-Sparx UI v2 源自对个人主权出版产品（Channel）视觉风格的极致凝练。彻底摆脱大众化灰底与粗暴垂直长卷的廉价感，在深黑暗房中为严肃创作者构筑兼具信息密度与仪式感的展卷剧场。
+两种主题共用同一套组件和规则，区别在于它们要解决的问题。
 
-- **极深虚空与绯红激光 (Void & Flare Spectrum)**：视口画布底色 `#020204`、舞台底层 `#030406`、展卷正文 `#050505`，以高压激光绯红 `#E5192D` / `#FF2D55` 配合光学辉光阴影（`shadow-[0_0_16px_rgba(229,25,45,0.45)]`）提供主权强调。
-- **不可逾越的排印红线 (Strict Typographic Guardrails)**：
-  1. **全站最小渲染字号强制 ≥ 12px**（微型时间戳/状态点专享，杜绝碎字）。
-  2. **全站严格禁止衬线体（Serif）**，标题使用 `Space Grotesk`，正文使用出版级舒缓排印（15~16px / 1rem leading-[1.85] text-neutral-300），元数据与代码使用 `IBM Plex Mono`。
-- **100dvh 视口锁定大舞台 (Viewport-Locked Horizon Stage)**：主页探索采用居中 100dvh 大舞台，左侧 60% 画幅媒体通过渐变蒙版平滑消融进 `#030406`，结合阻尼滚轮漫游（Wheel Deceleration）与多列分段指示导轨。
-- **双轨解耦长文排版 (Split Monograph)**：左侧 35% 固定环境脊柱（严禁滚动，随阅读焦点动态融变） + 右侧 65% 无界排版画布（唯一正文滚动流）。
+| | ✦ 虚空绯红（void-flare） | ◈ 皓白极翠（glacial-emerald） |
+| :--- | :--- | :--- |
+| 定位 | 激进、大胆、前卫 | 稳定、克制、规范 |
+| 适合 | 个人站点、独立出版、作品集、发布页、开发者工具、AI 实验产品 | 企业中后台、审批与工单、数据看板、知识库、设置页 |
+| 底色 / 强调色 | 接近纯黑 `#020204` / 绯红 `#E5192D` | 浅灰白 `#F8FAFC` / 翡翠绿 `#059669` |
+| 版式 | 一屏一个重点，超大标题，全幅媒体 | 固定侧栏与网格，每页结构相同 |
+| 层级 | 明暗对比与轻微发光 | 1px 边框，阴影几乎看不见 |
 
-> **关于与 Sparx-v1 的关系**：本仓库参考了 [Sparx-v1](https://ui.mikkoayaka.com/) 规范化的组件库组织形式（原语 Primitives / 模式 Patterns / 沉浸式场景 Examples / 属性试验场），但**完全杜绝受其旧版美术风格的影响**，全面继承并升华了 Channel 的暗房舞台与激光发光美学。
+两种主题都遵守的规则：最小字号 14px，不使用衬线体，文案真实具体（见站点中的“设计规则”和“文案规范”）。
 
 ---
 
-## 🤖 面向 AI Agent 的标准化设计系统提示词 (Agent Prompt)
+## 快速上手
 
-本仓库特别提炼了一份精炼、高专业术语密度、可直接置入 Claude、ChatGPT、DeepSeek、Antigravity、Cursor 等 AI 编码助手的 System Prompt。
+组件以源码形式分发，没有 npm 包。
 
-详见根目录下独立文档：[`AGENT_PROMPT.md`](./AGENT_PROMPT.md)，或直接调用源码导出：
+1. 把 `src/sparx-ui` 复制到你的项目，安装依赖：
+
+   ```bash
+   npm install clsx lucide-react
+   npm install -D tailwindcss @tailwindcss/vite
+   ```
+
+2. 在主 CSS 中引入样式：
+
+   ```css
+   @import "tailwindcss";
+   @import "./sparx-ui/styles.css";
+   ```
+
+3. 包一层主题 Provider，然后直接使用组件：
+
+   ```tsx
+   import { SparxThemeProvider, PageHeader, Button } from "./sparx-ui";
+
+   <SparxThemeProvider defaultTheme="glacial-emerald">
+     <PageHeader title="经营看板" actions={<Button>导出报表</Button>} />
+   </SparxThemeProvider>
+   ```
+
+需要在某个区域固定使用另一种主题时，用 `SparxThemeScope` 包住它，不会影响页面其他部分。
+
+---
+
+## Agent 提示词
+
+每种主题各有中英文两份提示词，见 [`AGENT_PROMPT.md`](./AGENT_PROMPT.md)，也可以从源码获取：
 
 ```typescript
-import { SPARX_V2_AGENT_PROMPT_ZH, SPARX_V2_AGENT_PROMPT_EN, getAgentPrompt } from "@/sparx-ui";
+import { getAgentPrompt } from "./sparx-ui";
 
-// 在你的 Agent 工具链或程序中获取提示词
-const prompt = getAgentPrompt("zh");
+const prompt = getAgentPrompt("glacial-emerald", "zh"); // 主题, 语言
 ```
 
 ---
 
-## 📦 UI / UX 通用库源码结构 (`src/sparx-ui/`)
-
-所有组件均为纯 TypeScript + React 19 + Tailwind CSS 实现，以源码形式直接共享，无黑盒打包阻碍：
+## 源码结构（`src/sparx-ui/`）
 
 ```
 src/sparx-ui/
-├── index.ts                # 统一聚合导出
-├── tokens/                 # 设计令牌常量
-│   ├── colors.ts           # Void Spectrum, Flare Core, Semantic 色系
-│   ├── typography.ts       # 字体栈定义、字阶与 >=12px 底线
-│   └── motion.ts           # 700ms 平滑融变曲线与动效时长
-├── primitives/             # 基础交互原语
-│   ├── Button.tsx          # 绯红激光、幽灵、毛玻璃等形态，带 hover 箭头动效
-│   ├── Badge.tsx           # 状态胶囊、分类徽标、等宽元数据标签
-│   ├── Tag.tsx             # 文章标签、主题 Chip
-│   ├── StatusDot.tsx       # 绯红/青色/翠绿/琥珀发光状态点
-│   ├── ReadingGauge.tsx    # 动态 SVG 环形阅读节奏刻度规
-│   ├── PillDock.tsx        # 悬浮毛玻璃胶囊导航槽
-│   ├── GlassCard.tsx       # 暗房毛玻璃卡片（双层细边框与悬浮景深）
-│   └── CodeBlock.tsx       # 高信号代码终端窗口（带复制反馈与语法着色容器）
-├── atmosphere/             # 环境光影与媒体原语
-│   ├── KeywordAtmosphere.tsx # 算法排版关键词散布暗房云图
-│   ├── StageMediaSpine.tsx   # 700ms 丝滑过渡无黑屏媒体脊柱
-│   ├── AmbientDissolveMask.tsx# 60% 横向消融渐变蒙版
-│   ├── VideoTitleCard.tsx    # 视频封面海报徽标卡片
-│   └── GridPattern.tsx       # 40px 经典暗房网格背景
-└── patterns/               # 复合场景模式
-    ├── ChannelShell.tsx    # 100dvh 视口锁定全局外壳与双端自适应顶栏
-    ├── StageHeroCard.tsx   # 主舞台大卡片（消融大图、阅读规、导轨）
-    ├── SplitMonograph.tsx  # 双轨解耦展卷阅读视图（35% 脊柱 + 65% 画布）
-    ├── FeedbackDock.tsx    # 读者轻共鸣/微反馈胶囊互动坞（乐观计数器）
-    └── SegmentedRail.tsx   # 底部标尺导轨与键盘/滚轮步进控制器
+├── index.ts                 # 统一导出
+├── styles.css               # 两种主题的 CSS 变量、14px 字号下限、动画
+├── tokens/                  # colors（主题、Provider、SparxThemeScope）、typography、motion
+├── primitives/              # 基础组件
+│   ├── Button · Select · Badge · Tag · StatusDot · PillDock
+│   ├── GlassCard · CodeBlock · ReadingGauge
+│   └── MetricStatCard · DataTable · TelemetryGauge
+├── atmosphere/              # 背景与媒体：StageMediaSpine、AmbientDissolveMask、KeywordAtmosphere、VideoTitleCard、GridPattern
+├── patterns/                # 复合模式
+│   ├── 出版与表达（推荐虚空绯红）
+│   │   SiteMasthead · StageHeroCard · SegmentedRail · SplitMonograph · useActiveSection
+│   │   FeedbackDock · AgentThoughtChain · AgentCollaborationBoard · adjacentPreload
+│   └── 企业应用（推荐皓白极翠）
+│       AppShell · PageHeader · FilterBar · DescriptionList · ActivityTimeline · WorkflowPipeline · EmptyState
+└── prompt/agentPrompt.ts    # Agent 提示词
 ```
 
 ---
 
-## 🚀 启动 Web 演示项目
+## 本地运行
 
 ```bash
-# 1. 安装依赖
 npm install
-
-# 2. 启动本地开发服务 (默认端口 3043)
-npm run dev
-
-# 3. 类型检查与生产构建
-npm run lint
-npm run build
+npm run dev      # http://localhost:3043
+npm run lint     # 类型检查
+npm run build    # 生产构建
 ```
 
-访问 `http://localhost:3043` 即可浏览：
-1. **概览**：设计系统理念与规范溯源
-2. **Agent 提示词**：一键复制中英文 Agent System Prompt 与 Token 矩阵可视化
-3. **基础原语**：Button、Badge、ReadingGauge、StatusDot、CodeBlock 实时属性调节
-4. **环境氛围**：StageMediaSpine 700ms 融变、KeywordAtmosphere 散布云图试验场
-5. **复合模式**：ChannelShell、FeedbackDock、SegmentedRail 交互调试
-6. **沉浸式场景**：100dvh 主舞台漫游、双轨展卷长文、开放终端真实运行模拟
+展示站点分为四个部分：
+
+1. **开始使用**：概览、快速上手、Agent 提示词
+2. **设计规范**：主题定位、色彩、排版、层级与动效、设计规则、文案规范
+3. **组件**：基础组件、数据组件、背景与媒体、出版与表达模式、企业应用模式
+4. **场景**：六个完整页面，每个场景锁定在它的目标主题上
+   - 虚空绯红：出版首页、长文阅读、Agent 实验室
+   - 皓白极翠：经营看板、审批中心、开发者文档
+
+旧版的 `?nav=` 链接会自动跳转到新页面。
+
+> **与 Sparx-v1 的关系**：组件库的组织方式参考了 [Sparx-v1](https://ui.mikkoayaka.com/)，视觉风格没有沿用，而是来自 Channel 原站；企业用的浅色主题是在此基础上新增的。

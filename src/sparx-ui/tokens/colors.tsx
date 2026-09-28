@@ -67,8 +67,8 @@ export const themeVoidFlare: SparxTheme = {
   id: "void-flare",
   name: "虚空绯红",
   enName: "Void Flare",
-  badge: "✦ 极客前卫",
-  description: "面向个人独立出版与前卫极客场景，深黑暗房基底搭配锋利克制的激光绯红微发光",
+  badge: "✦ 个人",
+  description: "面向个人站点与独立出版：接近纯黑的深色底色，绯红强调色，激活态带轻微发光",
   isDark: true,
   bg: {
     canvas: "#020204",
@@ -119,8 +119,8 @@ export const themeGlacialEmerald: SparxTheme = {
   id: "glacial-emerald",
   name: "皓白极翠",
   enName: "Glacial Emerald",
-  badge: "◈ 企业稳态",
-  description: "面向企业级生产、高可用知识库与稳定中后台，皓白清爽浅底搭配沉稳极翠绿与自然矿物灰阶",
+  badge: "◈ 企业",
+  description: "面向企业应用、知识库与中后台：浅灰白底色，翡翠绿强调色，灰色边框",
   isDark: false,
   bg: {
     canvas: "#F8FAFC",  // slate-50
@@ -226,6 +226,11 @@ export const SparxThemeProvider: React.FC<{
 }> = ({ children, defaultTheme = "void-flare" }) => {
   const [themeId, setThemeId] = useState<SparxStyleTheme>(() => {
     if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const qTheme = params.get("theme");
+      if (qTheme === "void-flare" || qTheme === "glacial-emerald") {
+        return qTheme;
+      }
       const saved = localStorage.getItem("sparx-theme");
       if (saved === "void-flare" || saved === "glacial-emerald") {
         return saved;
@@ -263,3 +268,32 @@ export const SparxThemeProvider: React.FC<{
 };
 
 export const useSparxTheme = () => useContext(SparxThemeContext);
+
+/**
+ * SparxThemeScope：在局部区域固定使用某个主题，不修改全局主题。
+ * 用于并排对比两种主题，或让全屏场景锁定它的目标主题。
+ * 外层 div 带 data-theme 属性，CSS 变量（蒙版、网格、滚动条等）会随之切换。
+ */
+export const SparxThemeScope: React.FC<{
+  theme: SparxStyleTheme;
+  children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}> = ({ theme: scopedId, children, className, style }) => {
+  const scopedTheme = sparxThemes[scopedId];
+  return (
+    <SparxThemeContext.Provider
+      value={{
+        themeId: scopedId,
+        theme: scopedTheme,
+        setThemeId: () => {},
+        isDark: scopedTheme.isDark,
+        toggleTheme: () => {},
+      }}
+    >
+      <div data-theme={scopedId} className={className} style={style}>
+        {children}
+      </div>
+    </SparxThemeContext.Provider>
+  );
+};

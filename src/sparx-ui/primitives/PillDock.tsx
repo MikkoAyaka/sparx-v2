@@ -28,19 +28,19 @@ export function PillDock<T extends string = string>({
   const isEmerald = themeId === "glacial-emerald";
 
   const sizeStyles = {
-    sm: "p-1.5 gap-1.5 text-sm",
-    md: "p-2 gap-2 text-sm",
+    sm: "p-1 sm:p-1.5 gap-1 sm:gap-1.5 text-xs sm:text-sm",
+    md: "p-1.5 sm:p-2 gap-1.5 sm:gap-2 text-xs sm:text-sm",
   };
 
   const itemSizeStyles = {
-    sm: "px-4 py-2 rounded-lg",
-    md: "px-5 py-2.5 rounded-lg",
+    sm: "px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg",
+    md: "px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg",
   };
 
   return (
     <nav
       className={clsx(
-        "inline-flex items-center rounded-xl font-mono select-none backdrop-blur-xl transition-colors duration-200 border",
+        "inline-flex items-center flex-nowrap shrink-0 rounded-xl font-mono select-none backdrop-blur-xl transition-colors duration-200 border",
         isEmerald
           ? "bg-white/95 border-slate-200 text-slate-700 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
           : "bg-[#08090E] border-white/10 text-zinc-400 shadow-xl",
@@ -56,7 +56,7 @@ export function PillDock<T extends string = string>({
             type="button"
             onClick={() => onChange(item.id)}
             className={clsx(
-              "flex items-center gap-2 font-medium transition-all duration-200 cursor-pointer whitespace-nowrap",
+              "flex items-center gap-2 font-medium transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0",
               itemSizeStyles[size],
               isActive
                 ? isEmerald

@@ -26,17 +26,27 @@ export interface StageHeroCardProps {
   onChangeIndex: (index: number) => void;
   onOpenEntry?: (entry: StageEntry) => void;
   ctaText?: string;
+  /** 舞台顶部的刊头，例如 SiteMasthead */
+  header?: React.ReactNode;
   enableKeyboard?: boolean;
   enableWheel?: boolean;
   className?: string;
 }
 
+const pad = (n: number) => String(n).padStart(2, "0");
+
+/**
+ * StageHeroCard：100dvh 主舞台。一屏只放一篇文章：左侧 60% 是封面，向右渐变过渡到底色；
+ * 右侧是超大编号、标题、摘要和阅读入口；底部是分段导航。滚轮、方向键和横向滑动都可以翻篇。
+ * 推荐主题：虚空绯红。
+ */
 export const StageHeroCard: React.FC<StageHeroCardProps> = ({
   entries,
   activeIndex,
   onChangeIndex,
   onOpenEntry,
-  ctaText = "展卷阅读",
+  ctaText = "阅读全文",
+  header,
   enableKeyboard = true,
   enableWheel = true,
   className,
@@ -44,90 +54,71 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
   const { themeId } = useSparxTheme();
   const isEmerald = themeId === "glacial-emerald";
 
+  const total = entries.length;
   const activeEntry = entries[activeIndex] ?? entries[0];
-  const touchStartXRef = useRef<number | null>(null);
-  const touchStartYRef = useRef<number | null>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
-  // 触控滑动手势
+  const step = (delta: number) => onChangeIndex((activeIndex + delta + total) % total);
+
   const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartXRef.current = e.touches[0].clientX;
-    touchStartYRef.current = e.touches[0].clientY;
+    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
-    const deltaX = e.changedTouches[0].clientX - touchStartXRef.current;
-    const deltaY = e.changedTouches[0].clientY - touchStartYRef.current;
-    touchStartXRef.current = null;
-    touchStartYRef.current = null;
-
-    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
-      if (deltaX > 0) {
-        onChangeIndex(activeIndex > 0 ? activeIndex - 1 : entries.length - 1);
-      } else {
-        onChangeIndex(activeIndex < entries.length - 1 ? activeIndex + 1 : 0);
-      }
-    }
+    if (!touchStart.current) return;
+    const dx = e.changedTouches[0].clientX - touchStart.current.x;
+    const dy = e.changedTouches[0].clientY - touchStart.current.y;
+    touchStart.current = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) step(dx > 0 ? -1 : 1);
   };
 
-  // 键盘左右导航
+  // 方向键翻篇，回车打开当前文章
   useEffect(() => {
     if (!enableKeyboard) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-      if (e.key === "ArrowLeft") {
-        onChangeIndex(activeIndex > 0 ? activeIndex - 1 : entries.length - 1);
-      } else if (e.key === "ArrowRight") {
-        onChangeIndex(activeIndex < entries.length - 1 ? activeIndex + 1 : 0);
-      } else if (e.key === "Enter" && activeEntry && onOpenEntry) {
-        onOpenEntry(activeEntry);
-      }
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+      if (e.key === "ArrowLeft") step(-1);
+      else if (e.key === "ArrowRight") step(1);
+      else if (e.key === "Enter" && activeEntry && onOpenEntry && t === document.body) onOpenEntry(activeEntry);
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeIndex, activeEntry, enableKeyboard, entries.length, onChangeIndex, onOpenEntry]);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
 
-  // 滚轮阻尼切换
+  // 滚轮翻篇：400ms 内只响应一次，避免触控板惯性连续翻页
   useEffect(() => {
-    if (!enableWheel || entries.length < 2) return;
-    let lastWheelTime = 0;
-    const handleWheel = (e: WheelEvent) => {
+    if (!enableWheel || total < 2) return;
+    let last = 0;
+    const onWheel = (e: WheelEvent) => {
       if (e.ctrlKey) return;
-      const dominant = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-      if (Math.abs(dominant) < 15) return;
-
+      const d = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      if (Math.abs(d) < 15) return;
       const now = performance.now();
-      if (now - lastWheelTime < 400) return; // 节流步进节奏
-
-      lastWheelTime = now;
-      if (dominant > 0) {
-        onChangeIndex(Math.min(entries.length - 1, activeIndex + 1));
-      } else {
-        onChangeIndex(Math.max(0, activeIndex - 1));
-      }
+      if (now - last < 400) return;
+      last = now;
+      onChangeIndex(d > 0 ? Math.min(total - 1, activeIndex + 1) : Math.max(0, activeIndex - 1));
     };
+    window.addEventListener("wheel", onWheel, { passive: true });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, [activeIndex, enableWheel, total, onChangeIndex]);
 
-    window.addEventListener("wheel", handleWheel, { passive: true });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, [activeIndex, enableWheel, entries.length, onChangeIndex]);
-
-  // 附近卡片静默预加载：在空闲时段预抓取相邻卡片大图，消除切页卡顿 (Issue #3)
+  // 浏览器空闲时预加载前后各一张封面
   useEffect(() => {
-    if (!entries.length) return;
-    const cancel = scheduleAdjacentPreload({
+    if (!total) return;
+    return scheduleAdjacentPreload({
       currentIndex: activeIndex,
-      total: entries.length,
+      total,
       radius: 1,
       getUrl: (idx) => entries[idx]?.cover?.imageUrl,
     });
-    return cancel;
-  }, [activeIndex, entries]);
+  }, [activeIndex, entries, total]);
 
   if (!activeEntry) return null;
 
   const railItems: SegmentedRailItem[] = entries.map((e) => ({
     id: e.id,
-    title: e.title,
+    title: e.title.split(/[：:]/)[0],
     meta: e.date?.slice(5, 10),
   }));
 
@@ -135,155 +126,111 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
     <section
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      aria-roledescription="轮播"
       className={clsx(
-        "relative rounded-2xl sm:rounded-3xl overflow-hidden h-full max-h-[820px] 2xl:max-h-[960px] flex flex-col justify-between p-4 sm:p-8 lg:p-10 xl:p-12 transition-colors duration-200 border",
-        isEmerald
-          ? "bg-white border-slate-200 text-slate-900 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
-          : "bg-[#030406] border-white/10 text-white shadow-2xl",
+        "relative h-full w-full overflow-hidden flex flex-col",
+        isEmerald ? "bg-white text-slate-900" : "bg-[#030406] text-white",
         className
       )}
     >
-      {/* 大画幅摄影/视频背景：宽度 60%，横向消融 */}
-      <div
+      {/* 封面：桌面端占左侧 60%，窄屏铺满并由纵向蒙版压暗 */}
+      <button
+        type="button"
+        tabIndex={-1}
+        aria-hidden="true"
         onClick={() => onOpenEntry?.(activeEntry)}
-        className="absolute inset-y-0 left-0 w-full lg:w-[60%] overflow-hidden block cursor-pointer group"
+        className="absolute inset-y-0 left-0 w-full lg:w-[60%] overflow-hidden cursor-pointer"
       >
         <StageMediaSpine cover={activeEntry.cover} title={activeEntry.title} />
-      </div>
-
-      {/* 60% 渐变消融蒙版 */}
+      </button>
       <AmbientDissolveMask />
 
-      {/* 顶层元信息栏 */}
-      <div className="relative z-10 shrink-0 flex items-center justify-between text-xs sm:text-sm font-mono">
-        <div className="flex items-center gap-2.5">
-          <span
-            className={clsx(
-              "w-2 h-2 rounded-full",
-              isEmerald
-                ? "bg-[#059669]"
-                : "bg-[#E5192D] shadow-[0_0_8px_#E5192D]"
-            )}
-          />
-          <span
-            className={clsx(
-              "font-bold tracking-wider uppercase",
-              isEmerald ? "text-slate-800" : "text-white"
-            )}
-          >
-            {activeEntry.category || "独立出版"}
-          </span>
-        </div>
+      {header && <div className="relative z-20 shrink-0 px-5 sm:px-8 lg:px-12 pt-5 sm:pt-7">{header}</div>}
 
-        {activeEntry.date && (
-          <div
-            className={clsx(
-              "flex items-center gap-2 px-2.5 sm:px-3 py-1 rounded-full border text-xs",
-              isEmerald
-                ? "bg-slate-100 border-slate-200 text-slate-600"
-                : "bg-white/5 border-white/10 text-zinc-300"
-            )}
-          >
-            <span
-              className={clsx(
-                "w-1.5 h-1.5 rounded-full",
-                isEmerald ? "bg-[#059669]" : "bg-[#E5192D]"
-              )}
-            />
-            <span>{activeEntry.date}</span>
-          </div>
-        )}
-      </div>
-
-      {/* 核心内容区：右侧专属排版列 */}
-      <div className="relative z-10 my-auto grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center py-2 sm:py-4">
-        {/* 左侧大图消融留白区 */}
+      {/* 正文列 */}
+      <div className="relative z-10 flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 px-5 sm:px-8 lg:px-12">
         <div className="hidden lg:block lg:col-span-6" />
-
-        {/* 右侧文字内容区 */}
-        <div className="lg:col-span-6 pl-0 sm:pl-1 lg:pl-8 pr-0 sm:pr-8 py-1 sm:py-4 space-y-3 sm:space-y-5">
-          <div className="space-y-1.5 sm:space-y-2.5">
-            {activeEntry.date && (
-              <div
-                className={clsx(
-                  "text-xs sm:text-sm font-mono tracking-widest font-bold",
-                  isEmerald ? "text-[#059669]" : "text-[#E5192D]"
-                )}
-              >
-                {activeEntry.date} 出版
-              </div>
-            )}
-
-            <div
-              onClick={() => onOpenEntry?.(activeEntry)}
-              className="cursor-pointer group block"
+        <div
+          key={activeEntry.id}
+          className="lg:col-span-6 xl:col-span-5 xl:col-start-8 flex flex-col justify-end lg:justify-center py-6 animate-rise"
+        >
+          <div className="flex items-end gap-3 [@media(max-height:760px)]:hidden">
+            <span
+              aria-hidden="true"
+              className={clsx(
+                "font-black leading-[0.8] tracking-tighter text-[5rem] sm:text-[6.5rem] 2xl:text-[8.5rem] select-none",
+                isEmerald ? "text-slate-100" : "text-transparent"
+              )}
+              style={isEmerald ? undefined : { WebkitTextStroke: "1.5px #E5192D" }}
             >
-              <h1
-                className={clsx(
-                  "text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tight leading-snug transition-colors line-clamp-2",
-                  isEmerald
-                    ? "text-slate-900 group-hover:text-emerald-700"
-                    : "text-white group-hover:text-red-400"
-                )}
-              >
-                {activeEntry.title}
-              </h1>
-            </div>
+              {pad(activeIndex + 1)}
+            </span>
+            <span className={clsx("font-mono text-sm pb-2", isEmerald ? "text-slate-400" : "text-zinc-500")}>
+              / {pad(total)}
+            </span>
+          </div>
 
-            {activeEntry.summary && (
-              <p
-                className={clsx(
-                  "text-sm sm:text-base leading-relaxed max-w-lg line-clamp-2 sm:line-clamp-3",
-                  isEmerald ? "text-slate-600" : "text-zinc-300"
-                )}
-              >
-                {activeEntry.summary}
-              </p>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-4 font-mono text-sm">
+            <span className={clsx("font-bold uppercase tracking-wider", isEmerald ? "text-[#059669]" : "text-[#E5192D]")}>
+              {activeEntry.category ?? "文章"}
+            </span>
+            {activeEntry.date && (
+              <>
+                <span className={isEmerald ? "text-slate-300" : "text-zinc-700"}>/</span>
+                <time className={isEmerald ? "text-slate-500" : "text-zinc-400"}>{activeEntry.date}</time>
+              </>
             )}
           </div>
 
-          {/* 标签列表 */}
+          <h2 className="mt-3">
+            <button
+              type="button"
+              onClick={() => onOpenEntry?.(activeEntry)}
+              className={clsx(
+                "text-left text-3xl sm:text-4xl xl:text-5xl 2xl:text-6xl font-black tracking-tight leading-[1.08] line-clamp-3 cursor-pointer transition-colors",
+                isEmerald ? "text-slate-900 hover:text-emerald-700" : "text-white hover:text-red-200"
+              )}
+            >
+              {activeEntry.title}
+            </button>
+          </h2>
+
+          {activeEntry.summary && (
+            <p
+              className={clsx(
+                "mt-4 text-sm sm:text-base leading-relaxed max-w-xl line-clamp-3",
+                isEmerald ? "text-slate-600" : "text-zinc-300"
+              )}
+            >
+              {activeEntry.summary}
+            </p>
+          )}
+
           {activeEntry.tags && activeEntry.tags.length > 0 && (
-            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              {activeEntry.tags.map((tag) => (
-                <Tag key={tag}>{tag}</Tag>
+            <div className="mt-4 hidden sm:flex flex-wrap gap-2">
+              {activeEntry.tags.map((t) => (
+                <Tag key={t}>{t}</Tag>
               ))}
             </div>
           )}
 
-          {/* 阅读刻度规与展卷按钮 */}
-          <div
-            className={clsx(
-              "flex items-center justify-between gap-3 pt-3 sm:pt-5 border-t",
-              isEmerald ? "border-slate-200" : "border-white/10"
-            )}
-          >
-            <ReadingGauge minutes={activeEntry.readingMinutes || 5} />
-
-            <Button
-              variant="flare"
-              glow
-              withArrow
-              onClick={() => onOpenEntry?.(activeEntry)}
-            >
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <Button variant="flare" size="lg" glow withArrow onClick={() => onOpenEntry?.(activeEntry)}>
               {ctaText}
             </Button>
+            <ReadingGauge minutes={activeEntry.readingMinutes ?? 5} />
           </div>
         </div>
       </div>
 
-      {/* 底层：导览名录标尺 */}
+      {/* 分段导航 */}
       <div
         className={clsx(
-          "relative z-10 shrink-0 pt-2.5 sm:pt-5 border-t",
+          "relative z-20 shrink-0 mx-5 sm:mx-8 lg:mx-12 mb-5 sm:mb-7 pt-4 border-t",
           isEmerald ? "border-slate-200" : "border-white/10"
         )}
       >
-        <SegmentedRail
-          items={railItems}
-          activeIndex={activeIndex}
-          onSelect={onChangeIndex}
-        />
+        <SegmentedRail items={railItems} activeIndex={activeIndex} onSelect={onChangeIndex} />
       </div>
     </section>
   );

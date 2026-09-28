@@ -78,7 +78,7 @@ export const TokenSwatch: React.FC<TokenSwatchProps> = ({
               <Check className="w-3 h-3" /> 已复制
             </span>
           ) : (
-            "点击复制"
+            type === "color" ? "复制色值" : "复制"
           )}
         </span>
       </div>
@@ -114,7 +114,7 @@ export const TokenSwatch: React.FC<TokenSwatchProps> = ({
             )}
             style={{ boxShadow: value }}
           >
-            Luminescence Glow
+            阴影预览
           </div>
           <div
             className={clsx(

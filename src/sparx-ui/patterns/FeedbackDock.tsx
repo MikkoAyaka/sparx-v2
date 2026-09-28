@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { clsx } from "clsx";
-import { MessageCircleMore, CheckCheck } from "lucide-react";
+import { Check } from "lucide-react";
 import { useSparxTheme } from "../tokens/colors";
 
 export interface FeedbackOption {
@@ -14,15 +14,23 @@ export interface FeedbackDockProps {
   options: FeedbackOption[];
   onSelectReaction?: (id: string) => void;
   title?: string;
+  /** 选择后显示的确认文字 */
   statusText?: string;
+  /** 是否显示每个选项的计数 */
+  showCounts?: boolean;
   className?: string;
 }
 
+/**
+ * FeedbackDock：文末的读者反馈。读者点一个最接近自己感受的选项，计数立即加一（乐观更新），
+ * 再次点另一个选项会改选。不需要登录，也不需要评论框。两种主题通用。
+ */
 export const FeedbackDock: React.FC<FeedbackDockProps> = ({
   options: initialOptions,
   onSelectReaction,
-  title = "给作者留下一份轻共鸣",
-  statusText = "已就地记录",
+  title = "你觉得这篇文章怎么样？",
+  statusText = "已记录，谢谢你的反馈",
+  showCounts = true,
   className,
 }) => {
   const { themeId } = useSparxTheme();
@@ -31,98 +39,73 @@ export const FeedbackDock: React.FC<FeedbackDockProps> = ({
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [options, setOptions] = useState<FeedbackOption[]>(initialOptions);
 
-  const handleClick = (id: string) => {
+  const choose = (id: string) => {
     if (selectedId === id) return;
-
     setOptions((prev) =>
-      prev.map((opt) => {
-        if (opt.id === id) return { ...opt, count: opt.count + 1 };
-        if (opt.id === selectedId) return { ...opt, count: Math.max(0, opt.count - 1) };
-        return opt;
-      })
+      prev.map((o) =>
+        o.id === id ? { ...o, count: o.count + 1 } : o.id === selectedId ? { ...o, count: Math.max(0, o.count - 1) } : o
+      )
     );
-
     setSelectedId(id);
     onSelectReaction?.(id);
   };
 
-  const activeOption = options.find((o) => o.id === selectedId);
-
   return (
     <section
+      aria-label={title}
       className={clsx(
-        "border-t pt-8 mt-12 text-xs font-mono select-none transition-colors duration-200",
-        isEmerald ? "border-slate-200 text-slate-600" : "border-white/10 text-zinc-400",
+        "rounded-2xl border p-5 sm:p-6 space-y-4",
+        isEmerald ? "bg-slate-50 border-slate-200" : "bg-white/[0.02] border-white/10",
         className
       )}
     >
-      <div className="flex items-center justify-between gap-2 mb-4">
-        <div className="flex items-center gap-2">
-          <MessageCircleMore
-            className={clsx("w-4 h-4", isEmerald ? "text-[#059669]" : "text-[#E5192D]")}
-          />
-          <span className={isEmerald ? "text-slate-700 font-medium" : "text-zinc-300"}>
-            {title}
-          </span>
-        </div>
-
-        {selectedId && (
-          <div className="flex items-center gap-1.5">
-            <CheckCheck
-              className={clsx("w-3.5 h-3.5", isEmerald ? "text-[#059669]" : "text-[#E5192D]")}
-            />
-            <span className={isEmerald ? "text-slate-600" : "text-zinc-400"}>
-              {statusText}
-            </span>
-          </div>
-        )}
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className={clsx("text-base font-bold", isEmerald ? "text-slate-900" : "text-white")}>{title}</h3>
+        <p
+          role="status"
+          className={clsx(
+            "flex items-center gap-1.5 text-sm transition-opacity",
+            selectedId ? "opacity-100" : "opacity-0",
+            isEmerald ? "text-[#059669]" : "text-emerald-400"
+          )}
+        >
+          <Check className="w-4 h-4" />
+          {statusText}
+        </p>
       </div>
 
-      {activeOption && (
-        <div className="mb-4 flex justify-end">
-          <div
-            className={clsx(
-              "rounded-2xl rounded-br-sm border px-4 py-2.5 text-sm transition-all duration-200",
-              isEmerald
-                ? "border border-slate-200 bg-emerald-50/60 text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
-                : "border-[#E5192D]/30 bg-gradient-to-br from-[#E5192D]/15 to-white/5 text-white shadow-xl"
-            )}
-          >
-            {activeOption.emoji && <span className="mr-1.5">{activeOption.emoji}</span>}
-            <span>你选择了「{activeOption.label}」</span>
-          </div>
-        </div>
-      )}
-
-      <div className="flex flex-wrap items-center justify-end gap-2">
-        {options.map((option) => {
-          const isSelected = option.id === selectedId;
+      <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+        {options.map((o) => {
+          const selected = o.id === selectedId;
           return (
             <button
-              key={option.id}
+              key={o.id}
               type="button"
-              onClick={() => handleClick(option.id)}
+              aria-pressed={selected}
+              onClick={() => choose(o.id)}
               className={clsx(
-                "flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-200 cursor-pointer active:scale-95 text-xs",
-                isSelected
+                "flex items-center justify-center sm:justify-start gap-2 px-4 py-2 rounded-xl border text-sm transition-colors cursor-pointer",
+                selected
                   ? isEmerald
-                    ? "border-2 border-[#059669] bg-emerald-50 text-emerald-900 font-bold"
-                    : "border-[#E5192D]/40 bg-[#E5192D]/15 text-white shadow-[0_0_12px_rgba(229,25,45,0.35)]"
+                    ? "border-[#059669] bg-white text-emerald-800 font-semibold ring-1 ring-[#059669]"
+                    : "border-[#E5192D] bg-[#E5192D]/15 text-white font-semibold shadow-[0_0_14px_rgba(229,25,45,0.35)]"
                   : isEmerald
-                  ? "border-slate-200 bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 hover:border-slate-300"
-                  : "border-white/10 bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10 hover:border-white/20"
+                  ? "border-slate-200 bg-white text-slate-600 hover:text-slate-900 hover:border-slate-300"
+                  : "border-white/10 bg-transparent text-zinc-400 hover:text-white hover:border-white/25"
               )}
             >
-              {option.emoji && <span>{option.emoji}</span>}
-              <span>{option.label}</span>
-              <span
-                className={clsx(
-                  "font-mono font-bold ml-0.5",
-                  isEmerald ? "text-slate-400" : "text-zinc-500"
-                )}
-              >
-                {option.count}
-              </span>
+              {o.emoji && <span aria-hidden="true">{o.emoji}</span>}
+              <span>{o.label}</span>
+              {showCounts && (
+                <span
+                  className={clsx(
+                    "font-mono",
+                    selected ? (isEmerald ? "text-emerald-700" : "text-red-200") : isEmerald ? "text-slate-400" : "text-zinc-600"
+                  )}
+                >
+                  {o.count}
+                </span>
+              )}
             </button>
           );
         })}

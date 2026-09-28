@@ -15,7 +15,7 @@ export const ReadingGauge: React.FC<ReadingGaugeProps> = ({
   minutes,
   maxMinutes = 15,
   size = "md",
-  label = "预计阅读耗时",
+  label = "预计阅读时长",
   showDetail = true,
   className,
 }) => {
@@ -67,7 +67,7 @@ export const ReadingGauge: React.FC<ReadingGaugeProps> = ({
             currentSize.text
           )}
         >
-          {minutes}分
+          {minutes} 分
         </span>
       </div>
 
@@ -82,7 +82,7 @@ export const ReadingGauge: React.FC<ReadingGaugeProps> = ({
               isEmerald ? "text-slate-800" : "text-white"
             )}
           >
-            {minutes} 分钟 · 深度思考
+            {minutes} 分钟
           </div>
         </div>
       )}

@@ -2,11 +2,11 @@
  * Sparx UI v2 - Design Tokens: Typography System
  * 
  * Strict Guardrails:
- * 1. MINIMUM FONT SIZE >= 12px (Absolute floor: no rendering below 12px).
+ * 1. MINIMUM FONT SIZE >= 14px (styles.css forces .text-xs and text-[12px]/[13px] up to 14px).
  * 2. NO SERIF FONTS (Strictly Sans-Serif & Monospace).
  */
 
-export const MIN_FONT_SIZE_PX = 12;
+export const MIN_FONT_SIZE_PX = 14;
 
 export const fontFamilies = {
   display: '"Space Grotesk", "Noto Sans SC", "MiSans", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif',
@@ -50,12 +50,12 @@ export const typographyScale = {
     lineHeight: "1.85",
   },
   caption: {
-    size: "0.875rem", // 13.5px ~ 14px (Secondary explanations, buttons, tags)
+    size: "0.875rem", // 14px (secondary text, buttons, tags)
     weight: "400",
     lineHeight: "1.6",
   },
   metaMono: {
-    size: "0.75rem", // 12px (Strict floor: reserved for micro timestamps, codes, status tags)
+    size: "0.875rem", // 14px (floor: timestamps, codes, status tags)
     weight: "600",
     letterSpacing: "0.05em",
     lineHeight: "1.5",

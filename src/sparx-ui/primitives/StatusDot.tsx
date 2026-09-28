@@ -13,13 +13,30 @@ export interface StatusDotProps {
     | "info"
     | "warning"
     | "error";
+  variant?:
+    | "emerald"
+    | "crimson"
+    | "amber"
+    | "teal"
+    | "neutral"
+    | "primary"
+    | "live"
+    | "radar"
+    | "caution"
+    | "arch"
+    | "idle"
+    | "success"
+    | "info"
+    | "warning"
+    | "error";
   pulse?: boolean;
   size?: "sm" | "md" | "lg";
   className?: string;
 }
 
 export const StatusDot: React.FC<StatusDotProps> = ({
-  status = "live",
+  status,
+  variant,
   pulse = true,
   size = "md",
   className,
@@ -33,16 +50,20 @@ export const StatusDot: React.FC<StatusDotProps> = ({
     lg: "w-2.5 h-2.5",
   };
 
+  const effectiveStatus = variant || status || "live";
+
   const resolvedStatus =
-    status === "live"
+    effectiveStatus === "live" || effectiveStatus === "crimson"
       ? "primary"
-      : status === "radar"
+      : effectiveStatus === "emerald"
+      ? "success"
+      : effectiveStatus === "teal" || effectiveStatus === "radar" || effectiveStatus === "arch"
       ? "info"
-      : status === "caution"
+      : effectiveStatus === "caution" || effectiveStatus === "amber"
       ? "warning"
-      : status === "arch"
-      ? "info"
-      : status;
+      : effectiveStatus === "neutral"
+      ? "idle"
+      : effectiveStatus;
 
   const colorMap: Record<string, string> = {
     primary: isEmerald

@@ -123,7 +123,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             ) : (
               <>
                 <Copy className="w-3.5 h-3.5" />
-                <span>复制</span>
+                <span>复制代码</span>
               </>
             )}
           </button>

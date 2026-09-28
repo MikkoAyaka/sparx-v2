@@ -9,6 +9,10 @@ export interface ComponentPreviewProps {
   code: string;
   children: React.ReactNode;
   controls?: React.ReactNode;
+  /** 大尺寸的复合模式：预览区去掉内边距，内容铺满 */
+  bleed?: boolean;
+  /** 推荐使用的主题 */
+  recommend?: "void-flare" | "glacial-emerald" | "both";
   className?: string;
 }
 
@@ -18,6 +22,8 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
   code,
   children,
   controls,
+  bleed = false,
+  recommend,
   className,
 }) => {
   const { themeId } = useSparxTheme();
@@ -64,11 +70,27 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
               )}
             />
             <span>{title}</span>
+            {recommend && (
+              <span
+                className={clsx(
+                  "ml-1 px-2 py-0.5 rounded-full border text-xs font-mono font-normal",
+                  recommend === "void-flare"
+                    ? "border-[#E5192D]/30 text-[#E5192D]"
+                    : recommend === "glacial-emerald"
+                    ? "border-emerald-300 text-[#059669]"
+                    : isEmerald
+                    ? "border-slate-200 text-slate-500"
+                    : "border-white/15 text-zinc-400"
+                )}
+              >
+                {recommend === "void-flare" ? "✦ 推荐虚空绯红" : recommend === "glacial-emerald" ? "◈ 推荐皓白极翠" : "两种主题通用"}
+              </span>
+            )}
           </h3>
           {description && (
             <p
               className={clsx(
-                "text-xs max-w-xl",
+                "text-sm max-w-2xl leading-relaxed",
                 isEmerald ? "text-slate-500" : "text-zinc-300"
               )}
             >
@@ -140,7 +162,7 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
               ) : (
                 <>
                   <Copy className="w-3.5 h-3.5" />
-                  <span>复制</span>
+                  <span>复制代码</span>
                 </>
               )}
             </button>
@@ -159,7 +181,7 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
           )}
         >
           <span className={isEmerald ? "text-slate-500 font-bold" : "text-zinc-500 font-bold"}>
-            属性控制:
+            参数：
           </span>
           {controls}
         </div>
@@ -169,7 +191,8 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
       {activeTab === "preview" ? (
         <div
           className={clsx(
-            "w-full min-w-0 p-6 sm:p-10 flex items-center justify-center min-h-[160px] relative overflow-hidden",
+            "w-full min-w-0 relative overflow-hidden",
+            bleed ? "" : "p-6 sm:p-10 flex items-center justify-center min-h-[160px]",
             isEmerald
               ? "bg-gradient-to-b from-slate-50/80 to-white"
               : "bg-gradient-to-b from-[#020204]/60 to-[#030406]"
