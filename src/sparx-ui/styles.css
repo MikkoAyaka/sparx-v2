@@ -178,6 +178,29 @@
     animation: sparxRise 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
+  /* 主舞台：按自身宽高（而不是视口）调整版式，嵌在任意尺寸的容器里都不溢出 */
+  .sparx-stage {
+    container: stage / size;
+  }
+
+  @container stage (max-height: 760px) {
+    .sparx-stage-numeral {
+      display: none;
+    }
+  }
+
+  @container stage (max-height: 620px) {
+    .sparx-stage-tags {
+      display: none;
+    }
+  }
+
+  @container stage (max-height: 520px) {
+    .sparx-stage-summary {
+      display: none;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-rise,
     .animate-spine-fade-in,

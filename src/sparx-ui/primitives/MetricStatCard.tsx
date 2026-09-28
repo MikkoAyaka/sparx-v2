@@ -129,7 +129,7 @@ export const MetricStatCard: React.FC<MetricStatCardProps> = ({
     >
       {/* 头部元信息 */}
       <div className="flex items-center justify-between gap-2 mb-3">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 min-w-0">
           {icon && (
             <span
               className={clsx(
@@ -144,7 +144,7 @@ export const MetricStatCard: React.FC<MetricStatCardProps> = ({
           )}
           <span
             className={clsx(
-              "text-xs font-mono font-medium",
+              "text-xs font-mono font-medium truncate",
               isEmerald ? "text-slate-500" : "text-zinc-400"
             )}
           >
@@ -155,7 +155,7 @@ export const MetricStatCard: React.FC<MetricStatCardProps> = ({
         {badge && (
           <span
             className={clsx(
-              "text-xs px-2 py-0.5 rounded-md font-mono border",
+              "text-xs px-2 py-0.5 rounded-md font-mono border shrink-0 whitespace-nowrap",
               isEmerald
                 ? "bg-slate-50 border-slate-200 text-slate-600"
                 : "bg-white/5 border-white/10 text-zinc-300"
@@ -168,7 +168,7 @@ export const MetricStatCard: React.FC<MetricStatCardProps> = ({
 
       {/* 主指标与趋势折线 */}
       <div className="flex items-baseline justify-between gap-4">
-        <div className="flex items-baseline gap-1.5">
+        <div className="flex items-baseline gap-1.5 min-w-0">
           <span
             className={clsx(
               "text-2xl sm:text-3xl font-black font-mono tracking-tight",
@@ -198,7 +198,7 @@ export const MetricStatCard: React.FC<MetricStatCardProps> = ({
           {delta && (
             <div
               className={clsx(
-                "inline-flex items-center gap-1 px-2 py-0.5 rounded-md border font-semibold",
+                "inline-flex items-center gap-1 px-2 py-0.5 rounded-md border font-semibold shrink-0 whitespace-nowrap",
                 trendColors
               )}
             >
@@ -214,7 +214,7 @@ export const MetricStatCard: React.FC<MetricStatCardProps> = ({
           {subtitle && (
             <span
               className={clsx(
-                "truncate text-right",
+                "min-w-0 truncate text-right",
                 isEmerald ? "text-slate-400" : "text-zinc-500"
               )}
             >

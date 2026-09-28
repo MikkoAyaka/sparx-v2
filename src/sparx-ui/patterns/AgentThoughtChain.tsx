@@ -95,7 +95,7 @@ export const AgentThoughtChain: React.FC<AgentThoughtChainProps> = ({
   return (
     <div
       className={clsx(
-        "rounded-2xl border overflow-hidden",
+        "@container rounded-2xl border overflow-hidden",
         isEmerald ? "bg-white border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)]" : "bg-[#06080F] border-white/10",
         className
       )}
@@ -123,7 +123,7 @@ export const AgentThoughtChain: React.FC<AgentThoughtChainProps> = ({
             </span>
           )}
         </span>
-        <span className={clsx("flex items-center gap-4 font-mono text-sm", isEmerald ? "text-slate-500" : "text-zinc-500")}>
+        <span className={clsx("flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-sm", isEmerald ? "text-slate-500" : "text-zinc-500")}>
           <span>
             <span className={clsx("font-bold", isEmerald ? "text-slate-900" : "text-white")}>{doneCount}</span> / {steps.length} 步
           </span>
@@ -190,12 +190,12 @@ export const AgentThoughtChain: React.FC<AgentThoughtChainProps> = ({
                           <span className={accent}>›</span> {step.toolName}()
                         </span>
                         <span className={clsx("flex items-center gap-1 shrink-0", isEmerald ? "text-slate-400" : "text-zinc-500")}>
-                          {toolOpen ? "收起" : "查看参数与返回值"}
+                          <span className="hidden @md:inline">{toolOpen ? "收起" : "查看参数与返回值"}</span>
                           <ChevronDown className={clsx("w-3.5 h-3.5 transition-transform", toolOpen && "rotate-180")} />
                         </span>
                       </button>
                       {toolOpen && (
-                        <div className={clsx("grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x font-mono text-sm", isEmerald ? "divide-slate-200" : "divide-white/10")}>
+                        <div className={clsx("grid @xl:grid-cols-2 divide-y @xl:divide-y-0 @xl:divide-x font-mono text-sm", isEmerald ? "divide-slate-200" : "divide-white/10")}>
                           {[
                             { label: "参数", value: step.toolArgs },
                             { label: "返回值", value: step.toolResult },

@@ -124,7 +124,7 @@ export const DashboardScene: React.FC<{ onNavigate: (id: RouteId) => void }> = (
       user={OPS_USER}
       topbar={<OpsTopbar />}
     >
-      <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-[88rem] mx-auto">
+      <div className="p-4 @xl/main:p-6 @5xl/main:p-8 space-y-6 max-w-[88rem] mx-auto">
         <PageHeader
           breadcrumbs={[{ label: "运营中台" }, { label: "经营看板" }]}
           title="经营看板"
@@ -148,7 +148,7 @@ export const DashboardScene: React.FC<{ onNavigate: (id: RouteId) => void }> = (
           }
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 gap-4">
           <MetricStatCard
             title="毛利率"
             value="48.6"
@@ -183,8 +183,8 @@ export const DashboardScene: React.FC<{ onNavigate: (id: RouteId) => void }> = (
           />
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-          <OpsCard title="在库物料" className="xl:col-span-8" bodyClassName="space-y-4 p-5">
+        <div className="grid grid-cols-1 @6xl/main:grid-cols-12 gap-6 items-start">
+          <OpsCard title="在库物料" className="@6xl/main:col-span-8" bodyClassName="space-y-4 p-5">
             <FilterBar
               query={query}
               onQueryChange={setQuery}
@@ -213,7 +213,7 @@ export const DashboardScene: React.FC<{ onNavigate: (id: RouteId) => void }> = (
             )}
           </OpsCard>
 
-          <div className="xl:col-span-4 space-y-6">
+          <div className="@6xl/main:col-span-4 grid grid-cols-1 @3xl/main:grid-cols-2 @6xl/main:grid-cols-1 gap-6 items-start">
             <OpsCard
               title="待我审批"
               aside={<span className="text-sm font-mono text-[#D97706]">{pending.length} 笔</span>}

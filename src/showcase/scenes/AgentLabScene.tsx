@@ -127,12 +127,12 @@ const Panel: React.FC<{ title: string; aside?: React.ReactNode; children: React.
   children,
   className,
 }) => (
-  <section className={clsx("rounded-2xl border border-white/10 bg-[#06080F] flex flex-col min-h-0", className)}>
+  <section className={clsx("rounded-2xl border border-white/10 bg-[#06080F] flex flex-col xl:min-h-0", className)}>
     <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between gap-3 shrink-0">
       <h2 className="font-mono text-sm font-bold uppercase tracking-wider text-zinc-400">{title}</h2>
       {aside}
     </div>
-    <div className="flex-1 min-h-0 overflow-y-auto subtle-scroll">{children}</div>
+    <div className="xl:flex-1 xl:min-h-0 xl:overflow-y-auto subtle-scroll">{children}</div>
   </section>
 );
 
@@ -214,7 +214,8 @@ export const AgentLabScene: React.FC = () => {
 
   return (
     <div className="h-full overflow-y-auto xl:overflow-hidden subtle-scroll bg-[#020204] text-white">
-      <div className="h-full flex flex-col gap-4 p-4 sm:p-6">
+      {/* xl 以上三栏铺满视口、各栏内部滚动；更窄时自然堆叠，由外层整体滚动 */}
+      <div className="xl:h-full flex flex-col gap-4 p-4 sm:p-6">
         {/* 运行控制条 */}
         <div className="shrink-0 flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-1 min-w-0">
@@ -233,7 +234,7 @@ export const AgentLabScene: React.FC = () => {
                 {seconds}
                 <span className="text-lg text-zinc-600 ml-1">s</span>
               </div>
-              <div className="font-mono text-sm text-zinc-500 mt-1">
+              <div className="font-mono text-sm text-zinc-500 mt-2.5">
                 {running ? `第 ${completed + 1} / ${SCRIPT.length} 步` : finished ? "运行完成" : "已停止"}
               </div>
             </div>
@@ -255,8 +256,8 @@ export const AgentLabScene: React.FC = () => {
         </div>
 
         {/* 三栏 */}
-        <div className="flex-1 min-h-0 grid grid-cols-1 xl:grid-cols-12 gap-4">
-          <div className="xl:col-span-3 flex flex-col gap-4 min-h-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 xl:flex-1 xl:min-h-0">
+          <div className="xl:col-span-3 flex flex-col gap-4 xl:min-h-0">
             <Panel title="任务" className="shrink-0">
               <div className="p-4 space-y-3 text-sm leading-relaxed">
                 <p className="text-zinc-200">
@@ -280,7 +281,7 @@ export const AgentLabScene: React.FC = () => {
             />
           </div>
 
-          <div className="xl:col-span-5 min-h-0 xl:overflow-y-auto subtle-scroll rounded-2xl">
+          <div className="xl:col-span-5 xl:min-h-0 xl:overflow-y-auto subtle-scroll rounded-2xl">
             <AgentThoughtChain
               agentName="思考过程"
               modelName={current ? AGENTS[current.agent].name : "4 个 Agent"}
@@ -291,8 +292,8 @@ export const AgentLabScene: React.FC = () => {
             />
           </div>
 
-          <div className="xl:col-span-4 flex flex-col gap-4 min-h-0">
-            <div className="grid grid-cols-2 gap-4 shrink-0">
+          <div className="md:col-span-2 xl:col-span-4 flex flex-col gap-4 xl:min-h-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 shrink-0">
               <TelemetryGauge
                 label="GPU 利用率"
                 value={running ? 78 + ((completed * 7) % 15) : 12}
@@ -318,7 +319,7 @@ export const AgentLabScene: React.FC = () => {
               </div>
             </div>
 
-            <Panel title="产出" aside={finished && <span className="font-mono text-sm text-emerald-400">12 / 12 测试通过</span>} className="flex-1">
+            <Panel title="产出" aside={finished && <span className="font-mono text-sm text-emerald-400">12 / 12 测试通过</span>} className="xl:flex-1">
               {finished ? (
                 <div className="p-3">
                   <CodeBlock filename="api/reaction.ts" language="typescript" code={OUTPUT} showLineNumbers />

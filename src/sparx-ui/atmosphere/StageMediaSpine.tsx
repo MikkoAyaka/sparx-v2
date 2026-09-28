@@ -27,6 +27,8 @@ export const StageMediaSpine: React.FC<StageMediaSpineProps> = ({
   children,
 }) => {
   const [currentCover, setCurrentCover] = useState<StageMediaCover | undefined>(cover);
+  // 加载失败的图片地址：改用渐变底色，避免浏览器把替代文字画在舞台上
+  const [failed, setFailed] = useState<Record<string, boolean>>({});
   const [prevCover, setPrevCover] = useState<StageMediaCover | undefined>(undefined);
 
   useEffect(() => {
@@ -70,10 +72,11 @@ export const StageMediaSpine: React.FC<StageMediaSpineProps> = ({
             playsInline
             className="w-full h-full object-cover saturate-[0.85] brightness-[0.92]"
           />
-        ) : item.imageUrl ? (
+        ) : item.imageUrl && !failed[item.imageUrl] ? (
           <img
             src={item.imageUrl}
             alt={title || item.title || "Stage cover"}
+            onError={() => setFailed((f) => ({ ...f, [item.imageUrl as string]: true }))}
             className="w-full h-full object-cover saturate-[0.85] brightness-[0.92]"
           />
         ) : (

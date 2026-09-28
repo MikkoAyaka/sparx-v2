@@ -174,10 +174,10 @@ export const WorkflowPipeline: React.FC<WorkflowPipelineProps> = ({
   }
 
   return (
-    <div className={className}>
+    <div className={clsx("@container", className)}>
       {header}
       <div className="overflow-x-auto no-scrollbar">
-        <ol className="flex min-w-max sm:min-w-0">
+        <ol className="flex min-w-max @2xl:min-w-0">
           {nodes.map((node, i) => (
             <li key={node.id} className="relative flex-1 min-w-36 pr-4 last:pr-0">
               {i < nodes.length - 1 && (

@@ -33,7 +33,7 @@ const Code: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <code
       className={clsx(
-        "px-1.5 py-0.5 rounded font-mono text-sm",
+        "px-1.5 py-px rounded font-mono text-sm whitespace-nowrap",
         themeId === "glacial-emerald" ? "bg-slate-100 text-slate-800" : "bg-white/10 text-zinc-100"
       )}
     >

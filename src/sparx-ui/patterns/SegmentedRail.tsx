@@ -21,7 +21,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 /**
  * SegmentedRail：主舞台底部的分段导航。每一段是一篇文章：编号、标题、日期。
- * 桌面端平铺全部分段；窄屏只显示当前编号、翻页按钮和分段条。
+ * 容器宽度 ≥ 672px 时平铺全部分段；更窄时只显示当前编号、翻页按钮和分段条。
  */
 export const SegmentedRail: React.FC<SegmentedRailProps> = ({ items, activeIndex, onSelect, className }) => {
   const { themeId } = useSparxTheme();
@@ -42,9 +42,9 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({ items, activeIndex
     );
 
   return (
-    <div className={clsx("w-full select-none", className)}>
-      {/* 窄屏 */}
-      <div className="sm:hidden space-y-2.5">
+    <div className={clsx("@container w-full select-none", className)}>
+      {/* 窄容器：编号、翻页按钮和分段条 */}
+      <div className="@2xl:hidden space-y-2.5">
         <div className="flex items-center justify-between">
           <div className="font-mono text-sm">
             <span className={clsx("font-bold", isEmerald ? "text-[#059669]" : "text-[#E5192D]")}>{pad(activeIndex + 1)}</span>
@@ -86,9 +86,9 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({ items, activeIndex
         </div>
       </div>
 
-      {/* 桌面端 */}
+      {/* 宽容器：平铺全部分段 */}
       <div
-        className="hidden sm:grid gap-4 lg:gap-6"
+        className="hidden @2xl:grid gap-4 @5xl:gap-6"
         style={{ gridTemplateColumns: `repeat(${Math.min(total, 6)}, minmax(0, 1fr))` }}
       >
         {items.map((item, idx) => {
@@ -119,7 +119,7 @@ export const SegmentedRail: React.FC<SegmentedRailProps> = ({ items, activeIndex
                 </span>
                 <span
                   className={clsx(
-                    "text-sm truncate transition-colors",
+                    "min-w-0 text-sm truncate transition-colors",
                     active
                       ? isEmerald
                         ? "text-slate-900 font-semibold"

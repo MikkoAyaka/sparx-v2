@@ -184,6 +184,7 @@ export const AtmospherePage: React.FC = () => {
                 : "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=85"
             }
             alt="渐变蒙版示例图"
+            onError={(e) => (e.currentTarget.style.visibility = "hidden")}
             className="absolute inset-0 w-full h-full object-cover"
           />
           <AmbientDissolveMask />

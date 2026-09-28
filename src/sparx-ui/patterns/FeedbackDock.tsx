@@ -54,7 +54,7 @@ export const FeedbackDock: React.FC<FeedbackDockProps> = ({
     <section
       aria-label={title}
       className={clsx(
-        "rounded-2xl border p-5 sm:p-6 space-y-4",
+        "@container rounded-2xl border p-5 sm:p-6 space-y-4",
         isEmerald ? "bg-slate-50 border-slate-200" : "bg-white/[0.02] border-white/10",
         className
       )}
@@ -74,7 +74,7 @@ export const FeedbackDock: React.FC<FeedbackDockProps> = ({
         </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+      <div className="grid grid-cols-2 @lg:flex @lg:flex-wrap gap-2">
         {options.map((o) => {
           const selected = o.id === selectedId;
           return (
@@ -84,7 +84,7 @@ export const FeedbackDock: React.FC<FeedbackDockProps> = ({
               aria-pressed={selected}
               onClick={() => choose(o.id)}
               className={clsx(
-                "flex items-center justify-center sm:justify-start gap-2 px-4 py-2 rounded-xl border text-sm transition-colors cursor-pointer",
+                "flex items-center justify-center @lg:justify-start gap-2 px-3 @lg:px-4 py-2 rounded-xl border text-sm transition-colors cursor-pointer min-w-0",
                 selected
                   ? isEmerald
                     ? "border-[#059669] bg-white text-emerald-800 font-semibold ring-1 ring-[#059669]"

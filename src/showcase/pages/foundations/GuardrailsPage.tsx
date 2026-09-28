@@ -267,6 +267,16 @@ const GUARDRAIL_ITEMS: GuardrailItem[] = [
     solution: "导航栏固定为单行（h-14/16 flex-nowrap）：左侧品牌收窄；中间主导航居中，放不下时可横向滑动且隐藏滚动条（overflow-x-auto no-scrollbar）；右侧的主题切换器窄屏时只显示图标；当前部分的页面列表在窄屏上改为横向标签。",
     codeRef: "src/showcase/layout/DocsShell.tsx",
   },
+  {
+    id: "U-12",
+    scope: "universal",
+    category: "布局",
+    title: "组件按自身容器的宽度排版，而不是视口宽度",
+    highlightRule: "@container 容器查询 · 表格最小宽度 560px",
+    problem: "组件只看视口宽度：放进文档栏、侧栏或分栏详情里时，仍按宽屏排版，结果表格逐字换行、卡片互相覆盖、固定高度的舞台内容溢出。",
+    solution: "复合模式都声明为容器（@container），用 @md、@2xl、@4xl 等容器断点排版；AppShell 的内容区是名为 main 的容器，页面内容用 @…/main: 断点。主舞台同时按高度收缩，高度不足时依次隐藏大编号、标签和摘要。数据表格默认最小宽度 560px，容器更窄时横向滚动。",
+    codeRef: "src/sparx-ui/patterns/AppShell.tsx",
+  },
 ];
 
 export const GuardrailsPage: React.FC = () => {
@@ -491,7 +501,7 @@ export const GuardrailsPage: React.FC = () => {
             >
               <div className="flex items-center gap-3">
                 <span
-                  className={`font-mono text-sm font-bold px-2.5 py-1 rounded-md border ${
+                  className={`shrink-0 whitespace-nowrap font-mono text-sm font-bold px-2.5 py-1 rounded-md border ${
                     item.scope === "emerald"
                       ? isEmerald
                         ? "text-[#059669] bg-emerald-50 border-emerald-200"

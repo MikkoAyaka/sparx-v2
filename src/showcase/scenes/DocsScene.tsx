@@ -218,19 +218,19 @@ export const DocsScene: React.FC = () => {
       header: "参数",
       render: (p) => (
         <div className="space-y-0.5">
-          <div className="font-mono font-semibold text-slate-900">{p.name}</div>
-          <div className="text-sm text-slate-400">{p.in === "query" ? "查询参数" : "请求体"}</div>
+          <div className="font-mono font-semibold text-slate-900 whitespace-nowrap">{p.name}</div>
+          <div className="text-sm text-slate-400 whitespace-nowrap">{p.in === "query" ? "查询参数" : "请求体"}</div>
         </div>
       ),
     },
-    { key: "type", header: "类型", render: (p) => <span className="font-mono text-sm text-slate-600 break-all">{p.type}</span> },
+    { key: "type", header: "类型", render: (p) => <span className="font-mono text-sm text-slate-600 whitespace-nowrap">{p.type}</span> },
     {
       key: "required",
       header: "必填",
       align: "center",
-      render: (p) => (p.required ? <span className="text-sm font-semibold text-[#E11D48]">必填</span> : <span className="text-sm text-slate-400">可选</span>),
+      render: (p) => (p.required ? <span className="text-sm font-semibold text-[#E11D48] whitespace-nowrap">必填</span> : <span className="text-sm text-slate-400 whitespace-nowrap">可选</span>),
     },
-    { key: "desc", header: "说明", render: (p) => <span className="text-sm text-slate-600">{p.desc}</span> },
+    { key: "desc", header: "说明", render: (p) => <span className="block min-w-48 text-sm text-slate-600">{p.desc}</span> },
   ];
 
   const errorColumns: DataTableColumn<ApiError & { id: string }>[] = [

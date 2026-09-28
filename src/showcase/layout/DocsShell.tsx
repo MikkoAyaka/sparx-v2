@@ -86,10 +86,17 @@ export const DocsShell: React.FC<DocsShellProps> = ({ route, onNavigate, childre
   const section = sectionOf(route);
   const { prev, next } = neighbors(route);
 
+  // 窄屏用两字简称并隐藏图标，保证四个部分和主题切换器在 360px 宽度下同时放得下
+  const SHORT: Record<SectionId, string> = { start: "开始", foundations: "规范", components: "组件", scenes: "场景" };
   const sectionItems: PillDockItem<SectionId>[] = SECTIONS.map((s) => ({
     id: s.id,
-    label: s.label,
-    icon: SECTION_ICONS[s.id],
+    label: (
+      <>
+        <span className="sm:hidden">{SHORT[s.id]}</span>
+        <span className="hidden sm:inline">{s.label}</span>
+      </>
+    ),
+    icon: <span className="hidden sm:inline-flex">{SECTION_ICONS[s.id]}</span>,
   }));
 
   // 同一部分内的页面按 group 分组展示在侧栏

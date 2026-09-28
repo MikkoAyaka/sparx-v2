@@ -18,21 +18,21 @@ export interface DescriptionListProps {
 
 /**
  * DescriptionList：键值对详情。用于单据、订单、用户资料等详情页。
- * 推荐主题：皓白极翠。标签统一放在值的上方，便于扫读。
+ * 推荐主题：皓白极翠。标签统一放在值的上方，便于扫读。列数跟随容器宽度：窄 1 列，≥ 448px 2 列，≥ 672px 3 列。
  */
 export const DescriptionList: React.FC<DescriptionListProps> = ({ items, columns = 3, className }) => {
   const { themeId } = useSparxTheme();
   const isEmerald = themeId === "glacial-emerald";
 
   const spanClass = (span?: number) =>
-    span === 3 ? "sm:col-span-2 lg:col-span-3" : span === 2 ? "sm:col-span-2" : "";
+    span === 3 ? "@md:col-span-2 @2xl:col-span-3" : span === 2 ? "@md:col-span-2" : "";
 
   return (
+    <div className={clsx("@container", className)}>
     <dl
       className={clsx(
-        "grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4",
-        columns === 3 && "lg:grid-cols-3",
-        className
+        "grid grid-cols-1 @md:grid-cols-2 gap-x-6 gap-y-4",
+        columns === 3 && "@2xl:grid-cols-3"
       )}
     >
       {items.map((item) => (
@@ -50,5 +50,6 @@ export const DescriptionList: React.FC<DescriptionListProps> = ({ items, columns
         </div>
       ))}
     </dl>
+    </div>
   );
 };

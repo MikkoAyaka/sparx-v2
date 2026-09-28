@@ -19,6 +19,11 @@ export interface DataTableProps<T = any> {
   emptyText?: string;
   className?: string;
   compact?: boolean;
+  /**
+   * 表格的最小宽度（px）。容器比它窄时横向滚动，而不是把列挤到逐字换行。
+   * 默认 560；列很少的表格可以调小，传 0 关闭。
+   */
+  minWidth?: number;
 }
 
 export type DataTableStatusVariant =
@@ -135,6 +140,7 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
   emptyText = "暂无数据",
   className,
   compact = false,
+  minWidth = 560,
 }: DataTableProps<T>) {
   const { themeId } = useSparxTheme();
   const isEmerald = themeId === "glacial-emerald";
@@ -156,7 +162,7 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
       )}
     >
       <div className="w-full overflow-x-auto subtle-scroll">
-        <table className="w-full border-collapse font-mono text-xs">
+        <table className="w-full border-collapse font-mono text-xs" style={minWidth ? { minWidth } : undefined}>
           {/* 表头 */}
           <thead>
             <tr
@@ -172,7 +178,7 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
                   key={col.key}
                   style={{ width: col.width }}
                   className={clsx(
-                    "px-4 py-3 font-semibold",
+                    "px-4 py-3 font-semibold whitespace-nowrap",
                     alignStyles[col.align || "left"]
                   )}
                 >

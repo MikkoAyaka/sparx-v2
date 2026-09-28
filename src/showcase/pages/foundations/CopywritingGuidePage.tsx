@@ -493,7 +493,7 @@ export const CopywritingGuidePage: React.FC = () => {
           <div className={`space-y-1 p-3 rounded-lg border ${isEmerald ? "border-slate-200 bg-slate-50/60" : "border-white/10 bg-white/[0.02]"}`}>
             <div className="font-bold">1. 盘古之白（中英文空格）</div>
             <p className={isEmerald ? "text-slate-500" : "text-zinc-400"}>
-              中文与英文、数字之间加一个半角空格，例如：<code>Redis 缓存</code>、<code>100dvh 视口</code>。
+              中文与英文、数字之间加一个半角空格，例如：<code className="whitespace-nowrap">Redis 缓存</code>、<code className="whitespace-nowrap">100dvh 视口</code>。
             </p>
           </div>
 

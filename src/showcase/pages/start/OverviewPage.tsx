@@ -38,7 +38,7 @@ export const OverviewPage: React.FC<{ onNavigate: (id: RouteId) => void }> = ({ 
       id: "themes" as RouteId,
       icon: <BookOpen className="w-4 h-4" />,
       title: "设计规范",
-      text: "两种主题的定位、色彩、排版、层级与动效，以及 23 条实现时必须遵守的规则。",
+      text: "两种主题的定位、色彩、排版、层级与动效，以及 24 条实现时必须遵守的规则。",
       meta: `${SECTIONS[1].pages.length} 页`,
     },
     {

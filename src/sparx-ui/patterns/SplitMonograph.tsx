@@ -34,7 +34,7 @@ export interface SplitMonographProps {
 const pad = (n: number) => String(n).padStart(2, "0");
 
 /**
- * SplitMonograph：双栏长文。左侧 35% 固定（桌面端不滚动），显示封面、目录和阅读进度；
+ * SplitMonograph：双栏长文。容器宽度 ≥ 768px 时左侧 35% 固定（不随正文滚动），更窄时左栏收为顶部信息区；显示封面、目录和阅读进度；
  * 右侧 65% 是正文，也是页面上唯一的滚动区域。配合 useActiveSection 让左栏跟随阅读位置。
  * 推荐主题：虚空绯红。
  */
@@ -63,7 +63,7 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
   return (
     <div
       className={clsx(
-        "w-full h-full flex flex-col lg:flex-row overflow-hidden",
+        "@container/mono w-full h-full flex flex-col @3xl/mono:flex-row overflow-hidden",
         isEmerald ? "bg-white text-slate-900" : "bg-[#030406] text-white",
         className
       )}
@@ -71,7 +71,7 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
       {/* 左栏 */}
       <aside
         className={clsx(
-          "relative shrink-0 lg:w-[35%] lg:max-w-xl border-b lg:border-b-0 lg:border-r overflow-hidden flex flex-col",
+          "relative shrink-0 @3xl/mono:w-[35%] @3xl/mono:max-w-xl border-b @3xl/mono:border-b-0 @3xl/mono:border-r overflow-hidden flex flex-col",
           isEmerald ? "border-slate-200 bg-slate-50" : "border-white/10 bg-[#020204]"
         )}
       >
@@ -82,7 +82,7 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
           style={{ background: "var(--sparx-monograph-spine-gradient)" }}
         />
 
-        <div className="relative z-10 flex-1 min-h-0 flex flex-col p-5 sm:p-8 lg:p-10 gap-6">
+        <div className="relative z-10 flex-1 min-h-0 flex flex-col p-5 @xl/mono:p-8 @5xl/mono:p-10 gap-5 @3xl/mono:gap-6 @3xl/mono:overflow-y-auto no-scrollbar">
           {onBack && (
             <button
               type="button"
@@ -97,7 +97,7 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
             </button>
           )}
 
-          <div className="space-y-4 lg:mt-auto">
+          <div className="space-y-3 @3xl/mono:space-y-4 @3xl/mono:mt-auto">
             <div className="flex flex-wrap items-center gap-x-3 font-mono text-sm">
               <span className={clsx("font-bold uppercase tracking-wider", isEmerald ? "text-[#059669]" : "text-[#E5192D]")}>
                 {category}
@@ -109,16 +109,16 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
                 </>
               )}
             </div>
-            <h1 className="text-2xl sm:text-3xl 2xl:text-4xl font-black tracking-tight leading-[1.15]">{title}</h1>
+            <h1 className="text-xl @xl/mono:text-2xl @5xl/mono:text-3xl @7xl/mono:text-4xl font-black tracking-tight leading-[1.15]">{title}</h1>
             {summary && (
-              <p className={clsx("hidden sm:block text-sm leading-relaxed line-clamp-4", isEmerald ? "text-slate-600" : "text-zinc-400")}>
+              <p className={clsx("hidden @xl/mono:block text-sm leading-relaxed line-clamp-3 @3xl/mono:line-clamp-4", isEmerald ? "text-slate-600" : "text-zinc-400")}>
                 {summary}
               </p>
             )}
           </div>
 
           {sections.length > 0 && (
-            <nav aria-label="目录" className="hidden lg:block space-y-0.5">
+            <nav aria-label="目录" className="hidden @3xl/mono:block space-y-0.5">
               {sections.map((s, i) => {
                 const active = s.id === activeSectionId;
                 return (
@@ -155,7 +155,7 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
 
           <div
             className={clsx(
-              "hidden lg:flex items-center justify-between gap-4 pt-5 border-t",
+              "hidden @3xl/mono:flex items-center justify-between gap-4 pt-5 border-t",
               isEmerald ? "border-slate-200" : "border-white/10"
             )}
           >
@@ -168,7 +168,7 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
           {spineFooter}
         </div>
 
-        {/* 阅读进度条：贴在左栏底边（窄屏贴在顶部区域底边） */}
+        {/* 阅读进度条：贴在左栏底边（窄容器里贴在顶部区域底边） */}
         <div className={clsx("relative z-10 h-[3px] w-full", isEmerald ? "bg-slate-200" : "bg-white/10")}>
           <div
             className={clsx(
@@ -188,7 +188,7 @@ export const SplitMonograph: React.FC<SplitMonographProps> = ({
           isEmerald ? "bg-white selection:bg-[#059669] selection:text-white" : "bg-[#050505] selection:bg-[#E5192D] selection:text-white"
         )}
       >
-        <article className="max-w-2xl mx-auto px-5 sm:px-10 py-10 sm:py-16 lg:py-20">{children}</article>
+        <article className="max-w-2xl mx-auto px-5 @xl/mono:px-10 py-8 @xl/mono:py-14 @5xl/mono:py-20">{children}</article>
       </div>
     </div>
   );

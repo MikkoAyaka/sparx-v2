@@ -34,7 +34,7 @@ export function SiteMasthead<T extends string = string>({
   const isEmerald = themeId === "glacial-emerald";
 
   return (
-    <header className={clsx("flex items-center justify-between gap-4 min-w-0", className)}>
+    <header className={clsx("@container flex items-center justify-between gap-4 min-w-0", className)}>
       <div className="flex items-center gap-3 min-w-0">
         <span
           aria-hidden="true"
@@ -52,13 +52,13 @@ export function SiteMasthead<T extends string = string>({
           {brand}
         </span>
         {tagline && (
-          <span className={clsx("hidden xl:inline text-sm truncate", isEmerald ? "text-slate-500" : "text-zinc-500")}>
+          <span className={clsx("hidden @5xl:inline text-sm truncate", isEmerald ? "text-slate-500" : "text-zinc-500")}>
             {tagline}
           </span>
         )}
       </div>
 
-      <nav className="hidden md:flex items-center gap-7" aria-label="栏目">
+      <nav className="hidden @2xl:flex items-center gap-5 @4xl:gap-7" aria-label="栏目">
         {links.map((link) => {
           const active = link.id === activeId;
           return (

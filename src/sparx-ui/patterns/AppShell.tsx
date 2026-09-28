@@ -25,6 +25,8 @@ export interface AppShellProps<T extends string = string> {
 
 /**
  * AppShell：企业应用的外框。左侧固定侧栏，右侧顶栏加内容区，只有内容区滚动。
+ * 按自身宽度分三档：≥ 1280px 完整侧栏；768–1279px 收成图标栏（名称留给读屏软件，悬停显示）；
+ * < 768px 侧栏隐藏，导航改为顶栏下的横向标签。内容区是名为 main 的容器，页面内容可以用 `@…/main:` 按实际宽度排版。
  * 推荐主题：皓白极翠。布局稳定、层级靠边框区分，适合长时间使用的后台。
  */
 export function AppShell<T extends string = string>({
@@ -52,7 +54,7 @@ export function AppShell<T extends string = string>({
   return (
     <div
       className={clsx(
-        "h-full w-full flex overflow-hidden",
+        "@container/app h-full w-full flex overflow-hidden",
         isEmerald ? "bg-[#F8FAFC] text-slate-900" : "bg-[#030406] text-white",
         className
       )}
@@ -60,13 +62,13 @@ export function AppShell<T extends string = string>({
       {/* 侧栏 */}
       <aside
         className={clsx(
-          "hidden md:flex w-60 shrink-0 flex-col border-r",
+          "hidden @3xl/app:flex w-16 @7xl/app:w-60 shrink-0 flex-col border-r",
           isEmerald ? "bg-white border-slate-200" : "bg-[#06080F] border-white/10"
         )}
       >
         <div
           className={clsx(
-            "h-14 shrink-0 px-4 flex items-center gap-2.5 border-b",
+            "h-14 shrink-0 px-4 flex items-center justify-center @7xl/app:justify-start gap-2.5 border-b",
             isEmerald ? "border-slate-200" : "border-white/10"
           )}
         >
@@ -78,7 +80,7 @@ export function AppShell<T extends string = string>({
           >
             {product.logo ?? product.name.slice(0, 1)}
           </span>
-          <div className="min-w-0">
+          <div className="min-w-0 hidden @7xl/app:block">
             <div className="text-sm font-bold truncate">{product.name}</div>
             {product.subtitle && (
               <div className={clsx("text-xs truncate", isEmerald ? "text-slate-500" : "text-zinc-500")}>
@@ -88,13 +90,13 @@ export function AppShell<T extends string = string>({
           </div>
         </div>
 
-        <nav className="flex-1 overflow-y-auto subtle-scroll p-3 space-y-4" aria-label={product.name}>
+        <nav className="flex-1 overflow-y-auto no-scrollbar p-2 @7xl/app:p-3 space-y-3 @7xl/app:space-y-4" aria-label={product.name}>
           {groups.map((g, gi) => (
-            <div key={gi} className="space-y-0.5">
+            <div key={gi} className={clsx("space-y-0.5", gi > 0 && "border-t pt-3 @7xl/app:border-t-0 @7xl/app:pt-0", isEmerald ? "border-slate-100" : "border-white/[0.06]")}>
               {g.name && (
                 <div
                   className={clsx(
-                    "px-2.5 pb-1 text-xs font-medium",
+                    "hidden @7xl/app:block px-2.5 pb-1 text-xs font-medium",
                     isEmerald ? "text-slate-400" : "text-zinc-500"
                   )}
                 >
@@ -109,8 +111,9 @@ export function AppShell<T extends string = string>({
                     type="button"
                     onClick={() => onNavigate(item.id)}
                     aria-current={active ? "page" : undefined}
+                    title={item.label}
                     className={clsx(
-                      "w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm transition-colors cursor-pointer text-left",
+                      "relative w-full flex items-center justify-center @7xl/app:justify-start gap-2.5 px-2.5 py-2.5 @7xl/app:py-2 rounded-lg text-sm transition-colors cursor-pointer text-left",
                       active
                         ? isEmerald
                           ? "bg-emerald-50 text-emerald-800 font-semibold"
@@ -130,11 +133,12 @@ export function AppShell<T extends string = string>({
                         {item.icon}
                       </span>
                     )}
-                    <span className="flex-1 truncate">{item.label}</span>
+                    <span className="sr-only @7xl/app:not-sr-only @7xl/app:flex-1 @7xl/app:truncate">{item.label}</span>
                     {typeof item.count === "number" && item.count > 0 && (
                       <span
+                        aria-label={`${item.count} 项`}
                         className={clsx(
-                          "min-w-6 px-1.5 rounded-md text-center text-xs font-mono",
+                          "absolute top-1 right-1 @7xl/app:static min-w-4 @7xl/app:min-w-6 px-1 @7xl/app:px-1.5 rounded-md text-center text-xs font-mono leading-4 @7xl/app:leading-5",
                           active
                             ? isEmerald
                               ? "bg-emerald-100 text-emerald-800"
@@ -157,7 +161,7 @@ export function AppShell<T extends string = string>({
         {user && (
           <div
             className={clsx(
-              "shrink-0 p-3 border-t flex items-center gap-2.5",
+              "shrink-0 p-3 border-t flex items-center justify-center @7xl/app:justify-start gap-2.5",
               isEmerald ? "border-slate-200" : "border-white/10"
             )}
           >
@@ -169,7 +173,7 @@ export function AppShell<T extends string = string>({
             >
               {initials}
             </span>
-            <div className="min-w-0">
+            <div className="min-w-0 hidden @7xl/app:block">
               <div className="text-sm font-medium truncate">{user.name}</div>
               {user.role && (
                 <div className={clsx("text-xs truncate", isEmerald ? "text-slate-500" : "text-zinc-500")}>
@@ -189,14 +193,14 @@ export function AppShell<T extends string = string>({
             isEmerald ? "bg-white border-slate-200" : "bg-[#06080F] border-white/10"
           )}
         >
-          <span className="md:hidden text-sm font-bold shrink-0">{product.name}</span>
+          <span className="@3xl/app:hidden text-sm font-bold shrink-0">{product.name}</span>
           <div className="flex-1 min-w-0 flex items-center gap-3">{topbar}</div>
         </div>
 
-        {/* 窄屏：侧栏导航改为横向标签 */}
+        {/* 窄容器：侧栏导航改为横向标签 */}
         <nav
           className={clsx(
-            "md:hidden shrink-0 flex gap-1.5 overflow-x-auto no-scrollbar px-3 py-2 border-b",
+            "@3xl/app:hidden shrink-0 flex gap-1.5 overflow-x-auto no-scrollbar px-3 py-2 border-b",
             isEmerald ? "bg-white border-slate-200" : "bg-[#06080F] border-white/10"
           )}
           aria-label={product.name}
@@ -222,7 +226,7 @@ export function AppShell<T extends string = string>({
           ))}
         </nav>
 
-        <main className="flex-1 min-h-0 overflow-y-auto subtle-scroll">{children}</main>
+        <main className="@container/main flex-1 min-h-0 overflow-y-auto subtle-scroll">{children}</main>
       </div>
     </div>
   );

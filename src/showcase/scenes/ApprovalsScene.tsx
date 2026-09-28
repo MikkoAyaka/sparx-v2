@@ -146,9 +146,9 @@ export const ApprovalsScene: React.FC<{ onNavigate: (id: RouteId) => void }> = (
       user={OPS_USER}
       topbar={<OpsTopbar />}
     >
-      <div className="lg:h-full flex flex-col lg:flex-row">
+      <div className="@4xl/main:h-full flex flex-col @4xl/main:flex-row">
         {/* 单据列表 */}
-        <aside className="lg:w-[380px] shrink-0 bg-white border-b lg:border-b-0 lg:border-r border-slate-200 flex flex-col lg:min-h-0">
+        <aside className="@4xl/main:w-[340px] @6xl/main:w-[380px] shrink-0 bg-white border-b @4xl/main:border-b-0 @4xl/main:border-r border-slate-200 flex flex-col @4xl/main:min-h-0">
           <div className="px-5 pt-6 space-y-4">
             <PageHeader<Tab>
               title="审批中心"
@@ -171,7 +171,7 @@ export const ApprovalsScene: React.FC<{ onNavigate: (id: RouteId) => void }> = (
           </div>
 
           {list.length > 0 ? (
-            <ul className="flex-1 lg:min-h-0 lg:overflow-y-auto subtle-scroll border-t border-slate-200 divide-y divide-slate-100 max-h-80 lg:max-h-none overflow-y-auto">
+            <ul className="flex-1 @4xl/main:min-h-0 subtle-scroll border-t border-slate-200 divide-y divide-slate-100 max-h-80 @4xl/main:max-h-none overflow-y-auto">
               {list.map((r) => {
                 const active = r.id === selectedId;
                 return (
@@ -244,8 +244,8 @@ export const ApprovalsScene: React.FC<{ onNavigate: (id: RouteId) => void }> = (
         </aside>
 
         {/* 单据详情 */}
-        <section className="flex-1 min-w-0 lg:min-h-0 lg:overflow-y-auto subtle-scroll">
-          <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-6xl">
+        <section className="@container/detail flex-1 min-w-0 @4xl/main:min-h-0 @4xl/main:overflow-y-auto subtle-scroll">
+          <div className="p-4 @xl/detail:p-6 @4xl/detail:p-8 space-y-6 max-w-6xl">
             {banner && (
               <div
                 role="status"
@@ -345,9 +345,9 @@ export const ApprovalsScene: React.FC<{ onNavigate: (id: RouteId) => void }> = (
                   </OpsCard>
                 )}
 
-                {/* 2xl 以上：进度与记录放在右侧栏；更窄时放进主列，进度改为横向 */}
-                <div className="grid grid-cols-1 2xl:grid-cols-3 gap-6 items-start">
-                  <div className="2xl:col-span-2 space-y-6">
+                {/* 详情区宽度 ≥ 1024px：进度与记录放在右侧栏；更窄时放进主列，进度改为横向 */}
+                <div className="grid grid-cols-1 @5xl/detail:grid-cols-3 gap-6 items-start">
+                  <div className="@5xl/detail:col-span-2 space-y-6">
                     <OpsCard title="基本信息" bodyClassName="p-5">
                       <DescriptionList
                         items={[
@@ -362,7 +362,7 @@ export const ApprovalsScene: React.FC<{ onNavigate: (id: RouteId) => void }> = (
                       />
                     </OpsCard>
 
-                    <OpsCard title="审批进度" className="2xl:hidden" bodyClassName="p-5">
+                    <OpsCard title="审批进度" className="@5xl/detail:hidden" bodyClassName="p-5">
                       <WorkflowPipeline orientation="horizontal" nodes={selected.steps} />
                     </OpsCard>
 
@@ -374,12 +374,12 @@ export const ApprovalsScene: React.FC<{ onNavigate: (id: RouteId) => void }> = (
                       <DataTable columns={lineColumns} data={selected.lines.map((l, i) => ({ ...l, id: String(i) }))} keyField="id" compact />
                     </OpsCard>
 
-                    <OpsCard title="操作记录" className="2xl:hidden" bodyClassName="p-5">
+                    <OpsCard title="操作记录" className="@5xl/detail:hidden" bodyClassName="p-5">
                       <ActivityTimeline items={[...selected.activity].reverse()} />
                     </OpsCard>
                   </div>
 
-                  <div className="hidden 2xl:block space-y-6">
+                  <div className="hidden @5xl/detail:block space-y-6">
                     <OpsCard title="审批进度" bodyClassName="p-5">
                       <WorkflowPipeline orientation="vertical" nodes={selected.steps} />
                     </OpsCard>

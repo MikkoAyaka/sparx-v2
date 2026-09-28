@@ -85,7 +85,7 @@ export const AgentPromptPage: React.FC = () => {
               }`}
             >
               <span>✦</span>
-              <span>虚空绯红（Void Flare · 个人）</span>
+              <span>虚空绯红<span className="hidden sm:inline">（Void Flare · 个人）</span></span>
             </button>
             <button
               type="button"
@@ -99,7 +99,7 @@ export const AgentPromptPage: React.FC = () => {
               }`}
             >
               <span>◈</span>
-              <span>皓白极翠（Glacial Emerald · 企业）</span>
+              <span>皓白极翠<span className="hidden sm:inline">（Glacial Emerald · 企业）</span></span>
             </button>
           </div>
         </div>

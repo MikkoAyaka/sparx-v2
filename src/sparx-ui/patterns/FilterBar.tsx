@@ -14,7 +14,7 @@ export interface FilterBarProps {
   resultCount?: number;
   /** 有筛选条件时显示“清除筛选” */
   onReset?: () => void;
-  /** 替换搜索框的默认宽度（w-full sm:w-64），例如在窄侧栏里设为 w-full */
+  /** 替换搜索框的默认宽度（容器 < 512px 占满一行，否则 16rem），例如在窄侧栏里设为 w-full */
   searchClassName?: string;
   className?: string;
 }
@@ -38,8 +38,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   const isEmerald = themeId === "glacial-emerald";
 
   return (
-    <div className={clsx("flex flex-wrap items-center gap-2.5", className)}>
-      <div className={clsx("relative", searchClassName ?? "w-full sm:w-64")}>
+    <div className={clsx("@container", className)}><div className="flex flex-wrap items-center gap-2.5">
+      <div className={clsx("relative", searchClassName ?? "w-full @lg:w-64")}>
         <Search
           className={clsx(
             "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none",
@@ -83,6 +83,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           </button>
         )}
       </div>
-    </div>
+    </div></div>
   );
 };

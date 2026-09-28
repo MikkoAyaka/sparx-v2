@@ -86,8 +86,8 @@ export const TypographyPage: React.FC = () => {
           <SparxThemeScope theme="void-flare">
             <div className="h-full rounded-2xl border border-white/10 bg-[#030406] p-6 sm:p-8 space-y-4">
               <div className="font-mono text-sm font-bold text-[#E5192D]">✦ 虚空绯红</div>
-              <div className="flex items-end gap-3">
-                <span className="text-7xl font-black leading-[0.8] text-transparent" style={{ WebkitTextStroke: "1.5px #E5192D" }}>
+              <div className="flex items-end gap-3 pt-3">
+                <span className="text-6xl sm:text-7xl font-black leading-[0.8] text-transparent" style={{ WebkitTextStroke: "1.5px #E5192D" }}>
                   03
                 </span>
                 <span className="font-mono text-sm text-zinc-500 pb-1">/ 04</span>
@@ -107,7 +107,7 @@ export const TypographyPage: React.FC = () => {
                   ["SKU-8842-B", "多层滤光镀膜片", "640 件"],
                   ["SKU-3120-C", "低功耗 NPU 推理模块", "12,500 件"],
                 ].map((r) => (
-                  <div key={r[0]} className="grid grid-cols-[7.5rem_1fr_auto] gap-3 px-4 py-2.5">
+                  <div key={r[0]} className="grid grid-cols-[auto_minmax(0,1fr)_auto] gap-3 px-4 py-2.5">
                     <span className="font-mono font-semibold text-slate-900">{r[0]}</span>
                     <span className="text-slate-600 truncate">{r[1]}</span>
                     <span className="font-mono text-slate-900 text-right">{r[2]}</span>

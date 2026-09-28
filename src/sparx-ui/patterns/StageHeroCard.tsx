@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { clsx } from "clsx";
 import { StageMediaSpine, type StageMediaCover } from "../atmosphere/StageMediaSpine";
-import { AmbientDissolveMask } from "../atmosphere/AmbientDissolveMask";
 import { ReadingGauge } from "../primitives/ReadingGauge";
 import { Button } from "../primitives/Button";
 import { Tag } from "../primitives/Tag";
@@ -38,6 +37,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 /**
  * StageHeroCard：100dvh 主舞台。一屏只放一篇文章：左侧 60% 是封面，向右渐变过渡到底色；
  * 右侧是超大编号、标题、摘要和阅读入口；底部是分段导航。滚轮、方向键和横向滑动都可以翻篇。
+ * 版式跟随卡片自身的宽高（容器查询），嵌在文档栏、侧栏或整屏里都能正确排布；高度不足时依次隐藏大编号、标签和摘要。
  * 推荐主题：虚空绯红。
  */
 export const StageHeroCard: React.FC<StageHeroCardProps> = ({
@@ -128,37 +128,38 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
       onTouchEnd={handleTouchEnd}
       aria-roledescription="轮播"
       className={clsx(
-        "relative h-full w-full overflow-hidden flex flex-col",
+        "sparx-stage relative h-full w-full overflow-hidden flex flex-col",
         isEmerald ? "bg-white text-slate-900" : "bg-[#030406] text-white",
         className
       )}
     >
-      {/* 封面：桌面端占左侧 60%，窄屏铺满并由纵向蒙版压暗 */}
+      {/* 封面：宽卡片占左侧 60%，窄卡片铺满并由纵向蒙版压暗 */}
       <button
         type="button"
         tabIndex={-1}
         aria-hidden="true"
         onClick={() => onOpenEntry?.(activeEntry)}
-        className="absolute inset-y-0 left-0 w-full lg:w-[60%] overflow-hidden cursor-pointer"
+        className="absolute inset-y-0 left-0 w-full @4xl/stage:w-[60%] overflow-hidden cursor-pointer"
       >
         <StageMediaSpine cover={activeEntry.cover} title={activeEntry.title} />
       </button>
-      <AmbientDissolveMask />
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none z-[5] hidden @4xl/stage:block" style={{ background: "var(--sparx-mask-horizontal)" }} />
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none z-[5] @4xl/stage:hidden" style={{ background: "var(--sparx-mask-vertical)" }} />
 
-      {header && <div className="relative z-20 shrink-0 px-5 sm:px-8 lg:px-12 pt-5 sm:pt-7">{header}</div>}
+      {header && <div className="relative z-20 shrink-0 px-5 @2xl/stage:px-8 @5xl/stage:px-12 pt-5 @2xl/stage:pt-7">{header}</div>}
 
       {/* 正文列 */}
-      <div className="relative z-10 flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 px-5 sm:px-8 lg:px-12">
-        <div className="hidden lg:block lg:col-span-6" />
+      <div className="relative z-10 flex-1 min-h-0 grid grid-cols-1 @4xl/stage:grid-cols-12 px-5 @2xl/stage:px-8 @5xl/stage:px-12">
+        <div className="hidden @4xl/stage:block @4xl/stage:col-span-6" />
         <div
           key={activeEntry.id}
-          className="lg:col-span-6 xl:col-span-5 xl:col-start-8 flex flex-col justify-end lg:justify-center py-6 animate-rise"
+          className="min-h-0 overflow-hidden @4xl/stage:col-span-6 @6xl/stage:col-span-5 @6xl/stage:col-start-8 flex flex-col justify-end @4xl/stage:justify-center py-6 animate-rise"
         >
-          <div className="flex items-end gap-3 [@media(max-height:760px)]:hidden">
+          <div className="sparx-stage-numeral"><div className="flex items-end gap-3">
             <span
               aria-hidden="true"
               className={clsx(
-                "font-black leading-[0.8] tracking-tighter text-[5rem] sm:text-[6.5rem] 2xl:text-[8.5rem] select-none",
+                "font-black leading-[0.8] tracking-tighter text-[4.5rem] @2xl/stage:text-[6rem] @7xl/stage:text-[8.5rem] select-none",
                 isEmerald ? "text-slate-100" : "text-transparent"
               )}
               style={isEmerald ? undefined : { WebkitTextStroke: "1.5px #E5192D" }}
@@ -168,7 +169,7 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
             <span className={clsx("font-mono text-sm pb-2", isEmerald ? "text-slate-400" : "text-zinc-500")}>
               / {pad(total)}
             </span>
-          </div>
+          </div></div>
 
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-4 font-mono text-sm">
             <span className={clsx("font-bold uppercase tracking-wider", isEmerald ? "text-[#059669]" : "text-[#E5192D]")}>
@@ -187,7 +188,7 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
               type="button"
               onClick={() => onOpenEntry?.(activeEntry)}
               className={clsx(
-                "text-left text-3xl sm:text-4xl xl:text-5xl 2xl:text-6xl font-black tracking-tight leading-[1.08] line-clamp-3 cursor-pointer transition-colors",
+                "text-left text-2xl @md/stage:text-3xl @2xl/stage:text-4xl @6xl/stage:text-5xl @7xl/stage:text-6xl font-black tracking-tight leading-[1.08] line-clamp-3 cursor-pointer transition-colors",
                 isEmerald ? "text-slate-900 hover:text-emerald-700" : "text-white hover:text-red-200"
               )}
             >
@@ -196,21 +197,25 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
           </h2>
 
           {activeEntry.summary && (
-            <p
-              className={clsx(
-                "mt-4 text-sm sm:text-base leading-relaxed max-w-xl line-clamp-3",
-                isEmerald ? "text-slate-600" : "text-zinc-300"
-              )}
-            >
-              {activeEntry.summary}
-            </p>
+            <div className="sparx-stage-summary">
+              <p
+                className={clsx(
+                  "mt-4 text-sm @2xl/stage:text-base leading-relaxed max-w-xl line-clamp-3",
+                  isEmerald ? "text-slate-600" : "text-zinc-300"
+                )}
+              >
+                {activeEntry.summary}
+              </p>
+            </div>
           )}
 
           {activeEntry.tags && activeEntry.tags.length > 0 && (
-            <div className="mt-4 hidden sm:flex flex-wrap gap-2">
-              {activeEntry.tags.map((t) => (
-                <Tag key={t}>{t}</Tag>
-              ))}
+            <div className="sparx-stage-tags">
+              <div className="mt-4 hidden @2xl/stage:flex flex-wrap gap-2">
+                {activeEntry.tags.map((t) => (
+                  <Tag key={t}>{t}</Tag>
+                ))}
+              </div>
             </div>
           )}
 
@@ -226,7 +231,7 @@ export const StageHeroCard: React.FC<StageHeroCardProps> = ({
       {/* 分段导航 */}
       <div
         className={clsx(
-          "relative z-20 shrink-0 mx-5 sm:mx-8 lg:mx-12 mb-5 sm:mb-7 pt-4 border-t",
+          "relative z-20 shrink-0 mx-5 @2xl/stage:mx-8 @5xl/stage:mx-12 mb-5 @2xl/stage:mb-7 pt-4 border-t",
           isEmerald ? "border-slate-200" : "border-white/10"
         )}
       >

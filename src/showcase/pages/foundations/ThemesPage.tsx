@@ -128,7 +128,21 @@ export const ThemesPage: React.FC<{ onNavigate: (id: RouteId) => void }> = ({ on
       {/* 对比表 */}
       <section className="space-y-5">
         <SectionHeading title="逐项对比" />
-        <div className={clsx("rounded-2xl border overflow-x-auto", cell, isEmerald ? "bg-white" : "bg-[#08090E]")}>
+        {/* 窄屏：每个维度一张卡片，两种主题上下对照 */}
+        <div className={clsx("sm:hidden rounded-2xl border divide-y", cell, isEmerald ? "bg-white divide-slate-100" : "bg-[#08090E] divide-white/[0.06]")}>
+          {COMPARISON.map((row) => (
+            <div key={row.dim} className="p-4 space-y-2.5 text-sm">
+              <div className={clsx("font-semibold", isEmerald ? "text-slate-900" : "text-white")}>{row.dim}</div>
+              <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2 leading-relaxed">
+                <span className="font-mono font-bold text-[#E5192D]">✦</span>
+                <span className={isEmerald ? "text-slate-600" : "text-zinc-300"}>{row.void}</span>
+                <span className="font-mono font-bold text-[#059669]">◈</span>
+                <span className={isEmerald ? "text-slate-600" : "text-zinc-300"}>{row.emerald}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className={clsx("hidden sm:block rounded-2xl border overflow-x-auto", cell, isEmerald ? "bg-white" : "bg-[#08090E]")}>
           <table className="w-full min-w-[640px] text-sm">
             <thead>
               <tr className={clsx("border-b text-left", cell)}>
